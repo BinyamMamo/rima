@@ -5,6 +5,7 @@ import { Workspace, User } from '@/types';
 
 import ProfileCard from './ProfileCard';
 import MessageBubble from './MessageBubble';
+import VoiceOverlay from '@/components/VoiceOverlay';
 import { Checks, Sparkle, Heart, Trash, NotePencil, X, Hash, Lock } from "@phosphor-icons/react";
 
 interface WorkspacePageProps {
@@ -22,6 +23,7 @@ export default function WorkspacePage({
     const router = useRouter();
     const [selectedProfileUser, setSelectedProfileUser] = useState<User | null>(null);
     const [activeMessageMenu, setActiveMessageMenu] = useState<string | null>(null);
+    const [showVoiceOverlay, setShowVoiceOverlay] = useState(false);
 
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -29,6 +31,7 @@ export default function WorkspacePage({
 
     return (
         <div className="w-full max-w-2xl mx-auto h-full flex flex-col overflow-hidden relative">
+            <VoiceOverlay isOpen={showVoiceOverlay} onClose={() => setShowVoiceOverlay(false)} />
             {/* Rooms Row */}
             <div className="w-full h-14 flex items-center gap-2 px-4 bg-[var(--bg-app)]/40 backdrop-blur-md border-b border-[var(--border-subtle)] overflow-x-auto scrollbar-hide z-30 shrink-0">
                 <div className="flex items-center gap-2 min-w-max">
