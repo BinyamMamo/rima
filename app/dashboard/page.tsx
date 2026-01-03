@@ -12,7 +12,7 @@ import InviteModal from '@/components/InviteModal';
 
 export default function DashboardPage() {
   const { user, isLoading: authLoading } = useAuth();
-  const { projects, activeProfileId, setActiveProfileId, isLoading: dataLoading } = useWorkspaceData();
+  const { workspaces, activeProfileId, setActiveProfileId, isLoading: dataLoading } = useWorkspaceData();
   const { darkMode, toggleDarkMode } = useUI();
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -35,11 +35,14 @@ export default function DashboardPage() {
     );
   }
 
-  const filteredProjects = activeProfileId === 'all'
-    ? projects
-    : projects.filter((p) => p.profileId === activeProfileId);
+  const filteredWorkspaces = activeProfileId === 'all'
+    ? workspaces
+    : workspaces.filter((p) => p.profileId === activeProfileId);
 
-  const rootProjects = filteredProjects.filter((p) => !p.parentRoomId);
+  // Still supporting sub-workspaces if any data has parentRoomId, though UI is simplified
+  // The logic for displaying sub-workspaces as "folders" or similar on a card 
+  // was maintained in WorkspaceCard.
+  const rootWorkspaces = filteredWorkspaces.filter((p) => !p.parentRoomId);
 
   return (
     <>
@@ -51,7 +54,7 @@ export default function DashboardPage() {
 
       <div className="relative z-10 h-screen flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex-shrink-0 h-24 flex items-center justify-between px-6 border-b border-subtle bg-app/80 backdrop-blur-sm">
+        <div className="flex-shrink-0 h-24 flex items-center justify-between px-6 border-b-0 border-subtle bg-app/80 backdrop-blur-sm">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setIsSidebarOpen(true)}
@@ -73,8 +76,8 @@ export default function DashboardPage() {
         </div>
 
         {/* Dashboard Content */}
-        <div className="flex-1 overflow-y-auto px-6 py-8 pb-32 scrollbar-hide">
-          {rootProjects.length === 0 ? (
+        <div className="flex-1 overflow-y-auto px-6 py-8 pt-0 pb-32 scrollbar-hide">
+          {rootWorkspaces.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
               <div className="text-center max-w-md animate-fade-in">
                 <div className="text-6xl mb-4">🚀</div>
@@ -83,7 +86,7 @@ export default function DashboardPage() {
                   Create your first workspace to get started with RIMA.
                 </p>
                 <button
-                  onClick={() => setIsSidebarOpen(true)}
+                  onClick={() => router.push('/create-workspace')}
                   className="px-6 py-3 bg-[var(--primary)] text-white rounded-2xl font-semibold hover:brightness-110 transition-all shadow-lg"
                 >
                   Create Workspace
@@ -92,14 +95,15 @@ export default function DashboardPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 animate-fade-in">
-              {rootProjects.map((project) => (
+              {rootWorkspaces.map((workspace) => (
                 <WorkspaceCard
-                  key={project.id}
-                  workspace={project}
-                  subProjects={projects.filter(p => p.parentRoomId === project.id)}
-                  onClick={() => router.push(`/project/${project.id}`)}
-                  onChannelClick={(channelId) => router.push(`/project/${project.id}?channel=${channelId}`)}
-                  onSubProjectClick={(subId) => router.push(`/project/${subId}`)}
+                  key={workspace.id}
+                  workspace={workspace}
+                  subWorkspaces={workspaces.filter(p => p.parentRoomId === workspace.id)}
+                  onClick={() => router.push(`/workspace/${workspace.id}`)}
+                  // Updated query param: ?roomId=... to match Sidebar and WorkspacePage
+                  onRoomClick={(roomId) => router.push(`/workspace/${workspace.id}?roomId=${roomId}`)}
+                  onSubWorkspaceClick={(subId) => router.push(`/workspace/${subId}`)}
                 />
               ))}
             </div>

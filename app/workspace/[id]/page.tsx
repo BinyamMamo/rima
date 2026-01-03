@@ -2,28 +2,28 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { List, ChatCircleText, ChartBar, UserPlus } from '@phosphor-icons/react';
+import { List, ChatCircleText, ChartBar, UserPlus, Plus } from '@phosphor-icons/react';
 import { useAuth, useWorkspaceData } from '@/contexts';
 import { Message, User } from '@/types';
 import Background from '@/components/Background';
 import Sidebar from '@/components/Sidebar';
-import ProjectPageContent from '@/components/ProjectPage';
-import ProjectDashboardView from '@/components/ProjectDashboardView';
+import WorkspacePageContent from '@/components/WorkspacePage';
+import WorkspaceDashboardView from '@/components/WorkspaceDashboardView';
 import ChatInput from '@/components/ChatInput';
 import InviteModal from '@/components/InviteModal';
 
-export default function ProjectPage() {
+export default function WorkspacePage() {
   const { user, isLoading: authLoading } = useAuth();
-  const { projects, addMessage } = useWorkspaceData();
+  const { workspaces, addMessage } = useWorkspaceData();
   const router = useRouter();
   const params = useParams();
-  const projectId = params.id as string;
+  const workspaceId = params.id as string;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isRimaTyping, setIsRimaTyping] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [viewMode, setViewMode] = useState<'chat' | 'dashboard'>('chat');
 
-  const project = projects.find((p) => p.id === projectId);
+  const workspace = workspaces.find((p) => p.id === workspaceId);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -32,7 +32,7 @@ export default function ProjectPage() {
   }, [user, authLoading, router]);
 
   const handleSendMessage = async (content: string) => {
-    if (!project || !user) return;
+    if (!workspace || !user) return;
 
     // Add user message
     const userMessage: Message = {
@@ -40,9 +40,8 @@ export default function ProjectPage() {
       content,
       sender: user,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      type: 'text',
     };
-    addMessage(project.id, userMessage);
+    addMessage(workspace.id, userMessage);
 
     // Simulate Rima typing and response
     setIsRimaTyping(true);
@@ -51,12 +50,11 @@ export default function ProjectPage() {
     setTimeout(() => {
       const rimaMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: `I've received your message about "${project.title}". I'm analyzing the context and will help you with that.`,
+        content: `I've received your message about "${workspace.title}". I'm analyzing the context and will help you with that.`,
         sender: 'Rima',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        type: 'text',
       };
-      addMessage(project.id, rimaMessage);
+      addMessage(workspace.id, rimaMessage);
       setIsRimaTyping(false);
     }, 1500);
   };
@@ -70,12 +68,12 @@ export default function ProjectPage() {
     setShowInviteModal(true);
   };
 
-  if (!project) {
+  if (!workspace) {
     if (authLoading) return null;
     return (
       <div className="flex items-center justify-center h-screen bg-app">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-primary mb-2">Project Not Found</h2>
+          <h2 className="text-2xl font-bold text-primary mb-2">Workspace Not Found</h2>
           <button
             onClick={() => router.push('/dashboard')}
             className="px-6 py-3 bg-[var(--primary)] text-white rounded-2xl font-semibold hover:brightness-110 transition-all"
@@ -93,64 +91,55 @@ export default function ProjectPage() {
       <Sidebar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
+        currentWorkspaceId={workspace.id}
       />
 
       <div className="relative z-10 h-screen flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex-shrink-0 h-20 flex items-center justify-between px-4 border-b border-subtle bg-app/80 backdrop-blur-sm z-20">
-          <div className="flex items-center gap-3 w-1/3">
+        <div className="flex-shrink-0 h-16 flex items-center justify-between px-4 border-b border-subtle bg-app/80 backdrop-blur-sm z-20">
+          <div className="flex items-center gap-3 w-full">
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className="p-2 rounded-xl text-secondary hover:text-primary hover:bg-surface transition-all"
+              className="p-2 rounded-xl text-secondary hover:text-primary hover:bg-surface transition-all shrink-0"
             >
               <List size={24} weight="bold" />
             </button>
-          </div>
 
-          <div className="flex justify-center w-1/3">
-            <div className="flex bg-[var(--bg-surface)] p-1 rounded-xl border border-[var(--border-subtle)]">
+            {/* Clickable Title Area - WhatsApp Style */}
+            <div
+              className="flex flex-col flex-1 cursor-pointer hover:bg-surface/50 rounded-lg px-2 py-1 transition-colors"
+              onClick={() => setViewMode(viewMode === 'chat' ? 'dashboard' : 'chat')}
+            >
+              <h1 className="text-lg font-branding font-bold text-primary leading-tight truncate">
+                {workspace.title}
+              </h1>
+              <p className="text-xs text-secondary font-medium truncate">
+                tap for more info
+              </p>
+            </div>
+
+            <div className="flex items-center gap-1 shrink-0">
+              {/* Add Room Button */}
               <button
-                onClick={() => setViewMode('chat')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all ${viewMode === 'chat'
-                    ? 'bg-[var(--primary)] text-white shadow-md'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  }`}
+                onClick={() => router.push(`/create-room?workspaceId=${workspace.id}`)}
+                className="p-2 text-secondary hover:text-primary hover:bg-surface rounded-xl transition-all"
+                title="Create Room"
               >
-                <ChatCircleText size={18} weight="fill" />
-                CHAT
-              </button>
-              <button
-                onClick={() => setViewMode('dashboard')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all ${viewMode === 'dashboard'
-                    ? 'bg-[var(--primary)] text-white shadow-md'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  }`}
-              >
-                <ChartBar size={18} weight="fill" />
-                DASH
+                <Plus size={24} weight="bold" />
               </button>
             </div>
           </div>
-
-          <div className="flex items-center justify-end gap-3 w-1/3">
-            <button
-              onClick={handleInvitePeople}
-              className="p-3 bg-[var(--primary)] text-white rounded-full hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-[var(--primary)]/20"
-            >
-              <UserPlus size={20} weight="bold" />
-            </button>
-          </div>
         </div>
 
-        {/* Project Content */}
+        {/* Workspace Content */}
         {viewMode === 'chat' ? (
           <div className="flex-1 overflow-hidden relative flex flex-col">
             <div className="flex-1 overflow-hidden relative">
-              <ProjectPageContent
-                project={project}
+              <WorkspacePageContent
+                workspace={workspace}
                 onVoiceToggle={handleVoiceToggle}
                 onSendMessage={handleSendMessage}
-                onInvitePeople={handleInvitePeople}
+                onInvitePeople={handleInvitePeople} // TODO: Remove or repurpose
                 isRimaTyping={isRimaTyping}
               />
             </div>
@@ -159,12 +148,12 @@ export default function ProjectPage() {
               <ChatInput
                 onVoiceToggle={handleVoiceToggle}
                 onSendMessage={handleSendMessage}
-                placeholder={`Message ${project.title}...`}
+                placeholder={`Message ${workspace.title}...`}
               />
             </div>
           </div>
         ) : (
-          <ProjectDashboardView project={project} />
+          <WorkspaceDashboardView workspace={workspace} />
         )}
 
         {/* Invite Modal */}

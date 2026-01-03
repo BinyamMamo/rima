@@ -34,7 +34,7 @@ export interface Task {
   dueDate: string;
 }
 
-export interface Channel {
+export interface Room {
   id: string;
   title: string;
   members: User[];
@@ -47,15 +47,15 @@ export interface Channel {
   spending?: { amount: string; category: string }[];
 }
 
-export interface Project {
+export interface Workspace {
   id: string;
   title: string;
   description: string;
   theme: ThemeColor;
-  channels: Channel[];
+  rooms: Room[];
   members: User[];
-  messages: Message[]; 
-  profileId: string; 
+  messages: Message[];
+  profileId: string;
   budget?: string;
   deadline?: string;
   phase?: string;
@@ -66,6 +66,7 @@ export interface Project {
   insights?: Insight[];
   tasks?: Task[];
   spending?: { amount: string; category: string }[];
+  isPrivate?: boolean;
 }
 
 export interface Profile {
@@ -75,8 +76,8 @@ export interface Profile {
 }
 
 export type ViewType = {
-  type: 'welcome' | 'login' | 'signup' | 'home' | 'project' | 'channel' | 'settings' | 'new_workspace' | 'new_channel' | 'people' | 'invite_people' | 'initialize_note';
+  type: 'welcome' | 'login' | 'signup' | 'home' | 'workspace' | 'room' | 'settings' | 'new_workspace' | 'new_room' | 'people' | 'invite_people' | 'initialize_note';
   mode?: 'chat' | 'dashboard';
-  projectId?: string;
-  channelId?: string;
+  workspaceId?: string;
+  roomId?: string;
 };

@@ -1,13 +1,13 @@
 
 import React from 'react';
-import { Project } from '@/types';
-import { FileText, CurrencyDollar, Hourglass, Users, CheckCircle } from '@phosphor-icons/react';
+import { Workspace } from '@/types';
+import { FileText, CurrencyDollar, Hourglass, Users, CheckCircle, Lock, Hash, Plus } from '@phosphor-icons/react';
 
-interface ProjectDashboardViewProps {
-    project: Project;
+interface WorkspaceDashboardViewProps {
+    workspace: Workspace;
 }
 
-const ProjectDashboardView: React.FC<ProjectDashboardViewProps> = ({ project }) => {
+const WorkspaceDashboardView: React.FC<WorkspaceDashboardViewProps> = ({ workspace }) => {
     return (
         <div className="flex-1 overflow-y-auto px-6 py-8 space-y-8 pb-32 animate-fade-in">
             {/* Header Section */}
@@ -22,7 +22,7 @@ const ProjectDashboardView: React.FC<ProjectDashboardViewProps> = ({ project }) 
             {/* Description */}
             <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] p-6 rounded-3xl">
                 <p className="text-[var(--text-secondary)] text-lg leading-relaxed">
-                    {project.description || "No description provided for this workspace."}
+                    {workspace.description || "No description provided for this workspace."}
                 </p>
             </div>
 
@@ -35,7 +35,7 @@ const ProjectDashboardView: React.FC<ProjectDashboardViewProps> = ({ project }) 
                     </div>
                     <div>
                         <h3 className="text-3xl font-black text-[var(--text-primary)] tracking-tight">
-                            {project.budget || "€0"}
+                            {workspace.budget || "€0"}
                         </h3>
                         <span className="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)] mt-1 block">
                             Budget
@@ -50,7 +50,7 @@ const ProjectDashboardView: React.FC<ProjectDashboardViewProps> = ({ project }) 
                     </div>
                     <div>
                         <h3 className="text-2xl font-black text-[var(--text-primary)] tracking-tight">
-                            {project.deadline || "Ongoing"}
+                            {workspace.deadline || "Ongoing"}
                         </h3>
                         <span className="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)] mt-1 block">
                             Deadline
@@ -65,7 +65,7 @@ const ProjectDashboardView: React.FC<ProjectDashboardViewProps> = ({ project }) 
                     </div>
                     <div>
                         <h3 className="text-3xl font-black text-[var(--text-primary)] tracking-tight">
-                            {project.members.length}
+                            {workspace.members.length}
                         </h3>
                         <span className="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)] mt-1 block">
                             Team Members
@@ -80,7 +80,7 @@ const ProjectDashboardView: React.FC<ProjectDashboardViewProps> = ({ project }) 
                     </div>
                     <div>
                         <h3 className="text-3xl font-black text-[var(--text-primary)] tracking-tight">
-                            {project.tasks?.length || 0}
+                            {workspace.tasks?.length || 0}
                         </h3>
                         <span className="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)] mt-1 block">
                             Active Tasks
@@ -88,8 +88,35 @@ const ProjectDashboardView: React.FC<ProjectDashboardViewProps> = ({ project }) 
                     </div>
                 </div>
             </div>
+
+            {/* Rooms List */}
+            <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                    <h3 className="text-xl font-bold text-[var(--text-primary)]">Rooms</h3>
+                    <button
+                        onClick={() => window.location.href = `/create-room?workspaceId=${workspace.id}`}
+                        className="px-4 py-2 bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-xl font-bold text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--primary)] transition-all flex items-center gap-2"
+                    >
+                        <Plus size={16} weight="bold" />
+                        Add Room
+                    </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {workspace.rooms.map(room => (
+                        <div key={room.id} className="p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--primary)] transition-all cursor-pointer group flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-xl bg-[var(--bg-surface)] flex items-center justify-center text-[var(--text-muted)] group-hover:text-[var(--primary)] transition-colors">
+                                {room.isPrivate ? <Lock size={20} weight="fill" /> : <Hash size={20} weight="regular" />}
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-[var(--text-primary)]">{room.title}</h4>
+                                <p className="text-xs text-[var(--text-muted)] line-clamp-1">{room.description || 'No description'}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 };
 
-export default ProjectDashboardView;
+export default WorkspaceDashboardView;

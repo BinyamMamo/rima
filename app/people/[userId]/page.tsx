@@ -3,8 +3,8 @@
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { CaretLeft, Chats, CheckCircle, Hash } from '@phosphor-icons/react';
-import { SYSTEM_USERS, INITIAL_PROJECTS } from '@/constants';
-import { User, Project, Task, Channel } from '@/types';
+import { SYSTEM_USERS, INITIAL_WORKSPACES } from '@/constants';
+import { User, Workspace, Task, Room } from '@/types';
 
 const getInitials = (name: string) => {
     const parts = name.trim().split(' ');
@@ -24,22 +24,22 @@ export default function PersonDetailsPage() {
     }
 
     // Derive Data
-    const sharedChannels: { project: Project; channel: Channel }[] = [];
-    const assignedTasks: { project: Project; task: Task }[] = [];
+    const sharedRooms: { workspace: Workspace; room: Room }[] = [];
+    const assignedTasks: { workspace: Workspace; task: Task }[] = [];
 
-    INITIAL_PROJECTS.forEach(project => {
-        // Check project channels
-        project.channels.forEach(channel => {
-            if (channel.members.some(m => m.id === user.id)) {
-                sharedChannels.push({ project, channel });
+    INITIAL_WORKSPACES.forEach(workspace => {
+        // Check workspace rooms
+        workspace.rooms.forEach(room => {
+            if (room.members.some(m => m.id === user.id)) {
+                sharedRooms.push({ workspace, room });
             }
         });
 
-        // Check project tasks
-        if (project.tasks) {
-            project.tasks.forEach(task => {
+        // Check workspace tasks
+        if (workspace.tasks) {
+            workspace.tasks.forEach(task => {
                 if (task.owner === user.name) {
-                    assignedTasks.push({ project, task });
+                    assignedTasks.push({ workspace, task });
                 }
             });
         }
@@ -92,16 +92,16 @@ export default function PersonDetailsPage() {
                 {/* Involvement */}
                 <div className="space-y-4">
                     <div className="flex items-center justify-between px-1">
-                        <h3 className="text-sm font-black uppercase tracking-widest text-[var(--text-muted)]">Shared Channels</h3>
-                        <span className="text-xs font-bold text-[var(--text-muted)] bg-[var(--bg-surface)] px-2 py-1 rounded-lg">{sharedChannels.length}</span>
+                        <h3 className="text-sm font-black uppercase tracking-widest text-[var(--text-muted)]">Shared Rooms</h3>
+                        <span className="text-xs font-bold text-[var(--text-muted)] bg-[var(--bg-surface)] px-2 py-1 rounded-lg">{sharedRooms.length}</span>
                     </div>
 
-                    {sharedChannels.length > 0 ? (
+                    {sharedRooms.length > 0 ? (
                         <div className="grid grid-cols-1 gap-3">
-                            {sharedChannels.map((item, idx) => (
+                            {sharedRooms.map((item, idx) => (
                                 <div
-                                    key={`${item.project.id}-${item.channel.id}-${idx}`}
-                                    onClick={() => router.push(`/project/${item.project.id}?channel=${item.channel.id}`)}
+                                    key={`${item.workspace.id}-${item.room.id}-${idx}`}
+                                    onClick={() => router.push(`/workspace/${item.workspace.id}?roomId=${item.room.id}`)}
                                     className="flex items-center gap-4 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-subtle)] cursor-pointer hover:border-[var(--primary)] hover:bg-[var(--bg-surface)] transition-all group"
                                 >
                                     <div className="w-10 h-10 rounded-xl bg-[var(--bg-surface)] flex items-center justify-center text-[var(--text-muted)] group-hover:text-[var(--primary)] transition-colors">
@@ -109,16 +109,16 @@ export default function PersonDetailsPage() {
                                     </div>
                                     <div>
                                         <div className="flex items-center gap-2">
-                                            <span className="text-[var(--text-primary)] font-bold group-hover:text-[var(--primary)] transition-colors">{item.channel.title}</span>
-                                            <span className="text-[var(--text-muted)] text-xs">• {item.project.title}</span>
+                                            <span className="text-[var(--text-primary)] font-bold group-hover:text-[var(--primary)] transition-colors">{item.room.title}</span>
+                                            <span className="text-[var(--text-muted)] text-xs">• {item.workspace.title}</span>
                                         </div>
-                                        <p className="text-xs text-[var(--text-secondary)] mt-0.5 line-clamp-1">{item.channel.description || 'No description'}</p>
+                                        <p className="text-xs text-[var(--text-secondary)] mt-0.5 line-clamp-1">{item.room.description || 'No description'}</p>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     ) : (
-                        <div className="p-8 text-center text-[var(--text-muted)] italic">No shared channels</div>
+                        <div className="p-8 text-center text-[var(--text-muted)] italic">No shared rooms</div>
                     )}
                 </div>
 
@@ -139,7 +139,7 @@ export default function PersonDetailsPage() {
                                     <div className="flex-1">
                                         <span className={`block font-bold ${item.task.completed ? 'text-[var(--text-muted)] line-through' : 'text-[var(--text-primary)]'}`}>{item.task.title}</span>
                                         <div className="flex items-center gap-2 mt-1">
-                                            <span className="text-xs font-bold text-[var(--text-muted)] bg-[var(--bg-surface)] px-2 py-0.5 rounded">{item.project.title}</span>
+                                            <span className="text-xs font-bold text-[var(--text-muted)] bg-[var(--bg-surface)] px-2 py-0.5 rounded">{item.workspace.title}</span>
                                             <span className="text-xs text-[var(--text-muted)]">Due: {item.task.dueDate}</span>
                                         </div>
                                     </div>

@@ -1,15 +1,15 @@
 'use client';
 
 import React from 'react';
-import { Project, ThemeColor } from '@/types';
-import { Hash, CaretRight, Clock, Folders } from '@phosphor-icons/react';
+import { Workspace, ThemeColor } from '@/types';
+import { Hash, CaretRight, Clock, Folders, Lock } from '@phosphor-icons/react';
 
 interface WorkspaceCardProps {
-  workspace: Project;
-  subProjects?: Project[];
+  workspace: Workspace;
+  subWorkspaces?: Workspace[];
   onClick: () => void;
-  onChannelClick?: (channelId: string) => void;
-  onSubProjectClick?: (projectId: string) => void;
+  onRoomClick?: (roomId: string) => void;
+  onSubWorkspaceClick?: (workspaceId: string) => void;
 }
 
 const themeStyles: Record<ThemeColor, {
@@ -30,18 +30,19 @@ const themeStyles: Record<ThemeColor, {
 
 const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
   workspace,
-  subProjects = [],
+  subWorkspaces = [],
   onClick,
-  onChannelClick,
-  onSubProjectClick
+  onRoomClick,
+  onSubWorkspaceClick
 }) => {
   const styles = themeStyles[workspace.theme] || themeStyles.obsidian;
 
-  const sortedChannels = [...workspace.channels].sort((a, b) => (b.unreadCount || 0) - (a.unreadCount || 0));
+  // Sort rooms by a visual weight metric (length of title + unread count) - logic from previous edit
+  const sortedRooms = [...workspace.rooms].sort((a, b) => (b.title + (b.unreadCount || '').toString() || '').length - (a.title + (a.unreadCount || '').toString() || '').length);
 
   return (
     <div
-      className="group relative flex flex-col bg-card border border-subtle rounded-3xl transition-all overflow-hidden cursor-pointer hover:border-[var(--primary)] hover:shadow-lg"
+      className="group relative flex flex-col bg-card border border-subtle rounded-3xl transition-all overflow-hidden cursor-pointer hover:border-[var(--primary)]"
       onClick={onClick}
     >
       <div className="p-7 space-y-6">
@@ -54,46 +55,49 @@ const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
               {workspace.description}
             </p>
           </div>
-          <div className={`shrink-0 w-12 h-12 rounded-2xl ${styles.accent} flex items-center justify-center text-white shadow-lg`}>
-            <span className="text-lg font-bold">{workspace.title[0]}</span>
-          </div>
+
+          {/* Member Badges or Lock Icon */}
+          {workspace.isPrivate ? (
+            <div className={`shrink-0 w-12 h-12 rounded-2xl ${styles.accent} flex items-center justify-center text-white`}>
+              <Lock size={20} weight="fill" />
+            </div>
+          ) : (
+            <div className="flex -space-x-3 isolate">
+              {workspace.members.slice(0, 3).map((member, i) => (
+                <div
+                  key={member.id}
+                  className={`w-10 h-10 rounded-full border-2 border-[var(--bg-card)] ${member.avatarColor || 'bg-gray-400'} flex items-center justify-center text-[12px] font-bold text-white relative z-[${3 - i}]`}
+                  title={member.name}
+                >
+                  {member.name[0]}
+                </div>
+              ))}
+              {workspace.members.length > 3 && (
+                <div className="w-10 h-10 rounded-full border-2 border-[var(--bg-card)] bg-[var(--border-subtle)] flex items-center justify-center text-xs font-bold text-[var(--text-secondary)] relative z-0">
+                  +{workspace.members.length - 3}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="space-y-2">
-          {subProjects.length > 0 && (
-            <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
-              {subProjects.map((sub) => (
+          {sortedRooms.length > 0 && (
+            <div className="flex gap-2 flex-wrap pb-1">
+              {sortedRooms.map((room) => (
                 <button
-                  key={sub.id}
+                  key={room.id}
                   onClick={(e) => {
                     e.stopPropagation();
-                    onSubProjectClick?.(sub.id);
-                  }}
-                  className="flex shrink-0 items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--primary)] hover:text-white transition-all text-xs font-bold relative group/chip"
-                >
-                  <Folders size={14} className="text-[var(--text-muted)] group-hover/chip:text-white transition-colors" />
-                  <span className="text-[var(--text-primary)] group-hover/chip:text-white transition-colors whitespace-nowrap">{sub.title}</span>
-                </button>
-              ))}
-            </div>
-          )}
-
-          {sortedChannels.length > 0 && (
-            <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
-              {sortedChannels.map((channel) => (
-                <button
-                  key={channel.id}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onChannelClick?.(channel.id);
+                    onRoomClick?.(room.id);
                   }}
                   className="flex shrink-0 items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--primary)] hover:text-white transition-all text-xs font-bold relative group/chip"
                 >
                   <Hash size={14} className="text-[var(--text-muted)] group-hover/chip:text-white transition-colors" />
-                  <span className="text-[var(--text-primary)] group-hover/chip:text-white transition-colors whitespace-nowrap">{channel.title}</span>
-                  {(channel.unreadCount || 0) > 0 && (
+                  <span className="text-[var(--text-primary)] group-hover/chip:text-white transition-colors whitespace-nowrap">{room.title}</span>
+                  {(room.unreadCount || 0) > 0 && (
                     <span className={`flex items-center justify-center h-5 min-w-[1.25rem] px-1.5 rounded-full ${styles.accent} text-white text-[10px] font-bold shadow-sm group-hover/chip:bg-white group-hover/chip:text-[var(--primary)] transition-colors`}>
-                      {channel.unreadCount}
+                      {room.unreadCount}
                     </span>
                   )}
                 </button>

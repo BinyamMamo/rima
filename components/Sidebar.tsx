@@ -1,42 +1,42 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, House, PlusCircle, CaretRight, Folders, Briefcase, User, GraduationCap, UsersThree } from '@phosphor-icons/react';
+import { X, House, PlusCircle, CaretRight, Folders, Briefcase, User, GraduationCap, UsersThree, Lock, Plus, Hash } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import Logo from './Logo';
-import { Project } from '@/types';
+import { Workspace } from '@/types';
 import { PROFILES } from '@/constants';
 import { useWorkspaceData } from '@/contexts';
 
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  currentProjectId?: string;
+  currentWorkspaceId?: string;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
   isOpen,
   onClose,
-  currentProjectId,
+  currentWorkspaceId,
 }) => {
   const router = useRouter();
-  const { projects, activeProfileId, setActiveProfileId } = useWorkspaceData();
-  const [expandedRooms, setExpandedRooms] = useState<Set<string>>(new Set());
+  const { workspaces, activeProfileId, setActiveProfileId, profiles } = useWorkspaceData();
+  const [expandedWorkspaces, setExpandedWorkspaces] = useState<Set<string>>(new Set());
 
   if (!isOpen) return null;
 
   const toggleExpand = (id: string) => {
-    const next = new Set(expandedRooms);
+    const next = new Set(expandedWorkspaces);
     if (next.has(id)) next.delete(id);
     else next.add(id);
-    setExpandedRooms(next);
+    setExpandedWorkspaces(next);
   };
 
-  const filteredProjects = activeProfileId === 'all'
-    ? projects
-    : projects.filter(p => p.profileId === activeProfileId);
+  const filteredWorkspaces = activeProfileId === 'all'
+    ? workspaces
+    : workspaces.filter(p => p.profileId === activeProfileId);
 
-  const rootProjects = filteredProjects.filter(p => !p.parentRoomId);
+  const rootWorkspaces = filteredWorkspaces.filter(p => !p.parentRoomId);
 
   const getProfileIcon = (id: string) => {
     switch (id) {
@@ -47,54 +47,82 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
-  const renderProjectItem = (project: Project, depth: number = 0) => {
-    const isActive = currentProjectId === project.id;
-    const children = filteredProjects.filter(p => p.parentRoomId === project.id);
-    const hasChildren = children.length > 0;
-    const isExpanded = expandedRooms.has(project.id);
+  const renderWorkspaceItem = (workspace: Workspace, depth: number = 0) => {
+    const isActive = currentWorkspaceId === workspace.id;
+    // Flat hierarchy: Workspaces contain Rooms.
+    const isExpanded = expandedWorkspaces.has(workspace.id);
 
     return (
-      <div key={project.id} className="animate-fade-in">
+      <div key={workspace.id} className="animate-fade-in mb-3">
         <div
-          className={`flex items-center gap-2 group cursor-pointer transition-all duration-200 rounded-2xl px-3 py-3 mb-1 ${isActive
+          className={`flex items-center gap-2 group cursor-pointer transition-all duration-200 rounded-2xl px-3 py-3 ${isActive
             ? 'bg-[var(--primary)] text-white shadow-lg shadow-[var(--primary)]/20'
             : 'text-[var(--text-secondary)] hover:bg-[var(--border-subtle)] hover:text-[var(--text-primary)]'
             }`}
           style={{ marginLeft: depth * 12 }}
           onClick={() => {
-            router.push(`/project/${project.id}`);
-            onClose();
+            // Clicking workspace title toggles expand/collapse
+            toggleExpand(workspace.id);
+            // Navigate to workspace
+            router.push(`/workspace/${workspace.id}`);
           }}
         >
-          {hasChildren ? (
-            <button
-              onClick={(e) => { e.stopPropagation(); toggleExpand(project.id); }}
-              className="p-1 hover:bg-white/10 rounded-md transition-transform duration-300"
-              style={{ transform: isExpanded ? 'rotate(90deg)' : 'none' }}
-            >
-              <CaretRight size={14} weight="bold" />
-            </button>
-          ) : (
-            <div className="w-5" />
-          )}
-          <span className={`text-sm ${isActive ? 'font-bold' : 'font-semibold'} truncate flex-1`}>
-            {project.title}
-          </span>
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              // TODO: Open new channel modal
-            }}
-            className={`opacity-0 group-hover:opacity-100 p-1.5 rounded-lg transition-opacity ${isActive ? 'hover:bg-white/20' : 'hover:bg-[var(--bg-app)]'
-              }`}
-          >
-            <PlusCircle size={14} weight="bold" />
+            onClick={(e) => { e.stopPropagation(); toggleExpand(workspace.id); }}
+            className="p-1 hover:bg-white/10 rounded-md transition-transform duration-300"
+            style={{ transform: isExpanded ? 'rotate(90deg)' : 'none' }}>
+            <CaretRight size={14} weight="bold" />
           </button>
+
+          <span className={`text-sm ${isActive ? 'font-bold' : 'font-semibold'} truncate flex-1`}>
+            {workspace.title}
+          </span>
         </div>
 
-        {hasChildren && isExpanded && (
-          <div className="border-l-2 border-[var(--border-subtle)] ml-4 pl-1">
-            {children.map(child => renderProjectItem(child, depth + 1))}
+        {isExpanded && (
+          <div className="border-l-2 border-[var(--border-subtle)] ml-5 pl-2 mt-1 space-y-0.5">
+            {workspace.rooms.map(room => {
+              const isPrivate = room.isPrivate;
+
+              return (
+                <button
+                  key={room.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // Keep query param pattern: ?roomId=...
+                    router.push(`/workspace/${workspace.id}?roomId=${room.id}`);
+                  }}
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-surface)] hover:text-[var(--text-primary)] transition-all group"
+                >
+                  <div className="flex items-center gap-2 truncate">
+                    {isPrivate ? (
+                      <Lock size={14} weight="fill" className="opacity-70 shrink-0" />
+                    ) : (
+                      <Hash size={14} weight="regular" className="opacity-70 shrink-0" />
+                    )}
+                    <span className="truncate">{room.title}</span>
+                  </div>
+
+                  {(room.unreadCount && room.unreadCount > 0.0) ? (
+                    <span className="min-w-[1.25rem] h-5 px-1 rounded-full bg-[var(--primary)] text-white text-[10px] font-bold flex items-center justify-center">
+                      {room.unreadCount}
+                    </span>
+                  ) : null}
+                </button>
+              );
+            })}
+
+            {/* Add Room Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push(`/create-room?workspaceId=${workspace.id}`);
+              }}
+              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[var(--text-muted)] hover:text-[var(--primary)] hover:bg-[var(--primary)]/5 transition-all"
+            >
+              <Plus size={14} />
+              <span>Add Room...</span>
+            </button>
           </div>
         )}
       </div>
@@ -151,7 +179,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Profile Filter "Chips" */}
         <div className="px-6 py-4 flex gap-2 overflow-x-auto scrollbar-hide">
-          {PROFILES.map((profile) => (
+          {profiles.map((profile) => (
             <button
               key={profile.id}
               onClick={() => setActiveProfileId(profile.id)}
@@ -171,15 +199,22 @@ const Sidebar: React.FC<SidebarProps> = ({
           <div className="space-y-4">
             <div className="px-4 flex justify-between items-center">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--text-muted)]">Workspaces</span>
-              <button onClick={() => {/* TODO: Open new workspace modal */ }} className="text-[var(--primary)] hover:scale-110 transition-transform">
+              <button
+                onClick={() => {
+                  router.push('/create-workspace');
+                  onClose();
+                }}
+                className="text-[var(--primary)] hover:scale-110 transition-transform"
+                title="Create Workspace"
+              >
                 <PlusCircle size={18} weight="fill" />
               </button>
             </div>
             <div className="space-y-1">
-              {rootProjects.length > 0 ? rootProjects.map(project => renderProjectItem(project)) : (
+              {rootWorkspaces.length > 0 ? rootWorkspaces.map(workspace => renderWorkspaceItem(workspace)) : (
                 <div className="px-4 py-10 text-center space-y-2 opacity-40">
                   <Folders size={32} className="mx-auto" />
-                  <p className="text-xs font-bold">No rooms matching filter</p>
+                  <p className="text-xs font-bold">No workspaces found</p>
                 </div>
               )}
             </div>

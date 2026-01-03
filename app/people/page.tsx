@@ -15,7 +15,8 @@ import { useWorkspaceData } from '@/contexts';
 
 export default function PeoplePage() {
   const { user, isLoading: authLoading } = useAuth();
-  const { projects, activeProfileId, setActiveProfileId } = useWorkspaceData();
+  // Sidebar now consumes context internally for workspaces/profiles
+  const { } = useWorkspaceData();
   const { darkMode, toggleDarkMode } = useUI();
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -52,9 +53,6 @@ export default function PeoplePage() {
       <Sidebar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
-        projects={projects}
-        activeProfileId={activeProfileId}
-        onProfileChange={setActiveProfileId}
       />
 
       <div className="relative z-10 h-screen flex flex-col overflow-hidden">
