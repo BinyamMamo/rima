@@ -103,7 +103,7 @@ function seedWorkspaces() {
       for (const insight of workspace.insights) {
         // Map old insight format to new schema
         insightStmt.run(
-          insight.id,
+          (insight as any).id || Date.now().toString() + Math.random(),
           workspace.id,
           (insight as any).type || insight.category || 'info', // category is required
           (insight as any).content || insight.text || '',
@@ -377,11 +377,11 @@ function main() {
 
   console.log('\n✅ Database seeded successfully!');
   console.log('📊 Summary:');
-  console.log(`   - Profiles: ${db.prepare('SELECT COUNT(*) as count FROM profiles').get().count}`);
-  console.log(`   - Users: ${db.prepare('SELECT COUNT(*) as count FROM users').get().count}`);
-  console.log(`   - Workspaces: ${db.prepare('SELECT COUNT(*) as count FROM workspaces').get().count}`);
-  console.log(`   - Rooms: ${db.prepare('SELECT COUNT(*) as count FROM rooms').get().count}`);
-  console.log(`   - Messages: ${db.prepare('SELECT COUNT(*) as count FROM messages').get().count}`);
+  console.log(`   - Profiles: ${(db.prepare('SELECT COUNT(*) as count FROM profiles').get() as any).count}`);
+  console.log(`   - Users: ${(db.prepare('SELECT COUNT(*) as count FROM users').get() as any).count}`);
+  console.log(`   - Workspaces: ${(db.prepare('SELECT COUNT(*) as count FROM workspaces').get() as any).count}`);
+  console.log(`   - Rooms: ${(db.prepare('SELECT COUNT(*) as count FROM rooms').get() as any).count}`);
+  console.log(`   - Messages: ${(db.prepare('SELECT COUNT(*) as count FROM messages').get() as any).count}`);
 
   db.close();
 }

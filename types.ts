@@ -58,6 +58,7 @@ export interface Room {
   unreadCount?: number;
   messages: Message[];
   isPrivate?: boolean;
+  workspaceId?: string;
   description?: string;
   insights?: Insight[];
   tasks?: Task[];

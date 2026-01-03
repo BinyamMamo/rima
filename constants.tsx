@@ -205,7 +205,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
     "progress": 35,
     "lastActivity": "Active 5m ago",
     "parentRoomId": undefined,
-    "isPrivate": 0,
+    "isPrivate": false,
     "members": [
       {
         "id": "u_hind",
@@ -254,7 +254,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_europe_trip",
         "title": "Paris",
         "description": undefined,
-        "isPrivate": 0,
+        "isPrivate": false,
         "unreadCount": 2,
         "members": [
           {
@@ -468,7 +468,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_europe_trip",
         "title": "Milan",
         "description": undefined,
-        "isPrivate": 0,
+        "isPrivate": false,
         "unreadCount": 0,
         "members": [
           {
@@ -610,7 +610,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_europe_trip",
         "title": "Rome",
         "description": undefined,
-        "isPrivate": 0,
+        "isPrivate": false,
         "unreadCount": 5,
         "members": [
           {
@@ -752,7 +752,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_europe_trip",
         "title": "Bookings",
         "description": undefined,
-        "isPrivate": 0,
+        "isPrivate": false,
         "unreadCount": 0,
         "members": [
           {
@@ -1130,7 +1130,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
     "progress": 80,
     "lastActivity": "Active 10m ago",
     "parentRoomId": undefined,
-    "isPrivate": 0,
+    "isPrivate": false,
     "members": [
       {
         "id": "u_hessa",
@@ -1179,7 +1179,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_supermom",
         "title": "Omar",
         "description": undefined,
-        "isPrivate": 0,
+        "isPrivate": false,
         "unreadCount": 1,
         "members": [
           {
@@ -1409,7 +1409,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_supermom",
         "title": "Hessa",
         "description": undefined,
-        "isPrivate": 0,
+        "isPrivate": false,
         "unreadCount": 3,
         "members": [
           {
@@ -1582,7 +1582,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_supermom",
         "title": "Salem",
         "description": undefined,
-        "isPrivate": 0,
+        "isPrivate": false,
         "unreadCount": 0,
         "members": [
           {
@@ -1822,7 +1822,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
     "progress": 45,
     "lastActivity": "Active 2m ago",
     "parentRoomId": undefined,
-    "isPrivate": 0,
+    "isPrivate": false,
     "members": [
       {
         "id": "u_alex",
@@ -1891,7 +1891,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_dubai_reefs",
         "title": "Site Deployment – Phase 1",
         "description": undefined,
-        "isPrivate": 0,
+        "isPrivate": false,
         "unreadCount": 4,
         "members": [
           {
@@ -2086,7 +2086,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_dubai_reefs",
         "title": "Vendors & Fabrication",
         "description": undefined,
-        "isPrivate": 0,
+        "isPrivate": false,
         "unreadCount": 2,
         "members": [
           {
@@ -2235,7 +2235,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_dubai_reefs",
         "title": "Permits & Compliance",
         "description": undefined,
-        "isPrivate": 0,
+        "isPrivate": false,
         "unreadCount": 1,
         "members": [
           {
@@ -2542,7 +2542,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
     "progress": 75,
     "lastActivity": "Active 8h ago",
     "parentRoomId": undefined,
-    "isPrivate": 0,
+    "isPrivate": false,
     "members": [
       {
         "id": "u_sara",
@@ -2561,7 +2561,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_health_private",
         "title": "Workouts",
         "description": undefined,
-        "isPrivate": 1,
+        "isPrivate": true,
         "unreadCount": 0,
         "members": [
           {
@@ -2790,7 +2790,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_health_private",
         "title": "Nutrition",
         "description": undefined,
-        "isPrivate": 1,
+        "isPrivate": true,
         "unreadCount": 0,
         "members": [
           {
@@ -2962,7 +2962,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_health_private",
         "title": "Mental Health",
         "description": undefined,
-        "isPrivate": 1,
+        "isPrivate": true,
         "unreadCount": 0,
         "members": [
           {
@@ -3134,7 +3134,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_health_private",
         "title": "Medical Records",
         "description": undefined,
-        "isPrivate": 1,
+        "isPrivate": true,
         "unreadCount": 0,
         "members": [
           {
@@ -3497,7 +3497,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
     "progress": 60,
     "lastActivity": "Active 4m ago",
     "parentRoomId": undefined,
-    "isPrivate": 0,
+    "isPrivate": false,
     "members": [
       {
         "id": "u_ali",
@@ -3556,7 +3556,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_startup",
         "title": "Suppliers & Materials",
         "description": undefined,
-        "isPrivate": 0,
+        "isPrivate": false,
         "unreadCount": 1,
         "members": [
           {
@@ -3769,7 +3769,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_startup",
         "title": "Design & Collection",
         "description": undefined,
-        "isPrivate": 0,
+        "isPrivate": false,
         "unreadCount": 0,
         "members": [
           {
@@ -3897,7 +3897,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_startup",
         "title": "Website & Operations",
         "description": undefined,
-        "isPrivate": 0,
+        "isPrivate": false,
         "unreadCount": 1,
         "members": [
           {
@@ -4049,7 +4049,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         "workspaceId": "w_startup",
         "title": "Social Media & Marketing",
         "description": undefined,
-        "isPrivate": 0,
+        "isPrivate": false,
         "unreadCount": 0,
         "members": [
           {
