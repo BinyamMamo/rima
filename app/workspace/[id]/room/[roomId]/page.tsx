@@ -309,13 +309,13 @@ export default function RoomPage() {
                                     <div className="space-y-2 max-w-md">
                                         <h3 className="text-2xl font-bold text-[var(--text-primary)]">Welcome to #{room.title}</h3>
                                         <p className="text-[var(--text-secondary)] text-base leading-relaxed">
-                                            I'm <span className="font-bold text-[var(--primary)]">Rima</span>.
+                                            I&apos;m <span className="font-bold text-[var(--primary)]">Rima</span>.
                                             This room is ready for collaboration. Direct message me or tag @Rima for help.
                                         </p>
                                     </div>
                                     <div className="flex flex-wrap items-center justify-center gap-2 max-w-sm opacity-60">
                                         <div className="px-4 py-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-xs font-bold text-[var(--text-secondary)]">
-                                            "@Rima summarize this room"
+                                            &quot;@Rima summarize this room&quot;
                                         </div>
                                     </div>
                                 </div>

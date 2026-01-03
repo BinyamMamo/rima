@@ -40,7 +40,7 @@ const VoiceOverlay: React.FC<VoiceOverlayProps> = ({ isOpen, onClose, onCommandD
 
             return () => clearTimeout(listeningTimer);
         }
-    }, [isOpen]);
+    }, [isOpen, onCommandDetected]);
 
     if (!isOpen) return null;
 

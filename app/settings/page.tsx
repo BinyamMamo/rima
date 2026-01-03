@@ -88,7 +88,7 @@ export default function SettingsPage() {
               >
                 {user?.name.slice(0, 2) || 'U'}
                 <div className="absolute bottom-0 right-0 p-2 bg-surface rounded-full shadow-md border border-subtle text-primary group-hover:scale-110 transition-transform">
-                  <Edit3Icon size={16} weight="bold" />
+                  <Edit3Icon size={16} />
                 </div>
               </div>
 

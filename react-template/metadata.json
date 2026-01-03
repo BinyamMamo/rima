@@ -1,7 +1,0 @@
-{
-  "name": "RIMA 2.0",
-  "description": "An immersive cosmic productivity universe powered by Rima.",
-  "requestFramePermissions": [
-    "microphone"
-  ]
-}

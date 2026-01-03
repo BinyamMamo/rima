@@ -46,7 +46,6 @@ next-env.d.ts
 **/public/worker-*.js.map
 
 # Old Vite files
-index.tsx
 index.html
 vite.config.ts
 App.tsx
@@ -67,3 +66,5 @@ README.md
 MIGRATION.md
 react-template
 pubilc
+
+.bkp
