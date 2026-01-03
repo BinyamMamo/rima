@@ -23,8 +23,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'RIMA | Personal Universe',
-  description: 'An immersive cosmic productivity universe powered by Rima AI',
+  title: 'RIMA | AI Workspace',
+  description: 'AI-powered productivity workspace.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,

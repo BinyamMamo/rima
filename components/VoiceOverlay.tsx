@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { X, Microphone, Keyboard, CaretLeft, DotsThreeVertical } from '@phosphor-icons/react';
+import { GeminiLiveAPI } from '@/lib/geminiLiveAPI';
 
 interface VoiceOverlayProps {
     isOpen: boolean;
@@ -9,38 +10,80 @@ interface VoiceOverlayProps {
 
 const VoiceOverlay: React.FC<VoiceOverlayProps> = ({ isOpen, onClose, onCommandDetected }) => {
     const [transcript, setTranscript] = useState('');
-    const [phase, setPhase] = useState<'intro' | 'listening' | 'processing' | 'idle'>('intro');
+    const [phase, setPhase] = useState<'connecting' | 'listening' | 'processing' | 'speaking' | 'idle'>('connecting');
+    const geminiAPIRef = useRef<GeminiLiveAPI | null>(null);
 
     useEffect(() => {
         if (isOpen) {
-            setPhase('listening');
-            setTranscript("Go ahead, I'm listening...");
-
-            // Simulation Sequence
-            // 1. Listen for 3s
-            const listeningTimer = setTimeout(() => {
-                setPhase('processing');
-                setTranscript("Processing...");
-
-                // 2. Process for 1.5s then showing result
-                setTimeout(() => {
-                    const simulatedCommand = "Create a task to review the budget";
-                    setTranscript(`"${simulatedCommand}"`);
-
-                    if (onCommandDetected) {
-                        setTimeout(() => {
-                            onCommandDetected(simulatedCommand);
-                            // Keep overlay open for a moment to show result? 
-                            // Or maybe switch to 'idle' with the result shown?
-                            setPhase('idle');
-                        }, 1000);
-                    }
-                }, 2000);
-            }, 3500);
-
-            return () => clearTimeout(listeningTimer);
+            initializeGeminiAPI();
+        } else {
+            // Cleanup when closed
+            if (geminiAPIRef.current) {
+                geminiAPIRef.current.disconnect();
+                geminiAPIRef.current = null;
+            }
         }
-    }, [isOpen, onCommandDetected]);
+
+        return () => {
+            if (geminiAPIRef.current) {
+                geminiAPIRef.current.disconnect();
+                geminiAPIRef.current = null;
+            }
+        };
+    }, [isOpen]);
+
+    const initializeGeminiAPI = async () => {
+        try {
+            const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+            if (!apiKey) {
+                throw new Error('GEMINI_API_KEY not found in environment variables');
+            }
+
+            setPhase('connecting');
+            setTranscript('Connecting to Rima...');
+
+            const systemInstruction = `You are Rima, a helpful and friendly AI assistant.
+When the conversation starts, introduce yourself briefly: "Hi! I'm Rima, your AI assistant. I can help you with tasks, answer questions, or just chat. What can I do for you today?"
+Keep all responses concise and natural for voice conversation. Be warm and personable.`;
+
+            geminiAPIRef.current = new GeminiLiveAPI({
+                apiKey,
+                systemInstruction,
+                onTranscript: (text) => {
+                    setTranscript(text);
+                },
+                onPhaseChange: (newPhase) => {
+                    setPhase(newPhase);
+                    switch (newPhase) {
+                        case 'listening':
+                            setTranscript("I'm listening...");
+                            break;
+                        case 'processing':
+                            setTranscript('Thinking...');
+                            break;
+                        case 'speaking':
+                            setTranscript('Speaking...');
+                            break;
+                    }
+                },
+                onError: (error) => {
+                    console.error('Gemini API Error:', error);
+                    setTranscript(`Error: ${error.message}`);
+                    setPhase('idle');
+                }
+            });
+
+            await geminiAPIRef.current.initialize();
+
+            // Don't send text message - let audio conversation happen naturally
+            // The microphone will start listening after setup
+
+        } catch (error) {
+            console.error('Failed to initialize Gemini API:', error);
+            setTranscript('Failed to connect. Please check your API key.');
+            setPhase('idle');
+        }
+    };
 
     if (!isOpen) return null;
 
@@ -73,8 +116,8 @@ const VoiceOverlay: React.FC<VoiceOverlayProps> = ({ isOpen, onClose, onCommandD
 
                     {/* Core Orb */}
                     <div className="relative w-full h-full">
-                        {/* Animated Rings for Listening Phase */}
-                        {phase === 'listening' && (
+                        {/* Animated Rings for Listening/Speaking Phase */}
+                        {(phase === 'listening' || phase === 'speaking') && (
                             <>
                                 <div className="absolute inset-0 border border-[var(--primary)]/30 rounded-full animate-ping" style={{ animationDuration: '2s' }} />
                                 <div className="absolute inset-4 border border-[var(--primary)]/40 rounded-full animate-ping" style={{ animationDuration: '2s', animationDelay: '0.4s' }} />
@@ -83,7 +126,7 @@ const VoiceOverlay: React.FC<VoiceOverlayProps> = ({ isOpen, onClose, onCommandD
                         )}
 
                         {/* Center Gradient Sphere */}
-                        <div className={`absolute inset-12 rounded-full bg-gradient-to-tr from-[var(--primary)] to-purple-600 shadow-[0_0_60px_rgba(108,48,255,0.4)] transition-all duration-700 flex items-center justify-center ${phase === 'listening' ? 'scale-105' : 'scale-100'}`}>
+                        <div className={`absolute inset-12 rounded-full bg-gradient-to-tr from-[var(--primary)] to-purple-600 shadow-[0_0_60px_rgba(108,48,255,0.4)] transition-all duration-700 flex items-center justify-center ${(phase === 'listening' || phase === 'speaking') ? 'scale-105' : 'scale-100'}`}>
                             {/* Inner texture/noise could go here */}
                             <div className="w-full h-full rounded-full bg-white/10 backdrop-blur-sm" />
                         </div>
@@ -106,8 +149,8 @@ const VoiceOverlay: React.FC<VoiceOverlayProps> = ({ isOpen, onClose, onCommandD
                 </button>
 
                 {/* Mic Button (Main Action) */}
-                <button className={`w-20 h-20 rounded-full flex items-center justify-center shadow-xl transition-all hover:scale-105 active:scale-95 ${phase === 'listening' ? 'bg-[var(--text-primary)] text-[var(--bg-app)]' : 'bg-[var(--primary)] text-white'}`}>
-                    <Microphone size={32} weight="fill" className={phase === 'listening' ? 'animate-pulse' : ''} />
+                <button className={`w-20 h-20 rounded-full flex items-center justify-center shadow-xl transition-all hover:scale-105 active:scale-95 ${(phase === 'listening' || phase === 'speaking') ? 'bg-[var(--text-primary)] text-[var(--bg-app)]' : 'bg-[var(--primary)] text-white'}`}>
+                    <Microphone size={32} weight="fill" className={(phase === 'listening' || phase === 'speaking') ? 'animate-pulse' : ''} />
                 </button>
 
                 {/* Close/Cancel */}

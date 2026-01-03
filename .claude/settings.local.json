@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(cat:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(node -e:*)",
+      "Bash(python3:*)",
+      "Bash(API_KEY=\"AIzaSyD8hfSgyAt5JoIKQIbJwpauxqAr-mm0ZOk\")",
+      "Bash(curl:*)"
     ]
   }
 }

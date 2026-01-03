@@ -40,6 +40,8 @@ const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
   // Sort rooms by a visual weight metric (length of title + unread count) - logic from previous edit
   const sortedRooms = [...workspace.rooms].sort((a, b) => (b.title + (b.unreadCount || '').toString() || '').length - (a.title + (a.unreadCount || '').toString() || '').length);
 
+  const totalUnread = workspace.rooms.reduce((acc, room) => acc + (room.unreadCount || 0), 0);
+
   return (
     <div
       className="group relative flex flex-col bg-card border border-subtle rounded-3xl transition-all overflow-hidden cursor-pointer hover:border-[var(--primary)]"
@@ -48,9 +50,16 @@ const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
       <div className="p-7 space-y-6">
         <div className="flex justify-between items-start">
           <div className="space-y-1.5 flex-1 min-w-0 pr-4">
-            <h3 className="text-xl font-bold tracking-tight truncate group-hover:text-[var(--primary)] transition-colors">
-              {workspace.title}
-            </h3>
+            <div className="flex items-center gap-3">
+              <h3 className="text-xl font-bold tracking-tight truncate group-hover:text-[var(--primary)] transition-colors">
+                {workspace.title}
+              </h3>
+              {totalUnread > 0 && (
+                <span className={`min-w-[1.5rem] h-6 px-1.5 rounded-full ${styles.accent} text-white text-xs font-bold flex items-center justify-center`}>
+                  {totalUnread}
+                </span>
+              )}
+            </div>
             <p className="text-sm text-secondary line-clamp-2 font-medium leading-relaxed opacity-80">
               {workspace.description}
             </p>

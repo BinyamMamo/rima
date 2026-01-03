@@ -26,11 +26,11 @@ export const SYSTEM_USERS: User[] = [
   { id: 'u_compliance', name: 'Compliance Officer', avatarColor: 'bg-slate-700 text-white', role: 'Regulatory Lead', status: 'active', roomInvolvement: 2, recentActivity: 'Permit A-14 audit' },
 ];
 
-const createMsg = (sender: User | 'Rima', content: string, timeOffset: number = 0): Message => ({
+const createMsg = (sender: User | 'Rima', content: string, timeOffsetMinutes: number = 0): Message => ({
   id: `m_${Date.now()}_${Math.random()}`,
   sender,
   content,
-  timestamp: new Date(Date.now() - (timeOffset * 60000)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  timestamp: new Date(Date.now() - (timeOffsetMinutes * 60000)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 });
 
 export const INITIAL_WORKSPACES: Workspace[] = [
@@ -173,14 +173,32 @@ export const INITIAL_WORKSPACES: Workspace[] = [
         messages: [
           createMsg(SYSTEM_USERS[1], "Found a great boutique hotel near the Eiffel Tower", 60),
           createMsg(SYSTEM_USERS[0], "@Rima can you check if there are better deals in the area?", 55),
-          createMsg('Rima', "I've analyzed the hotel options in that area. The boutique hotel Maryam found has excellent reviews and competitive pricing. I can help compare it with 3 similar properties if you'd like.", 50)
+          createMsg('Rima', "I've analyzed the hotel options in that area. The boutique hotel Maryam found has excellent reviews and competitive pricing.", 50),
+          createMsg(SYSTEM_USERS[1], "Does it have a pool?", 10)
         ],
-        unreadCount: 7
+        unreadCount: 2
       },
       { id: 'c3', title: 'Flights', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0 },
-      { id: 'c4', title: 'Shopping', members: [SYSTEM_USERS[0], SYSTEM_USERS[2]], messages: [], unreadCount: 2 },
-      { id: 'c5', title: 'Budget', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 12 },
-      { id: 'c6', title: 'Surprises', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 1, isPrivate: true }
+      {
+        id: 'c4',
+        title: 'Shopping',
+        members: [SYSTEM_USERS[0], SYSTEM_USERS[2]],
+        messages: [
+          createMsg(SYSTEM_USERS[2], "Check out this vintage store list!", 30),
+          createMsg(SYSTEM_USERS[2], "And this one in Milan.", 25)
+        ],
+        unreadCount: 2
+      },
+      {
+        id: 'c5',
+        title: 'Budget',
+        members: [SYSTEM_USERS[0], SYSTEM_USERS[1]],
+        messages: [
+          createMsg(SYSTEM_USERS[1], "Updated the spreadsheet with hotel estimates.", 100),
+        ],
+        unreadCount: 1
+      },
+      { id: 'c6', title: 'Surprises', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0, isPrivate: true }
     ]
   },
   {
@@ -338,11 +356,42 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { id: 't_dr2', title: 'Approve Vendor Selection', owner: 'Jordan', completed: true, dueDate: 'Mar 1' }
     ],
     rooms: [
-      { id: 'c_dr_gen', title: 'Leadership', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 5 },
+      {
+        id: 'c_dr_gen',
+        title: 'Leadership',
+        members: [SYSTEM_USERS[0], SYSTEM_USERS[7]],
+        messages: [
+          createMsg(SYSTEM_USERS[7], "Please review the updated timeline.", 120),
+          createMsg(SYSTEM_USERS[7], "We need to sign off on the new budget.", 115),
+          createMsg(SYSTEM_USERS[0], "Will do.", 60),
+          createMsg(SYSTEM_USERS[7], "Any updates on the environmental permit?", 10),
+          createMsg(SYSTEM_USERS[7], "@Rima what is the status of the permit application?", 5)
+        ],
+        unreadCount: 4
+      },
       { id: 'c_dr_tech', title: 'Technical', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0 },
-      { id: 'c_dr_finance', title: 'Budget', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 8 },
-      { id: 'c_dr_ops', title: 'Operations', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 15 },
-      { id: 'c_dr_conf', title: 'Confidential', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 2, isPrivate: true }
+      {
+        id: 'c_dr_finance',
+        title: 'Budget',
+        members: [SYSTEM_USERS[0], SYSTEM_USERS[8]],
+        messages: [
+          createMsg(SYSTEM_USERS[8], "FYI: Copper prices are up 5%.", 200),
+          createMsg(SYSTEM_USERS[8], "Should we lock in the supplier contract now?", 195)
+        ],
+        unreadCount: 2
+      },
+      {
+        id: 'c_dr_ops',
+        title: 'Operations',
+        members: [SYSTEM_USERS[0], SYSTEM_USERS[12]],
+        messages: [
+          createMsg(SYSTEM_USERS[12], "Site A survey complete.", 600),
+          createMsg(SYSTEM_USERS[12], "Site B survey starting tomorrow.", 550),
+          createMsg(SYSTEM_USERS[12], "Logistics team needs 2 more vans.", 50)
+        ],
+        unreadCount: 3
+      },
+      { id: 'c_dr_conf', title: 'Confidential', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0, isPrivate: true }
     ]
   },
   {
@@ -411,10 +460,27 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'finance', text: 'Founders funding utilized: 20%.', icon: '💸' }
     ],
     rooms: [
-      { id: 'c_biz_gen', title: 'General', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 2 },
-      { id: 'c_biz_design', title: 'Design', members: [SYSTEM_USERS[0], SYSTEM_USERS[9]], messages: [], unreadCount: 6 },
+      { id: 'c_biz_gen', title: 'General', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0 },
+      {
+        id: 'c_biz_design',
+        title: 'Design',
+        members: [SYSTEM_USERS[0], SYSTEM_USERS[9]],
+        messages: [
+          createMsg(SYSTEM_USERS[9], "Sketches for the new pendant are attached.", 120),
+          createMsg(SYSTEM_USERS[9], "Use 18k gold for the prototype?", 115)
+        ],
+        unreadCount: 2
+      },
       { id: 'c_biz_suppliers', title: 'Suppliers', members: [SYSTEM_USERS[0], SYSTEM_USERS[10]], messages: [], unreadCount: 0 },
-      { id: 'c_biz_marketing', title: 'Marketing', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 9 }
+      {
+        id: 'c_biz_marketing',
+        title: 'Marketing',
+        members: [SYSTEM_USERS[0]],
+        messages: [
+          createMsg(SYSTEM_USERS[11], "Drafted the launch email. Please review.", 300)
+        ],
+        unreadCount: 1
+      }
     ]
   },
   {
@@ -477,4 +543,151 @@ export const INITIAL_WORKSPACES: Workspace[] = [
     messages: [],
     rooms: []
   },
+  // SCENARIO 6: Global Economics 101 (EDUCATION)
+  {
+    id: 'p_edu_econ',
+    title: 'Global Economics 101',
+    description: 'Coursework, study groups, and exam prep for ECON101.',
+    theme: 'teal',
+    profileId: 'p_edu',
+    progress: 75,
+    members: [SYSTEM_USERS[0], SYSTEM_USERS[4], SYSTEM_USERS[6]], // Sara, Omar, Salem
+    messages: [
+      createMsg(SYSTEM_USERS[4], "Can someone explain Isomorphic Utility curves again?", 15)
+    ],
+    lastActivity: "Active 15m ago",
+    insights: [
+      { category: 'planning', text: 'Exam scheduled for May 12th.', icon: '📅' },
+      { category: 'social', text: 'Study group meeting proposed for Saturday.', icon: '📚' }
+    ],
+    rooms: [
+      {
+        id: 'c_econ_gen',
+        title: 'General Discussion',
+        members: [SYSTEM_USERS[0], SYSTEM_USERS[4], SYSTEM_USERS[6]],
+        messages: [
+          createMsg(SYSTEM_USERS[4], "Is chapter 4 included in the mid-term?", 1400),
+          createMsg(SYSTEM_USERS[6], "Yes, the professor said everything up to supply shocks.", 1380)
+        ],
+        unreadCount: 0
+      },
+      {
+        id: 'c_econ_study',
+        title: 'Study Group',
+        members: [SYSTEM_USERS[0], SYSTEM_USERS[4], SYSTEM_USERS[6]],
+        messages: [
+          createMsg(SYSTEM_USERS[4], "I'll bring the past papers.", 60),
+          createMsg(SYSTEM_USERS[6], "I'll bring snacks.", 55),
+          createMsg(SYSTEM_USERS[4], "Can someone explain Isomorphic Utility curves again?", 15),
+          createMsg(SYSTEM_USERS[0], "I think I have notes on that, will check.", 5)
+        ],
+        unreadCount: 1 // 1 msg from Omar (15m ago) if we assume I read the others? No, simple logic: count recent from others.
+        // Omar (60), Salem (55), Omar (15), Me (5).
+        // If I last read at 0, unread is 0.
+        // Let's make it 1 unread from Omar.
+      },
+      {
+        id: 'c_econ_tutor',
+        title: 'Tutor DMs',
+        members: [SYSTEM_USERS[0]],
+        messages: [],
+        unreadCount: 0,
+        isPrivate: true
+      }
+    ]
+  },
+
+  // SCENARIO 7: Q3 Marketing Blitz (WORK)
+  {
+    id: 'p_work_marketing',
+    title: 'Q3 Marketing Blitz',
+    description: 'High-intensity campaign planning for the summer launch.',
+    theme: 'obsidian',
+    profileId: 'p_work',
+    progress: 10,
+    budget: '$25,000',
+    members: [SYSTEM_USERS[0], SYSTEM_USERS[11], SYSTEM_USERS[9], SYSTEM_USERS[13]], // Sara, Lina, Designer, Compliance
+    messages: [],
+    lastActivity: "Active 2h ago",
+    insights: [
+      { category: 'risk', text: 'Ad spend approval pending finance review.', icon: '⏳' },
+      { category: 'planning', text: 'Asset deliverable list is incomplete.', icon: '📉' }
+    ],
+    rooms: [
+      {
+        id: 'c_mkt_ideas',
+        title: 'Campaign Ideas',
+        members: [SYSTEM_USERS[0], SYSTEM_USERS[11], SYSTEM_USERS[9]],
+        messages: [
+          createMsg(SYSTEM_USERS[11], "What if we did a 3D reveal?", 120),
+          createMsg(SYSTEM_USERS[9], "That exceeds the budget, but looks cool.", 110),
+          createMsg(SYSTEM_USERS[11], "Let's mock it up anyway.", 100)
+        ],
+        unreadCount: 3
+      },
+      {
+        id: 'c_mkt_assets',
+        title: 'Assets & Copy',
+        members: [SYSTEM_USERS[0], SYSTEM_USERS[9]],
+        messages: [],
+        unreadCount: 0
+      },
+      {
+        id: 'c_mkt_budget',
+        title: 'Budget Allocation',
+        members: [SYSTEM_USERS[0]], // Private or restricted?
+        messages: [
+          createMsg(SYSTEM_USERS[13], "Compliance needs to review the influencer contracts.", 300)
+        ],
+        unreadCount: 1, // Msg from Compliance
+        isPrivate: true
+      }
+    ]
+  },
+
+  // SCENARIO 8: Weekend Hiking Club (LIFE)
+  {
+    id: 'p_life_hiking',
+    title: 'Weekend Hiking Club',
+    description: ' coordinating weekly hikes, carpools, and trail discoveries.',
+    theme: 'emerald',
+    profileId: 'p_life',
+    progress: 88,
+    members: [SYSTEM_USERS[0], SYSTEM_USERS[2], SYSTEM_USERS[3], SYSTEM_USERS[5]], // Sara, Noora, Hind, Hessa
+    messages: [
+      createMsg(SYSTEM_USERS[2], "The weather looks perfect for Jebel Jais.", 30)
+    ],
+    lastActivity: "Active 30m ago",
+    insights: [],
+    rooms: [
+      {
+        id: 'c_hike_gen',
+        title: 'General',
+        members: [SYSTEM_USERS[0], SYSTEM_USERS[2], SYSTEM_USERS[3]],
+        messages: [
+          createMsg(SYSTEM_USERS[3], "Did everyone get new boots?", 1000)
+        ],
+        unreadCount: 0
+      },
+      {
+        id: 'c_hike_maps',
+        title: 'Trail Maps',
+        members: [SYSTEM_USERS[0], SYSTEM_USERS[5]],
+        messages: [
+          createMsg(SYSTEM_USERS[5], "Downloaded the offline map.", 45),
+          createMsg(SYSTEM_USERS[2], "The weather looks perfect for Jebel Jais.", 30),
+          createMsg(SYSTEM_USERS[2], "Meeting point at 5 AM?", 25)
+        ],
+        unreadCount: 2
+      },
+      {
+        id: 'c_hike_carpool',
+        title: 'Carpool Logistics',
+        members: [SYSTEM_USERS[0]],
+        messages: [],
+        unreadCount: 0,
+        isPrivate: true
+      }
+    ]
+  }
 ];

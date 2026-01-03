@@ -24,7 +24,7 @@ const DashboardIcon = () => (
 
 export default function RoomPage() {
     const { user, isLoading: authLoading } = useAuth();
-    const { workspaces, addRoomMessage, updateRoom, deleteRoom } = useWorkspaceData();
+    const { workspaces, addRoomMessage, updateRoom, deleteRoom, updateWorkspace, systemUsers } = useWorkspaceData();
     const router = useRouter();
     const params = useParams();
     const workspaceId = params.id as string;
@@ -134,19 +134,103 @@ export default function RoomPage() {
             updateRoom(workspaceId, roomId, { unreadCount: 0 });
         }
 
-        // If Rima is mentioned, simulate Rima's response
+        // If Rima is mentioned, process commands
         if (mentionsRima) {
             setIsRimaTyping(true);
-            setTimeout(() => {
+            const lowerContent = content.toLowerCase();
+
+            // Simulate "thinking" time
+            setTimeout(async () => {
+                let rimaResponseContent = "I heard you, but I'm not sure how to help with that yet.";
+                const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                let actionExecuted = false;
+
+                // --- COMMAND: CREATE ROOM ---
+                if (lowerContent.includes('create room') || lowerContent.includes('create channel')) {
+                    const match = content.match(/create (?:room|channel) (.+)/i);
+                    // Cleanup title: remove "called" or "named" if present (simple NLP)
+                    let newRoomTitle = match ? match[1].replace(/\b(?:called|named)\b/gi, '').trim() : 'New Room';
+                    // Remove potential punctuation
+                    newRoomTitle = newRoomTitle.replace(/[.,?!]/g, '');
+
+                    if (newRoomTitle) {
+                        const newRoomId = `c_${Date.now()}`;
+                        const newRoomObject = {
+                            id: newRoomId,
+                            title: newRoomTitle,
+                            members: [user],
+                            messages: [],
+                            unreadCount: 0
+                        };
+
+                        // Update Workspace
+                        const updatedRooms = [...workspace.rooms, newRoomObject];
+                        updateWorkspace(workspaceId, { rooms: updatedRooms });
+
+                        rimaResponseContent = `I've created the room "#${newRoomTitle}" for you.`;
+                        actionExecuted = true;
+                    }
+                }
+
+                // --- COMMAND: ADD MEMBER ---
+                else if (lowerContent.includes('add member') || lowerContent.includes('add user') || (lowerContent.includes('add') && !lowerContent.includes('task'))) {
+                    // Try to match specific names from constants
+                    const targetName = systemUsers.find(u => lowerContent.includes(u.name.toLowerCase()));
+
+                    if (targetName) {
+                        // Check if already in room
+                        if (room.members.some(m => m.id === targetName.id)) {
+                            rimaResponseContent = `${targetName.name} is already in this room.`;
+                        } else {
+                            const updatedMembers = [...room.members, targetName];
+                            updateRoom(workspaceId, roomId, { members: updatedMembers });
+                            rimaResponseContent = `I've added ${targetName.name} to this conversation.`;
+                        }
+                        actionExecuted = true;
+                    } else {
+                        // Fallback heuristic for unknown name in mock
+                        const match = content.match(/add\s+([A-Z][a-z]+)/); // Simple capitalize match
+                        if (match) {
+                            rimaResponseContent = `I couldn't find "${match[1]}" in the system users directory.`;
+                        } else {
+                            rimaResponseContent = "Who would you like me to add? Please specify their name.";
+                        }
+                    }
+                }
+
+                // --- COMMAND: SUMMARIZE ---
+                else if (lowerContent.includes('summarize') || lowerContent.includes('summary') || lowerContent.includes('recap')) {
+                    const recentMsgs = room.messages.slice(-5).map(m => m.content).join(' ');
+                    // Mock summary generation
+                    const summaries = [
+                        "Reviewing the recent messages: The team is aligned on the next steps. Action items have been noted.",
+                        "Here's a quick recap: There's a discussion about timelines and potential blockers.",
+                        "Summary: Key decisions are pending. Recommend scheduling a sync."
+                    ];
+                    rimaResponseContent = summaries[Math.floor(Math.random() * summaries.length)];
+                    if (recentMsgs.length < 50) rimaResponseContent = "This conversation is too short to summarize properly, but you're doing great!";
+                    actionExecuted = true;
+                }
+
+                // Default Intelligent Response
+                if (!actionExecuted) {
+                    if (lowerContent.includes('hello') || lowerContent.includes('hi')) {
+                        rimaResponseContent = `Hello ${user.name}! How can I help you manage this workspace today?`;
+                    } else {
+                        rimaResponseContent = `I'm analyzing the context of your request. I can help you **create rooms**, **add members**, or **summarize** discussions.`;
+                    }
+                }
+
                 const rimaMessage: Message = {
                     id: (Date.now() + 1).toString(),
-                    content: `I've received your message in ${room.title}. I'm analyzing the context and will help you with that.`,
+                    content: rimaResponseContent,
                     sender: 'Rima',
-                    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    timestamp
                 };
                 addRoomMessage(workspaceId, roomId, rimaMessage);
                 setIsRimaTyping(false);
-            }, 1500);
+            }, 1200);
         }
     };
 

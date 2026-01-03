@@ -61,7 +61,7 @@ export default function WorkspacePage({
             <div className="flex-1 overflow-y-auto px-6 py-8 space-y-6 scrollbar-hide pb-40">
                 {workspace.messages.length === 0 && (
                     <div className="h-full flex flex-col items-center justify-center text-center px-8 animate-fade-in space-y-6">
-                        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center shadow-2xl shadow-[var(--primary)]/20 animate-fade-in ring-4 ring-[var(--bg-app)]">
+                        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center shadow-2xl shadow-[var(--primary)]/20 ring-4 ring-[var(--bg-app)] animate-fade-in">
                             <Sparkle size={48} weight="fill" className="text-white" />
                         </div>
                         <div className="space-y-2 max-w-md">

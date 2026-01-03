@@ -105,107 +105,114 @@ export const generateRimaInsights = async (
   room?: Room
 ): Promise<Insight[]> => {
   // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1500));
+  await new Promise(resolve => setTimeout(resolve, 800));
 
   const insights: Insight[] = [];
   const context = room || workspace;
 
-  // Analyze messages for patterns
-  if (context.messages && context.messages.length > 0) {
-    const recentMessages = context.messages.slice(-10);
-    const hasQuestions = recentMessages.some(m =>
-      typeof m.content === 'string' && m.content.includes('?')
-    );
+  // 1. Analyze Messages in Context
+  const allMessages = room ? room.messages : [
+    ...workspace.messages,
+    ...workspace.rooms.flatMap(r => r.messages)
+  ];
 
-    if (hasQuestions) {
+  if (allMessages && allMessages.length > 0) {
+    // Filter for recent messages (last 20)
+    const recentMessages = allMessages.slice(-20);
+
+    // Pattern: Questions
+    const questions = recentMessages.filter(m => typeof m.content === 'string' && m.content.includes('?'));
+    if (questions.length > 1) {
       insights.push({
         category: 'social',
-        text: `Recent discussions show ${recentMessages.filter(m => typeof m.content === 'string' && m.content.includes('?')).length} open questions that may need attention.`,
+        text: `There are ${questions.length} recent open questions. " ${questions[questions.length - 1].content.slice(0, 40)}..."`,
         icon: '❓',
+      });
+    }
+
+    // Pattern: Urgency
+    const urgentKeywords = ['urgent', 'asap', 'deadline', 'blocker', 'stuck', 'delay'];
+    const urgentMessages = recentMessages.filter(m =>
+      typeof m.content === 'string' && urgentKeywords.some(kw => m.content.toLowerCase().includes(kw))
+    );
+    if (urgentMessages.length > 0) {
+      insights.push({
+        category: 'risk',
+        text: `Detected urgency: "${urgentMessages[urgentMessages.length - 1].content.slice(0, 50)}..."`,
+        icon: '🔥'
       });
     }
   }
 
-  // Analyze tasks
+  // 2. Analyze Tasks
   if (context.tasks && context.tasks.length > 0) {
-    const overdueTasks = context.tasks.filter(t => !t.completed && t.dueDate.toLowerCase().includes('overdue'));
-    const upcomingTasks = context.tasks.filter(t => !t.completed && !t.dueDate.toLowerCase().includes('overdue'));
+    const overdueTasks = context.tasks.filter(t => !t.completed && (t.dueDate.toLowerCase().includes('overdue') || t.dueDate.toLowerCase().includes('yesterday')));
+    // Simple check for "today" or "tomorrow"
+    const urgentTasks = context.tasks.filter(t => !t.completed && (t.dueDate.toLowerCase().includes('today') || t.dueDate.toLowerCase().includes('tomorrow')));
 
     if (overdueTasks.length > 0) {
       insights.push({
         category: 'risk',
-        text: `${overdueTasks.length} task(s) are overdue and require immediate attention.`,
+        text: `${overdueTasks.length} task(s) are OVERDUE. Priority attention needed.`,
         icon: '⚠️',
       });
     }
 
-    if (upcomingTasks.length > 0) {
+    if (urgentTasks.length > 0) {
       insights.push({
         category: 'planning',
-        text: `${upcomingTasks.length} active task(s) are on track. Keep up the momentum!`,
-        icon: '✅',
+        text: `${urgentTasks.length} task(s) are due soon.`,
+        icon: '⏰'
       });
     }
   }
 
-  // Analyze budget vs spending (workspace only)
+  // 3. Analyze Budget (Workspace Only)
   if ('budget' in context && context.budget && context.spending) {
+    // Parse budget string (e.g. "$50,000")
     const budgetAmount = parseFloat(context.budget.replace(/[^0-9.-]+/g, ''));
     const totalSpending = context.spending.reduce((sum, s) => {
       const amount = parseFloat(s.amount.replace(/[^0-9.-]+/g, ''));
       return sum + (isNaN(amount) ? 0 : amount);
     }, 0);
 
-    const percentageUsed = (totalSpending / budgetAmount) * 100;
+    if (budgetAmount > 0) {
+      const percentageUsed = (totalSpending / budgetAmount) * 100;
+      if (percentageUsed > 90) {
+        insights.push({
+          category: 'finance',
+          text: `CRITICAL: Budget utilization at ${percentageUsed.toFixed(0)}%. ${context.budget} limit approaching.`,
+          icon: '🛑',
+        });
+      } else if (percentageUsed > 75) {
+        insights.push({
+          category: 'finance',
+          text: `Budget utilization is high (${percentageUsed.toFixed(0)}%). Review expenses.`,
+          icon: '💸',
+        });
+      }
+    }
+  }
 
-    if (percentageUsed > 80) {
+  // 4. Activity & Progress
+  if (!room && 'progress' in context && (context.progress || 0) < 100) {
+    // If progress is low but lots of messages = High Friction?
+    if ((context.progress || 0) < 30 && allMessages.length > 20) {
       insights.push({
-        category: 'finance',
-        text: `Budget utilization is at ${percentageUsed.toFixed(0)}%. Consider reviewing expenses.`,
-        icon: '💰',
-      });
-    } else if (percentageUsed < 50) {
-      insights.push({
-        category: 'finance',
-        text: `Budget utilization is at ${percentageUsed.toFixed(0)}%. Resources are being used efficiently.`,
-        icon: '💚',
+        category: 'planning',
+        text: `High discussion volume but low reported progress (${context.progress}%). Is the team blocked?`,
+        icon: '🤔'
       });
     }
   }
 
-  // Team collaboration insights
-  if (context.members && context.members.length > 1) {
-    insights.push({
-      category: 'social',
-      text: `${context.members.length} team members are collaborating. Strong teamwork detected!`,
-      icon: '🤝',
-    });
-  }
-
-  // Progress insights (workspace only)
-  if ('progress' in context && context.progress !== undefined) {
-    if (context.progress > 75) {
-      insights.push({
-        category: 'planning',
-        text: `Project is ${context.progress}% complete. Approaching final stages!`,
-        icon: '🎯',
-      });
-    } else if (context.progress < 25) {
-      insights.push({
-        category: 'planning',
-        text: `Project is ${context.progress}% complete. Early stages with plenty of time to refine.`,
-        icon: '🚀',
-      });
-    }
-  }
-
-  // Default insight if none generated
+  // Default Fallback
   if (insights.length === 0) {
     insights.push({
       category: 'social',
       text: room
-        ? `Room "${room.title}" is set up and ready for collaboration. Start chatting to generate more insights!`
-        : `Workspace "${workspace.title}" is active. Keep the momentum going!`,
+        ? `Room "${room.title}" is quiet. Start a conversation to generate insights!`
+        : `Workspace "${workspace.title}" is on track. No critical anomalies detected.`,
       icon: '✨',
     });
   }

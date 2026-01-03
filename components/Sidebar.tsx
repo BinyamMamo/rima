@@ -125,7 +125,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     <span className="truncate">{room.title}</span>
                   </div>
 
-                  {(room.unreadCount && room.unreadCount > 0.0) ? (
+                  {(room.unreadCount && room.unreadCount > 0) ? (
                     <span className="min-w-[1.25rem] h-5 px-1 rounded-full bg-[var(--primary)] text-white text-[10px] font-bold flex items-center justify-center">
                       {room.unreadCount}
                     </span>

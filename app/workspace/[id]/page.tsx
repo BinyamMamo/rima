@@ -25,7 +25,7 @@ const DashboardIcon = () => (
 
 export default function WorkspacePage() {
   const { user, isLoading: authLoading } = useAuth();
-  const { workspaces, addMessage, deleteWorkspace } = useWorkspaceData();
+  const { workspaces, addMessage, deleteWorkspace, updateWorkspace, systemUsers } = useWorkspaceData();
   const router = useRouter();
   const params = useParams();
   const workspaceId = params.id as string;
@@ -79,6 +79,9 @@ export default function WorkspacePage() {
   const handleSendMessage = async (content: string) => {
     if (!workspace || !user) return;
 
+    // Check if Rima is mentioned
+    const mentionsRima = content.toLowerCase().includes('@rima');
+
     // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -88,20 +91,85 @@ export default function WorkspacePage() {
     };
     addMessage(workspace.id, userMessage);
 
-    // Simulate Rima typing and response
-    setIsRimaTyping(true);
+    // If Rima is mentioned, process commands
+    if (mentionsRima) {
+      setIsRimaTyping(true);
+      const lowerContent = content.toLowerCase();
 
-    // Simulate network delay
-    setTimeout(() => {
-      const rimaMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: `I've received your message about "${workspace.title}". I'm analyzing the context and will help you with that.`,
-        sender: 'Rima',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      };
-      addMessage(workspace.id, rimaMessage);
-      setIsRimaTyping(false);
-    }, 1500);
+      // Simulate "thinking" time
+      setTimeout(async () => {
+        let rimaResponseContent = "I heard you, but I'm not sure how to help with that yet.";
+        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        let actionExecuted = false;
+
+        // --- COMMAND: CREATE ROOM ---
+        if (lowerContent.includes('create room') || lowerContent.includes('create channel')) {
+          const match = content.match(/create (?:room|channel) (.+)/i);
+          let newRoomTitle = match ? match[1].replace(/\b(?:called|named)\b/gi, '').trim() : 'New Room';
+          newRoomTitle = newRoomTitle.replace(/[.,?!]/g, '');
+
+          if (newRoomTitle) {
+            const newRoomId = `c_${Date.now()}`;
+            const newRoomObject = {
+              id: newRoomId,
+              title: newRoomTitle,
+              members: [user],
+              messages: [],
+              unreadCount: 0
+            };
+
+            const updatedRooms = [...workspace.rooms, newRoomObject];
+            updateWorkspace(workspace.id, { rooms: updatedRooms });
+
+            rimaResponseContent = `I've created the room "#${newRoomTitle}" for you.`;
+            actionExecuted = true;
+          }
+        }
+
+        // --- COMMAND: ADD MEMBER ---
+        else if (lowerContent.includes('add member') || lowerContent.includes('add user') || (lowerContent.includes('add') && !lowerContent.includes('task'))) {
+          const targetName = systemUsers.find(u => lowerContent.includes(u.name.toLowerCase()));
+
+          if (targetName) {
+            if (workspace.members.some(m => m.id === targetName.id)) {
+              rimaResponseContent = `${targetName.name} is already a member of this workspace.`;
+            } else {
+              const updatedMembers = [...workspace.members, targetName];
+              updateWorkspace(workspace.id, { members: updatedMembers });
+              rimaResponseContent = `I've added ${targetName.name} to the workspace.`;
+            }
+            actionExecuted = true;
+          } else {
+            rimaResponseContent = "Who would you like me to add? Please specify a known system user (e.g., Maryam, Noora, Omar).";
+          }
+        }
+
+        // --- COMMAND: SUMMARIZE ---
+        else if (lowerContent.includes('summarize') || lowerContent.includes('summary') || lowerContent.includes('recap')) {
+          const recentMsgs = workspace.messages.slice(-5).map(m => m.content).join(' ');
+          rimaResponseContent = `Here is a summary of the workspace activity: ${recentMsgs.substring(0, 100)}... (Mock Summary)`;
+          actionExecuted = true;
+        }
+
+        // Default Intelligent Response
+        if (!actionExecuted) {
+          if (lowerContent.includes('hello') || lowerContent.includes('hi')) {
+            rimaResponseContent = `Hello ${user.name}! I'm Rima, your AI project manager for "${workspace.title}".`;
+          } else {
+            rimaResponseContent = `I'm analyzing your request regarding "${workspace.title}". I can help you **create rooms**, **add members**, or **generate reports**.`;
+          }
+        }
+
+        const rimaMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          content: rimaResponseContent,
+          sender: 'Rima',
+          timestamp
+        };
+        addMessage(workspace.id, rimaMessage);
+        setIsRimaTyping(false);
+      }, 1500);
+    }
   };
 
   const handleVoiceToggle = () => {

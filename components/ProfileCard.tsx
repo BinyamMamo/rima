@@ -16,7 +16,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, onClose }) => {
     <div className="fixed inset-0 z-[110] flex items-center justify-center px-6 animate-fade-in">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative w-full max-w-sm glass rounded-[32px] overflow-hidden animate-slide-up shadow-2xl border border-[var(--border-subtle)] bg-white">
+      <div className="relative w-full max-w-sm glass rounded-[32px] overflow-hidden animate-slide-up shadow-2xl border border-[var(--border-subtle)] bg-[var(--bg-card)]">
         {/* Header/Status */}
         <div className="flex items-start justify-between p-4 relative">
           <div className='flex items-center gap-4'>
@@ -34,7 +34,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, onClose }) => {
 
           <button
             onClick={onClose}
-            className="p-2 bg-white/10 hover:bg-white/20 rounded-xl transition-colors text-[var(--text-primary)]"
+            className="p-2 bg-[var(--text-primary)]/10 hover:bg-[var(--text-primary)]/20 rounded-xl transition-colors text-[var(--text-primary)]"
           >
             <X size={20} weight="bold" />
           </button>

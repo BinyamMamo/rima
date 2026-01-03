@@ -1,7 +1,7 @@
 {
-  "name": "RIMA - Personal Universe",
+  "name": "RIMA",
   "short_name": "RIMA",
-  "description": "An immersive cosmic productivity universe powered by Rima AI",
+  "description": "AI-powered productivity workspace.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0B0E14",
@@ -10,7 +10,11 @@
   "scope": "/",
   "lang": "en",
   "dir": "ltr",
-  "categories": ["productivity", "business", "utilities"],
+  "categories": [
+    "productivity",
+    "business",
+    "utilities"
+  ],
   "icons": [
     {
       "src": "/icons/icon-72x72.png",
