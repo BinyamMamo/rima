@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, House, PlusCircle, CaretRight, Folders, Briefcase, User, GraduationCap, UsersThree, Lock, Plus, Hash } from '@phosphor-icons/react';
+import { X, House, PlusCircle, CaretRight, Folders, Briefcase, User, GraduationCap, UsersThree, Lock, Plus, Hash, Sun, Moon, Gear } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import Logo from './Logo';
 import { Workspace } from '@/types';
 import { PROFILES } from '@/constants';
-import { useWorkspaceData, useAuth } from '@/contexts';
+import { useWorkspaceData, useAuth, useTheme } from '@/contexts';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -21,6 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const router = useRouter();
   const { user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const { workspaces, activeProfileId, setActiveProfileId, profiles } = useWorkspaceData();
   const [expandedWorkspaces, setExpandedWorkspaces] = useState<Set<string>>(() => {
     const initial = new Set<string>();
@@ -255,18 +256,26 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <span className="text-[10px] text-[var(--primary)] font-black uppercase tracking-widest">{(user as any)?.role || 'Member'}</span>
               </div>
             </div>
-            <button
-              onClick={() => {
-                router.push('/settings');
-                onClose();
-              }}
-              className="p-2 rounded-xl text-[var(--text-secondary)] hover:bg-[var(--primary)] hover:text-white transition-all"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-            </button>
+
+            <div className="flex items-center gap-1">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-xl text-[var(--text-secondary)] hover:bg-[var(--primary)] hover:text-white transition-all"
+                title="Toggle Theme"
+              >
+                {theme === 'dark' ? <Moon size={20} weight="fill" /> : <Sun size={20} weight="fill" />}
+              </button>
+              <button
+                onClick={() => {
+                  router.push('/settings');
+                  onClose();
+                }}
+                className="p-2 rounded-xl text-[var(--text-secondary)] hover:bg-[var(--primary)] hover:text-white transition-all"
+                title="Settings"
+              >
+                <Gear size={20} weight="fill" />
+              </button>
+            </div>
           </div>
         </div>
       </div>

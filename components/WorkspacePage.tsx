@@ -60,12 +60,25 @@ export default function WorkspacePage({
 
             <div className="flex-1 overflow-y-auto px-6 py-8 space-y-6 scrollbar-hide pb-40">
                 {workspace.messages.length === 0 && (
-                    <div className="h-full flex flex-col items-center justify-center opacity-30 text-center px-12 animate-fade-in">
-                        <div className="w-20 h-20 bg-[var(--primary)]/10 rounded-[32px] flex items-center justify-center mb-6">
-                            <Sparkle size={32} weight="fill" className="text-[var(--primary)]" />
+                    <div className="h-full flex flex-col items-center justify-center text-center px-8 animate-fade-in space-y-6">
+                        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center shadow-2xl shadow-[var(--primary)]/20 animate-fade-in ring-4 ring-[var(--bg-app)]">
+                            <Sparkle size={48} weight="fill" className="text-white" />
                         </div>
-                        <h3 className="text-2xl font-bold mb-3 tracking-tight">System Ready</h3>
-                        <p className="text-sm font-medium max-w-xs leading-relaxed">Type or speak to Rima. Your team is ready to assist.</p>
+                        <div className="space-y-2 max-w-md">
+                            <h3 className="text-2xl font-bold text-[var(--text-primary)]">Welcome to {workspace.title}</h3>
+                            <p className="text-[var(--text-secondary)] text-base leading-relaxed">
+                                I&apos;m <span className="font-bold text-[var(--primary)]">Rima</span>, your AI project manager.
+                                I&apos;m here to help you coordinate tasks, analyze data, and keep your team aligned.
+                            </p>
+                        </div>
+                        <div className="flex flex-wrap items-center justify-center gap-2 max-w-sm opacity-60">
+                            <div className="px-4 py-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-xs font-bold text-[var(--text-secondary)]">
+                                &quot;What are the deadlines?&quot;
+                            </div>
+                            <div className="px-4 py-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-xs font-bold text-[var(--text-secondary)]">
+                                &quot;Create a task&quot;
+                            </div>
+                        </div>
                     </div>
                 )}
 

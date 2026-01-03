@@ -2,22 +2,9 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { FileText, CaretLeft, DotsThreeVertical, PencilSimple, Trash, Plus, Sparkle, ChatText } from '@phosphor-icons/react';
+import { FileText, CaretLeft, DotsThreeVertical, PencilSimple, Trash, Plus, Sparkle, ChatText, FolderPlus, List } from '@phosphor-icons/react';
 import { generateRimaInsights } from '@/lib/dashboardPresets';
 import { Insight } from '@/types';
-
-// ... (existing imports, useAuth, useWorkspaceData, etc. maintained outside this block if they were there, 
-// checking file... Imports are at the top. I need to make sure I don't break them. 
-// Detailed instruction: I will use REPLACE on the component body mostly, and adds imports at the top using separate tool call if needed or include in large block? 
-// The file is small enough (194 lines), I can do a large replacement or targeted. Targeted is safer.
-
-// I will split this into: 
-// 1. Add imports (List, ChatText etc are already there, need others)
-// 2. Add state and handlers
-// 3. Update Header JSX
-// 4. Update DashboardView props
-
-// Let's do imports first via Replace.
 
 import { useAuth, useWorkspaceData } from '@/contexts';
 import { Message } from '@/types';
@@ -28,7 +15,7 @@ import WorkspaceDashboardView from '@/components/WorkspaceDashboardView';
 import ChatInput from '@/components/ChatInput';
 import InviteModal from '@/components/InviteModal';
 import ConfirmModal from '@/components/ConfirmModal';
-import { FolderPlus, List } from 'lucide-react';
+import VoiceOverlay from '@/components/VoiceOverlay';
 
 const DashboardIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
@@ -38,7 +25,7 @@ const DashboardIcon = () => (
 
 export default function WorkspacePage() {
   const { user, isLoading: authLoading } = useAuth();
-  const { workspaces, addMessage } = useWorkspaceData();
+  const { workspaces, addMessage, deleteWorkspace } = useWorkspaceData();
   const router = useRouter();
   const params = useParams();
   const workspaceId = params.id as string;
@@ -52,16 +39,17 @@ export default function WorkspacePage() {
   const [rimaInsights, setRimaInsights] = useState<Insight[]>([]);
   const [isGeneratingInsights, setIsGeneratingInsights] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false); // New State
+  const [showVoiceOverlay, setShowVoiceOverlay] = useState(false);
 
   const workspace = workspaces.find((p) => p.id === workspaceId);
 
   // ... (useEffect and other handlers)
 
   const handleDeleteWorkspace = () => {
-    // Logic executed AFTER confirmation
-    // TODO: Implement actual deletion context method if available
-    console.log('Deleting workspace:', workspace?.id);
-    router.push('/dashboard');
+    if (workspace) {
+      deleteWorkspace(workspace.id);
+      router.push('/dashboard'); // Or home
+    }
   };
 
   // Update the menu button to just open the modal
@@ -117,8 +105,7 @@ export default function WorkspacePage() {
   };
 
   const handleVoiceToggle = () => {
-    // TODO: Implement voice mode
-    console.log('Voice mode toggled');
+    setShowVoiceOverlay(true);
   };
 
   const handleInvitePeople = () => {
@@ -310,6 +297,8 @@ export default function WorkspacePage() {
               setIsEditing={setIsEditing}
               rimaInsights={rimaInsights}
               setRimaInsights={setRimaInsights}
+              onGenerateInsights={handleGenerateInsights}
+              isGeneratingInsights={isGeneratingInsights}
             />
           </div>
         </div>
@@ -321,6 +310,7 @@ export default function WorkspacePage() {
               onVoiceToggle={handleVoiceToggle}
               onSendMessage={handleSendMessage}
               placeholder={`Message ${workspace.title}...`}
+              members={workspace.members}
             />
           </div>
         )}
@@ -340,6 +330,9 @@ export default function WorkspacePage() {
           isDestructive={true}
           confirmText="Delete Workspace"
         />
+
+        {/* Voice Overlay */}
+        <VoiceOverlay isOpen={showVoiceOverlay} onClose={() => setShowVoiceOverlay(false)} />
       </div>
     </>
   );

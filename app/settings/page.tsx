@@ -1,32 +1,34 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { List, CaretLeft, Moon, Sun, User as UserIcon, Info, SignOut } from '@phosphor-icons/react';
+import EditProfileModal from '@/components/EditProfileModal';
 import { useAuth, useUI } from '@/contexts';
+import { CaretLeft, Info, Moon, SignOut, Sun, User as UserIcon } from '@phosphor-icons/react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import Background from '@/components/Background';
-import Sidebar from '@/components/Sidebar';
-import { Edit2Icon, Edit3Icon } from 'lucide-react';
+import { Edit3Icon } from 'lucide-react';
 
 export default function SettingsPage() {
-  const { user, isLoading: authLoading, signOut } = useAuth();
+  const { user, isLoading: authLoading, signOut, updateProfile } = useAuth();
   const { darkMode, toggleDarkMode } = useUI();
   const router = useRouter();
-  const [displayName, setDisplayName] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
       router.push('/welcome');
     }
-    if (user) {
-      setDisplayName(user.name);
-    }
   }, [user, authLoading, router]);
 
-  const handleSaveName = () => {
-    // TODO: Update user name in DataContext (Actual backend integration needed)
-    setIsEditing(false);
+  const handleSaveProfile = async (updatedUser: any) => {
+    try {
+      if (updateProfile) {
+        await updateProfile(updatedUser);
+      }
+      setIsEditingProfile(false);
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+    }
   };
 
   const handleLogout = () => {
@@ -44,9 +46,18 @@ export default function SettingsPage() {
     );
   }
 
+  if (!user) return null;
+
   return (
     <>
       <Background />
+
+      <EditProfileModal
+        isOpen={isEditingProfile}
+        onClose={() => setIsEditingProfile(false)}
+        user={user!}
+        onSave={handleSaveProfile}
+      />
 
       <div className="relative z-10 h-screen flex flex-col overflow-hidden bg-app/50 backdrop-blur-sm">
         {/* Header */}
@@ -71,33 +82,30 @@ export default function SettingsPage() {
           <div className="space-y-4">
             {/* Profile Card */}
             <div className="flex flex-col items-center gap-4 py-6">
-              <div className={`relative w-24 h-24 rounded-full ${user?.avatarColor || 'bg-[var(--primary)]'} flex items-center justify-center text-primary dark:text-white text-4xl font-bold shadow border-4 border-surface`}>
+              <div
+                onClick={() => setIsEditingProfile(true)}
+                className={`relative w-24 h-24 rounded-full ${user?.avatarColor || 'bg-[var(--primary)]'} flex items-center justify-center text-primary dark:text-white text-4xl font-bold shadow border-4 border-surface cursor-pointer group hover:scale-105 transition-transform`}
+              >
                 {user?.name.slice(0, 2) || 'U'}
-                <div className="absolute bottom-0 right-0 p-2 bg-surface rounded-full shadow-md border border-subtle text-primary cursor-pointer hover:scale-110 transition-transform">
+                <div className="absolute bottom-0 right-0 p-2 bg-surface rounded-full shadow-md border border-subtle text-primary group-hover:scale-110 transition-transform">
                   <Edit3Icon size={16} weight="bold" />
                 </div>
               </div>
 
               <div className="flex-1 min-w-0 w-full max-w-xs flex flex-col items-center gap-1">
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={displayName}
-                    onChange={(e) => setDisplayName(e.target.value)}
-                    className="w-full text-center text-xl font-bold bg-transparent border-b-2 border-[var(--primary)] focus:outline-none text-primary pb-1"
-                    autoFocus
-                    onBlur={handleSaveName}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSaveName()}
-                  />
-                ) : (
-                  <h2
-                    onClick={() => setIsEditing(true)}
-                    className="text-2xl font-bold text-primary cursor-pointer hover:opacity-80 truncate w-full text-center"
-                  >
-                    {displayName}
-                  </h2>
-                )}
+                <h2
+                  onClick={() => setIsEditingProfile(true)}
+                  className="text-2xl font-bold text-primary cursor-pointer hover:opacity-80 truncate w-full text-center"
+                >
+                  {user?.name}
+                </h2>
                 <p className="text-secondary text-sm">{user?.email || 'No email'}</p>
+                <button
+                  onClick={() => setIsEditingProfile(true)}
+                  className="mt-2 text-xs font-bold text-[var(--primary)] bg-[var(--primary)]/10 px-3 py-1 rounded-full hover:bg-[var(--primary)]/20 transition-colors"
+                >
+                  Edit Profile
+                </button>
               </div>
             </div>
           </div>
@@ -109,8 +117,9 @@ export default function SettingsPage() {
             <div className="grid grid-cols-2 gap-4">
               {/* Light Mode Card */}
               <button
-                onClick={() => !darkMode || toggleDarkMode()}
-                className={`group relative flex flex-col items-center gap-3 p-4 rounded-2xl border-2 transition-all duration-300 ${!darkMode ? 'border-[var(--primary)] bg-[var(--primary)]/5' : 'border-subtle bg-surface/50 hover:bg-surface/80'}`}
+                onClick={() => darkMode && toggleDarkMode()} // Only toggle if not already light
+                disabled={!darkMode}
+                className={`group relative flex flex-col items-center gap-3 p-4 rounded-2xl border-2 transition-all duration-300 ${!darkMode ? 'border-[var(--primary)] bg-[var(--primary)]/5 ring-2 ring-[var(--primary)]/20 shadow-lg' : 'border-subtle bg-surface/50 hover:bg-surface/80 opacity-60 hover:opacity-100'}`}
               >
                 <div className="relative w-full aspect-video bg-gray-100 rounded-xl overflow-hidden shadow-inner border border-gray-200">
                   {/* UI Mockup Light */}
@@ -125,8 +134,9 @@ export default function SettingsPage() {
 
               {/* Dark Mode Card */}
               <button
-                onClick={() => darkMode || toggleDarkMode()}
-                className={`group relative flex flex-col items-center gap-3 p-4 rounded-2xl border-2 transition-all duration-300 ${darkMode ? 'border-[var(--primary)] bg-[var(--primary)]/5' : 'border-subtle bg-surface/50 hover:bg-surface/80'}`}
+                onClick={() => !darkMode && toggleDarkMode()} // Only toggle if not already dark
+                disabled={darkMode}
+                className={`group relative flex flex-col items-center gap-3 p-4 rounded-2xl border-2 transition-all duration-300 ${darkMode ? 'border-[var(--primary)] bg-[var(--primary)]/5 ring-2 ring-[var(--primary)]/20 shadow-lg' : 'border-subtle bg-surface/50 hover:bg-surface/80 opacity-60 hover:opacity-100'}`}
               >
                 <div className="relative w-full aspect-video bg-gray-900 rounded-xl overflow-hidden shadow-inner border border-gray-800">
                   {/* UI Mockup Dark */}
@@ -144,10 +154,10 @@ export default function SettingsPage() {
           {/* Section: Settings List */}
           <div className="space-y-3">
             <h3 className="text-sm font-bold text-secondary uppercase tracking-wider px-1">More</h3>
-            <div className="bg-surface/30 backdrop-blur-md rounded-2xl overflow-hidden border border-subtle divide-y divide-subtle/50">
+            <div className="bg-surface/30 backdrop-blur-md rounded-2xl overflow-hidden border border-subtle">
 
               {/* About Item */}
-              <div className="p-4 flex items-center justify-between cursor-pointer hover:bg-surface/50 transition-colors group">
+              <div className="p-4 flex items-center justify-between cursor-pointer hover:bg-surface/50 transition-colors group  border-b border-subtle">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-blue-500/10 text-blue-500 rounded-lg group-hover:scale-110 transition-transform">
                     <Info size={20} weight="fill" />

@@ -219,6 +219,31 @@ export function DataProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const updateProfile = (updates: Partial<User>) => {
+    // In a real app, this would update the auth user profile in the backend
+    // Since we are using a mock User object from AuthContext which is often derived or static in this demo:
+
+    // We can't directly update the 'user' object from useAuth() here as it comes from AuthContext.
+    // However, for this prototype, if the user updates their profile in DataContext, 
+    // we should probably expose a method in AuthContext to update the local user state.
+
+    // BUT, the request is to make it work. 
+    // Let's assume there is a setSystemUsers or similar if we were editing system users, 
+    // but we are editing the CURRENT LOGGED IN USER.
+
+    // The clean way: Calling updateProfile on AuthContext. 
+    // But since I'm in DataContext, I should probably just provide this function 
+    // and let it call a method I'll add to AuthContext? 
+    // OR, I can just update the local storage 'rima_user' if that's how it persists.
+
+    // Let's check AuthContext. 
+    // For now, I will implement a placeholder that logs it, but the real fix needs to be in AuthContext probably.
+    // Wait, the user said "profile isn't updating". The `user` object comes from `useAuth`.
+    // So I need to update `useAuth`'s state. 
+    // I will add `updateUser` to `AuthContext` instead of here, or bridge it.
+    // Actually, let's look at AuthContext first before committing this implementation.
+  };
+
   const value: DataContextType = {
     workspaces,
     profiles,

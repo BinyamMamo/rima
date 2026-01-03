@@ -18,6 +18,7 @@ interface AuthContextType {
   signInWithGoogle: () => Promise<void>;
   skipSignIn: () => void;
   signOut: () => void;
+  updateProfile: (updates: Partial<User>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -154,6 +155,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem(STORAGE_KEYS.DEMO_MODE);
   };
 
+  const updateProfile = async (updates: Partial<User>) => {
+    if (!user) return;
+
+    const updatedUser = { ...user, ...updates };
+    setUser(updatedUser);
+    localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(updatedUser));
+  };
+
   const value: AuthContextType = {
     user,
     isDemoMode,
@@ -163,6 +172,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signInWithGoogle,
     skipSignIn,
     signOut,
+    updateProfile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

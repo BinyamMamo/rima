@@ -14,6 +14,7 @@ import InviteModal from '@/components/InviteModal';
 import ProfileCard from '@/components/ProfileCard';
 import ConfirmModal from '@/components/ConfirmModal';
 import MessageBubble from '@/components/MessageBubble';
+import VoiceOverlay from '@/components/VoiceOverlay';
 
 const DashboardIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
@@ -41,25 +42,17 @@ export default function RoomPage() {
     // New State for Menu/Editing
     const [showMenu, setShowMenu] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false); // New
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [showVoiceOverlay, setShowVoiceOverlay] = useState(false);
+
 
     const workspace = workspaces.find((p) => p.id === workspaceId);
     const room = workspace?.rooms.find((c) => c.id === roomId);
 
     const handleDeleteRoom = () => {
         if (!workspace || !room) return;
-        if (confirm(`Are you sure you want to delete room "${room.title}"?`)) {
-            // deleteRoom logic
-            // Assuming deleteRoom is available or we use updateWorkspace
-            // Actually, page DOES NOT have deleteRoom destructured from useWorkspaceData yet.
-            // I need to update the destructuring below or here.
-            // Let's rely on adding it to the destructuring line in another step or assume it is there?
-            // No, I must check if it is there. It is NOT in lines 24.
-            // I will fix destructuring in another step or assume I can do it here if I replace lines 24?
-            // Line 24: const { workspaces, addRoomMessage, updateRoom } = useWorkspaceData();
-            // I will replace line 24 separately or assume I can use `updateRoom` to "delete" (not really).
-            // I should add deleteRoom to line 24.
-        }
+        deleteRoom(workspace.id, room.id);
+        router.push(`/workspace/${workspace.id}`);
     };
 
     const handleSaveRoom = (title: string, description: string) => {
@@ -307,6 +300,27 @@ export default function RoomPage() {
                             }`}
                     >
                         <div className="flex-1 overflow-y-auto px-6 py-8 space-y-6 scrollbar-hide pb-32 h-full">
+                            {/* Rima Welcome - Empty State */}
+                            {room.messages.length === 0 && (
+                                <div className="h-full flex flex-col items-center justify-center text-center px-8 animate-fade-in space-y-6">
+                                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[var(--primary)] to-purple-600 flex items-center justify-center shadow-2xl shadow-[var(--primary)]/20 animate-fade-in ring-4 ring-[var(--bg-app)]">
+                                        <Sparkle size={48} weight="fill" className="text-white" />
+                                    </div>
+                                    <div className="space-y-2 max-w-md">
+                                        <h3 className="text-2xl font-bold text-[var(--text-primary)]">Welcome to #{room.title}</h3>
+                                        <p className="text-[var(--text-secondary)] text-base leading-relaxed">
+                                            I'm <span className="font-bold text-[var(--primary)]">Rima</span>.
+                                            This room is ready for collaboration. Direct message me or tag @Rima for help.
+                                        </p>
+                                    </div>
+                                    <div className="flex flex-wrap items-center justify-center gap-2 max-w-sm opacity-60">
+                                        <div className="px-4 py-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-xs font-bold text-[var(--text-secondary)]">
+                                            "@Rima summarize this room"
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
                             {room.messages.map((msg, idx) => {
                                 const isSelf = msg.sender !== 'Rima' && (msg.sender as User).id === user?.id;
                                 const isRima = msg.sender === 'Rima';
@@ -392,13 +406,17 @@ export default function RoomPage() {
                 {viewMode === 'chat' && (
                     <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 w-full px-6 pointer-events-none">
                         <ChatInput
-                            onVoiceToggle={() => { }}
+                            onVoiceToggle={() => setShowVoiceOverlay(true)}
                             onSendMessage={handleSendMessage}
                             placeholder={`Message ${room.isPrivate ? '' : '#'}${room.title}...`}
+                            members={room.members}
                         />
                     </div>
                 )}
             </div>
+
+            {/* Voice Overlay */}
+            <VoiceOverlay isOpen={showVoiceOverlay} onClose={() => setShowVoiceOverlay(false)} />
 
             {/* Profile Modal */}
             {selectedProfileUser && (

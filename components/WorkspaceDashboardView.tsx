@@ -12,6 +12,8 @@ interface WorkspaceDashboardViewProps {
     setIsEditing: (isEditing: boolean) => void;
     rimaInsights: Insight[];
     setRimaInsights: (insights: Insight[]) => void;
+    onGenerateInsights: () => void;
+    isGeneratingInsights: boolean;
 }
 
 const WorkspaceDashboardView: React.FC<WorkspaceDashboardViewProps> = ({
@@ -19,7 +21,9 @@ const WorkspaceDashboardView: React.FC<WorkspaceDashboardViewProps> = ({
     isEditing,
     setIsEditing,
     rimaInsights,
-    setRimaInsights
+    setRimaInsights,
+    onGenerateInsights,
+    isGeneratingInsights
 }) => {
     const router = useRouter();
     const { updateWorkspace, deleteWorkspace, deleteRoom } = useWorkspaceData();
@@ -28,13 +32,13 @@ const WorkspaceDashboardView: React.FC<WorkspaceDashboardViewProps> = ({
     const [workspaceTitle, setWorkspaceTitle] = useState(workspace.title);
     const [workspaceDescription, setWorkspaceDescription] = useState(workspace.description);
     // rimaInsights lifted
-    // isGeneratingInsights managed by parent or here? 
-    // Actually, distinct generation logic might stay here if triggered via prop ref? 
+    // isGeneratingInsights managed by parent or here?
+    // Actually, distinct generation logic might stay here if triggered via prop ref?
     // Or cleaner: Parent handles generation logic? Parent doesn't have `generateRimaInsights` import yet.
     // Let's keep generation logic here but triggered? No, User wants button in Navbar.
-    // So Parent MUST have generation logic. 
+    // So Parent MUST have generation logic.
     // I will remove `isGeneratingInsights` and `handleGenerateInsights` from here and expect parent to handle it.
-    // Parent passes `rimaInsights`. 
+    // Parent passes `rimaInsights`.
 
     const [extractedTasks, setExtractedTasks] = useState<any[]>([]);
 
@@ -164,7 +168,14 @@ const WorkspaceDashboardView: React.FC<WorkspaceDashboardViewProps> = ({
                 ) : (
                     <div className="p-12 rounded-3xl bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center">
                         <Sparkle size={48} weight="fill" className="text-[var(--text-muted)] mx-auto mb-4" />
-                        <p className="text-[var(--text-secondary)]">Click &quot;Generate Insights&quot; to let RIMA analyze this workspace</p>
+                        <p className="text-[var(--text-secondary)] mb-4">Click below to let RIMA analyze this workspace</p>
+                        <button
+                            onClick={onGenerateInsights}
+                            disabled={isGeneratingInsights}
+                            className="px-6 py-3 bg-[var(--primary)] text-white rounded-xl font-bold hover:brightness-110 transition-all disabled:opacity-50"
+                        >
+                            {isGeneratingInsights ? 'Generating...' : 'Generate Insights'}
+                        </button>
                     </div>
                 )}
             </div>

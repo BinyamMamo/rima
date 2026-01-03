@@ -109,7 +109,7 @@ const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
         <div className="pt-5 border-t border-subtle flex items-center justify-between">
           <div className="flex items-center gap-2.5 text-secondary">
             <Clock size={18} weight="bold" />
-            <span className="text-xs font-bold">{workspace.deadline || 'Updated recently'}</span>
+            <span className="text-xs font-bold">{workspace.lastActivity || workspace.deadline || 'Updated recently'}</span>
           </div>
 
           <div className="flex items-center gap-4">

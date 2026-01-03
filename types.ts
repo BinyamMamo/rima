@@ -7,6 +7,7 @@ export interface User {
   id: string;
   name: string;
   avatarColor: string;
+  email?: string;
   role?: string;
   status?: 'active' | 'away' | 'offline';
   recentActivity?: string;

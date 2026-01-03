@@ -1,19 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { PaperPlaneRight, Waveform, Sparkle, At } from '@phosphor-icons/react';
 
+import { User } from '@/types';
+
 interface ChatInputProps {
   onVoiceToggle: () => void;
   onSendMessage: (content: string) => void;
   placeholder?: string;
+  members?: User[];
 }
 
-const users = [
-  { id: 'rima', display: 'Rima' },
-  { id: 'jane', display: 'Jane' }, // Example users
-  { id: 'alex', display: 'Alex' }
-];
+const RIMA_USER = { id: 'rima', name: 'Rima', avatarColor: 'bg-primary' };
 
-const ChatInput: React.FC<ChatInputProps> = ({ onVoiceToggle, onSendMessage, placeholder = "Talk to Rima..." }) => {
+const ChatInput: React.FC<ChatInputProps> = ({
+  onVoiceToggle,
+  onSendMessage,
+  placeholder = "Talk to Rima...",
+  members = []
+}) => {
+  const users = [RIMA_USER, ...members.map(m => ({ id: m.id, name: m.name, display: m.name }))];
+
   const [inputValue, setInputValue] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [cursorPosition, setCursorPosition] = useState(0);
@@ -75,7 +81,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onVoiceToggle, onSendMessage, pla
       e.preventDefault();
       if (showSuggestions) {
         // If suggestions open, select first (simplified)
-        insertMention(users[0].display);
+        insertMention(users[0].name);
       } else {
         handleAction();
       }
@@ -93,7 +99,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onVoiceToggle, onSendMessage, pla
   };
 
   const query = getQuery();
-  const filteredUsers = users.filter(u => u.display.toLowerCase().startsWith(query));
+  const filteredUsers = users.filter(u => u.name.toLowerCase().startsWith(query));
 
   return (
     <div className="w-full relative group pointer-events-auto max-w-lg mx-auto">
@@ -103,13 +109,13 @@ const ChatInput: React.FC<ChatInputProps> = ({ onVoiceToggle, onSendMessage, pla
           {filteredUsers.map(user => (
             <button
               key={user.id}
-              onClick={() => insertMention(user.display)}
+              onClick={() => insertMention(user.name)}
               className="w-full text-left px-4 py-3 hover:bg-[var(--primary)] hover:text-white transition-colors flex items-center gap-2 text-sm font-medium text-[var(--text-primary)]"
             >
               <div className="w-5 h-5 rounded-full bg-current opacity-20 flex items-center justify-center">
                 <At weight="bold" size={12} />
               </div>
-              {user.display}
+              {user.name}
             </button>
           ))}
         </div>

@@ -46,6 +46,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
     messages: [
       createMsg(SYSTEM_USERS[0], "Feeling a bit drained today, but sleep was okay.", 120),
     ],
+    lastActivity: "Active 2h ago",
     insights: [
       { category: 'planning', text: 'Roll-up: Next doctor check-up is in 10 days.', icon: '📅' },
       { category: 'social', text: 'Pattern: Energy dips correlate with busy work cycles.', icon: '🌊' },
@@ -145,6 +146,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       createMsg(SYSTEM_USERS[0], "April Europe trip is officially happening! 🇪🇺", 120),
       createMsg(SYSTEM_USERS[1], "I'm looking at hotels for Paris now.", 45),
     ],
+    lastActivity: "Active 45m ago",
     insights: [
       { category: 'planning', text: 'Roll-up: Paris hotels being shortlisted by Maryam.', icon: '🏨' },
       { category: 'risk', text: 'Flight prices trending upwards for April 5th.', icon: '✈️' },
@@ -252,6 +254,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
     progress: 60,
     members: [SYSTEM_USERS[0]],
     messages: [],
+    lastActivity: "Active 5m ago",
     insights: [
       { category: 'planning', text: 'Omar has a busy exam week ahead.', icon: '📅' },
       { category: 'social', text: "Roll-up: Hessa's stress levels tracked as stable.", icon: '🧘' }
@@ -324,6 +327,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
     messages: [
       createMsg(SYSTEM_USERS[7], "Synthesized high-level blockers for today's review.", 5),
     ],
+    lastActivity: "Active 5m ago",
     insights: [
       { category: 'risk', text: 'Roll-up: 8-10% cost increase identified in Fabrication sub-room.', icon: '⚠️' },
       { category: 'planning', text: 'Dependency: Bathymetric survey → Reef module locations.', icon: '🔗' },
@@ -401,6 +405,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
     budget: '$50,000',
     members: [SYSTEM_USERS[0], SYSTEM_USERS[9], SYSTEM_USERS[10], SYSTEM_USERS[11]],
     messages: [],
+    lastActivity: "Active 1d ago",
     insights: [
       { category: 'planning', text: 'Dependency: Materials → Pricing → Website.', icon: '🔗' },
       { category: 'finance', text: 'Founders funding utilized: 20%.', icon: '💸' }

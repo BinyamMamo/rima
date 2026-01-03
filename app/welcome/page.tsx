@@ -37,12 +37,20 @@ export default function WelcomePage() {
     <>
       <Background />
       <div className="relative z-10 w-full h-screen flex flex-col items-center bg-transparent transition-colors duration-300 overflow-y-auto scrollbar-hide">
-        {/* Theme Toggle Button - Top Right */}
+        {/* Theme Toggle Button - Top Left */}
         <button
           onClick={toggleDarkMode}
-          className="absolute top-6 right-6 p-2.5 rounded-full bg-surface text-primary hover:scale-110 active:scale-95 transition-all z-50 shadow-sm border border-subtle"
+          className="absolute top-6 left-6 p-2.5 rounded-full bg-surface text-primary hover:scale-110 active:scale-95 transition-all z-50 shadow-sm border border-subtle"
         >
           {darkMode ? <Sun size={20} weight="bold" /> : <Moon size={20} weight="bold" />}
+        </button>
+
+        {/* Skip Button - Top Right */}
+        <button
+          onClick={handleSkip}
+          className="absolute top-6 right-6 px-4 py-2 rounded-full bg-surface/50 backdrop-blur-md border border-subtle text-sm font-bold text-primary hover:bg-surface hover:scale-105 transition-all z-50 shadow-sm"
+        >
+          Skip
         </button>
 
         {/* Branding Section - Logo center at 22-25% height */}
@@ -92,12 +100,6 @@ export default function WelcomePage() {
                 Sign up
               </button>
             </p>
-          </div>
-
-          <div className="pt-4 text-center border-t border-subtle mt-4">
-            <button onClick={handleSkip} className="text-[15px] text-secondary hover:text-[#6C30FF] font-medium transition-colors">
-              Skip and try demo →
-            </button>
           </div>
         </div>
       </div>

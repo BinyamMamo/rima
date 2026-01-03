@@ -21,9 +21,28 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
       "@/*": [
-        "./*"
+        "./app/*"
+      ],
+      "@/components/*": [
+        "./components/*"
+      ],
+      "@/contexts": [
+        "./contexts"
+      ],
+      "@/contexts/*": [
+        "./contexts/*"
+      ],
+      "@/lib/*": [
+        "./lib/*"
+      ],
+      "@/constants": [
+        "./constants.tsx"
+      ],
+      "@/types": [
+        "./types.ts"
       ]
     },
     "target": "ES2017"
@@ -35,7 +54,6 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "react-template"
+    "node_modules"
   ]
 }
