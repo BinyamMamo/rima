@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { List, Sun, Moon, UserPlus } from '@phosphor-icons/react';
+import { List, Sun, Moon, UserPlus, Info } from '@phosphor-icons/react';
 import { useAuth, useWorkspaceData, useUI } from '@/contexts';
 import Background from '@/components/Background';
 import Sidebar from '@/components/Sidebar';
 import WorkspaceCard from '@/components/WorkspaceCard';
 import ChatInput from '@/components/ChatInput';
 import InviteModal from '@/components/InviteModal';
+import TutorialOverlay from '@/components/TutorialOverlay';
 
 export default function DashboardPage() {
   const { user, isLoading: authLoading } = useAuth();
@@ -17,6 +18,7 @@ export default function DashboardPage() {
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -68,10 +70,11 @@ export default function DashboardPage() {
           </div>
 
           <button
-            onClick={() => setShowInviteModal(true)}
+            onClick={() => setShowTutorial(true)}
             className="p-3 text-secondary hover:text-primary hover:scale-110 active:scale-95 transition-all"
+            title="App Tour"
           >
-            <UserPlus size={24} weight="bold" />
+            <Info size={24} weight="bold" />
           </button>
         </div>
 
@@ -129,6 +132,9 @@ export default function DashboardPage() {
         {showInviteModal && (
           <InviteModal onClose={() => setShowInviteModal(false)} />
         )}
+
+        {/* Tutorial Overlay */}
+        <TutorialOverlay isOpen={showTutorial} onClose={() => setShowTutorial(false)} />
       </div>
     </>
   );

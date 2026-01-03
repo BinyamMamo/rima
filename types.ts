@@ -31,7 +31,7 @@ export interface Task {
   id: string;
   title: string;
   owner: string;
-  assignee?: string;  // Who's assigned (can differ from owner)
+  assignee?: string | string[];  // Who's assigned (can differ from owner)
   completed: boolean;
   dueDate: string;  // ISO date string or "Not set"
   deadline?: string;  // Original extracted text like "next Friday"

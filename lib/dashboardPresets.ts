@@ -288,29 +288,72 @@ export const generateRimaInsights = async (
 };
 
 // Extract tasks from chat messages using simple pattern matching
+// Extract tasks from chat messages using improved pattern matching
 export const extractTasksFromMessages = (messages: any[]): any[] => {
   const tasks: any[] = [];
-  const taskPatterns = [
-    /(?:todo|task|need to|must|should):\s*(.+)/gi,
-    /\[\s*\]\s*(.+)/g, // Markdown checkbox style
-    /@(\w+)\s+(?:can you|please|could you)\s+(.+)/gi,
+
+  // 1. Explicit Assignment: "@User please do X by Y" or "@User1, @User2 ..."
+  // 2. Simple Todo: "Todo: X"
+  // 3. Status updates (optional linkage, currently just extraction)
+
+  const patterns = [
+    // Pattern: Assignment with Deadline (e.g., "@Maryam please book flights due Friday")
+    // Supports: @User1 ... or @User1, @User2 ...
+    {
+      regex: /((?:@\w+(?:,?\s*)?)+)\s+(?:please|can you|need to)\s+(.+?)\s+(?:due|by)\s+([a-zA-Z0-9\s/]+)(?:$|[.!])/i,
+      handler: (match: RegExpMatchArray, msg: any) => {
+        const ownersBlock = match[1];
+        const assignees = ownersBlock.match(/@(\w+)/g)?.map(m => m.substring(1)) || [];
+        // Only unique
+        const uniqueAssignees = Array.from(new Set(assignees));
+
+        return {
+          title: match[2].trim(),
+          assignee: uniqueAssignees.length > 1 ? uniqueAssignees : uniqueAssignees[0],
+          dueDate: match[3].trim(),
+          source: 'assignment'
+        };
+      }
+    },
+    // Pattern: Explicit Task Definition
+    {
+      regex: /(?:Task|Todo):\s*(.+?)(?:$|\n)/i,
+      handler: (match: RegExpMatchArray, msg: any) => ({
+        title: match[1].trim(),
+        assignee: 'Unassigned',
+        dueDate: 'Not set',
+        source: 'todo'
+      })
+    },
+    // Pattern: Progress Update
+    {
+      regex: /(\d+)%\s+(?:done|complete|finished)/i,
+      handler: (match: RegExpMatchArray, msg: any) => ({
+        title: `Progress Update: ${match[0]}`,
+        assignee: msg.sender === 'Rima' ? 'Rima' : (msg.sender as any)?.name || 'Unknown',
+        progress: parseInt(match[1]),
+        dueDate: 'Ongoing',
+        source: 'progress'
+      })
+    }
   ];
 
   messages.forEach((msg, idx) => {
     if (typeof msg.content !== 'string') return;
 
-    taskPatterns.forEach(pattern => {
-      const matches = msg.content.matchAll(pattern);
-      for (const match of matches) {
-        const taskText = match[1] || match[2];
-        if (taskText && taskText.length > 5 && taskText.length < 100) {
+    patterns.forEach(pattern => {
+      const match = msg.content.match(pattern.regex);
+      if (match) {
+        const extracted = pattern.handler(match, msg);
+
+        // Prevent duplicates or very short matches
+        if (extracted.title.length > 3) {
           tasks.push({
             id: `extracted_${idx}_${tasks.length}`,
-            title: taskText.trim(),
-            owner: msg.sender === 'Rima' ? 'Rima' : (msg.sender as any)?.name || 'Unknown',
-            completed: false,
-            dueDate: 'Not set',
-            source: 'chat',
+            ...extracted,
+            owner: msg.sender === 'Rima' ? 'Rima' : (msg.sender as any)?.name || 'Unknown', // The person who POSTED the task/update
+            completed: false, // Default
+            originalMessageId: msg.id
           });
         }
       }

@@ -99,12 +99,12 @@ export default function EditProfileModal({ isOpen, onClose, user, onSave }: Edit
                             <label className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] block">
                                 Avatar Color
                             </label>
-                            <div className="flex flex-wrap gap-2 justify-center">
+                            <div className="flex flex-wrap gap-2 justify-center overflow-x-auto">
                                 {colors.map((color) => (
                                     <button
                                         key={color}
                                         onClick={() => setAvatarColor(color)}
-                                        className={`w-8 h-8 rounded-full ${color} transition-all hover:scale-110 ${avatarColor === color ? 'ring-2 ring-offset-2 ring-[var(--primary)] ring-offset-[var(--bg-card)] scale-110' : ''}`}
+                                        className={`w-8 h-8 rounded-full bg-[${color}] transition-all hover:scale-110 ${avatarColor === color ? 'ring-2 ring-offset-2 ring-[var(--primary)] ring-offset-[var(--bg-card)] scale-110' : ''}`}
                                     />
                                 ))}
                             </div>

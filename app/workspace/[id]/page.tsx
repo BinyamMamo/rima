@@ -95,96 +95,96 @@ export default function WorkspacePage() {
 
     // Simulate "thinking" time
     setTimeout(async () => {
-        let rimaResponseContent = "I heard you, but I'm not sure how to help with that yet.";
-        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        let actionExecuted = false;
+      let rimaResponseContent = "I heard you, but I'm not sure how to help with that yet.";
+      const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      let actionExecuted = false;
 
-        // --- COMMAND: CREATE ROOM ---
-        if (lowerContent.includes('create room') || lowerContent.includes('create channel')) {
-          const match = content.match(/create (?:room|channel) (.+)/i);
-          let newRoomTitle = match ? match[1].replace(/\b(?:called|named)\b/gi, '').trim() : 'New Room';
-          newRoomTitle = newRoomTitle.replace(/[.,?!]/g, '');
+      // --- COMMAND: CREATE ROOM ---
+      if (lowerContent.includes('create room') || lowerContent.includes('create channel')) {
+        const match = content.match(/create (?:room|channel) (.+)/i);
+        let newRoomTitle = match ? match[1].replace(/\b(?:called|named)\b/gi, '').trim() : 'New Room';
+        newRoomTitle = newRoomTitle.replace(/[.,?!]/g, '');
 
-          if (newRoomTitle) {
-            const newRoomId = `c_${Date.now()}`;
-            const newRoomObject = {
-              id: newRoomId,
-              title: newRoomTitle,
-              members: [user],
-              messages: [],
-              unreadCount: 0
-            };
+        if (newRoomTitle) {
+          const newRoomId = `c_${Date.now()}`;
+          const newRoomObject = {
+            id: newRoomId,
+            title: newRoomTitle,
+            members: [user],
+            messages: [],
+            unreadCount: 0
+          };
 
-            const updatedRooms = [...workspace.rooms, newRoomObject];
-            updateWorkspace(workspace.id, { rooms: updatedRooms });
+          const updatedRooms = [...workspace.rooms, newRoomObject];
+          updateWorkspace(workspace.id, { rooms: updatedRooms });
 
-            rimaResponseContent = `I've created the room "#${newRoomTitle}" for you.`;
-            actionExecuted = true;
-          }
-        }
-
-        // --- COMMAND: ADD MEMBER ---
-        else if (lowerContent.includes('add member') || lowerContent.includes('add user') || (lowerContent.includes('add') && !lowerContent.includes('task'))) {
-          const targetName = systemUsers.find(u => lowerContent.includes(u.name.toLowerCase()));
-
-          if (targetName) {
-            if (workspace.members.some(m => m.id === targetName.id)) {
-              rimaResponseContent = `${targetName.name} is already a member of this workspace.`;
-            } else {
-              const updatedMembers = [...workspace.members, targetName];
-              updateWorkspace(workspace.id, { members: updatedMembers });
-              rimaResponseContent = `I've added ${targetName.name} to the workspace.`;
-            }
-            actionExecuted = true;
-          } else {
-            rimaResponseContent = "Who would you like me to add? Please specify a known system user (e.g., Maryam, Noora, Omar).";
-          }
-        }
-
-        // --- COMMAND: SUMMARIZE ---
-        else if (lowerContent.includes('summarize') || lowerContent.includes('summary') || lowerContent.includes('recap')) {
-          const recentMsgs = workspace.messages.slice(-10).map(m => `${m.sender === 'Rima' ? 'You (Rima)' : (m.sender as User).name}: ${m.content}`).join('\n');
-          try {
-            const summary = await generateGeminiResponse(
-              `You are Rima, the AI project manager for "${workspace.title}". ${user.name} asked you to provide a summary. Respond directly to ${user.name} in first person, summarizing the recent conversation and any key activities or insights.`,
-              `Recent messages:\n${recentMsgs}`
-            );
-            rimaResponseContent = summary;
-          } catch (error) {
-            console.error("Summary generation failed", error);
-            rimaResponseContent = "I'm having trouble accessing my summarization features right now.";
-          }
+          rimaResponseContent = `I've created the room "#${newRoomTitle}" for you.`;
           actionExecuted = true;
         }
+      }
 
-        // Default Intelligent Response
-        if (!actionExecuted) {
-          if (lowerContent.includes('hello') || lowerContent.includes('hi')) {
-            rimaResponseContent = `Hello ${user.name}! I'm Rima, your AI project manager for "${workspace.title}".`;
+      // --- COMMAND: ADD MEMBER ---
+      else if (lowerContent.includes('add member') || lowerContent.includes('add user') || (lowerContent.includes('add') && !lowerContent.includes('task'))) {
+        const targetName = systemUsers.find(u => lowerContent.includes(u.name.toLowerCase()));
+
+        if (targetName) {
+          if (workspace.members.some(m => m.id === targetName.id)) {
+            rimaResponseContent = `${targetName.name} is already a member of this workspace.`;
           } else {
-            // Use Gemini for general chat
-            try {
-              const recentContext = workspace.messages.slice(-5).map(m => `${m.sender === 'Rima' ? 'You (Rima)' : (m.sender as User).name}: ${m.content}`).join('\n');
-              const response = await generateGeminiResponse(
-                `You are Rima, the AI project manager for "${workspace.title}". You're chatting with ${user.name}. Respond directly to them in first person as their helpful AI assistant. Be conversational, concise, and supportive.`,
-                `Recent conversation:\n${recentContext}\n\nNow ${user.name} says: ${content}`
-              );
-              rimaResponseContent = response;
-            } catch (e) {
-              rimaResponseContent = `I'm analyzing your request regarding "${workspace.title}". I can help you **create rooms**, **add members**, or **generate reports**.`;
-            }
+            const updatedMembers = [...workspace.members, targetName];
+            updateWorkspace(workspace.id, { members: updatedMembers });
+            rimaResponseContent = `I've added ${targetName.name} to the workspace.`;
+          }
+          actionExecuted = true;
+        } else {
+          rimaResponseContent = "Who would you like me to add? Please specify a known system user (e.g., Maryam, Noora, Omar).";
+        }
+      }
+
+      // --- COMMAND: SUMMARIZE ---
+      else if (lowerContent.includes('summarize') || lowerContent.includes('summary') || lowerContent.includes('recap')) {
+        const recentMsgs = workspace.messages.slice(-10).map(m => `${m.sender === 'Rima' ? 'You (Rima)' : (m.sender as User).name}: ${m.content}`).join('\n');
+        try {
+          const summary = await generateGeminiResponse(
+            `You are Rima, the AI project manager for "${workspace.title}". ${user.name} asked you to provide a summary. Respond directly to ${user.name} in first person, summarizing the recent conversation and any key activities or insights.`,
+            `Recent messages:\n${recentMsgs}`
+          );
+          rimaResponseContent = summary;
+        } catch (error) {
+          console.error("Summary generation failed", error);
+          rimaResponseContent = "I'm having trouble accessing my summarization features right now.";
+        }
+        actionExecuted = true;
+      }
+
+      // Default Intelligent Response
+      if (!actionExecuted) {
+        if (lowerContent.includes('hello') || lowerContent.includes('hi')) {
+          rimaResponseContent = `Hello ${user.name}! I'm Rima, your AI project manager for "${workspace.title}".`;
+        } else {
+          // Use Gemini for general chat
+          try {
+            const recentContext = workspace.messages.slice(-5).map(m => `${m.sender === 'Rima' ? 'You (Rima)' : (m.sender as User).name}: ${m.content}`).join('\n');
+            const response = await generateGeminiResponse(
+              `You are Rima, the AI project manager for "${workspace.title}". You're chatting with ${user.name}. Respond directly to them in first person as their helpful AI assistant. Be conversational, concise, and supportive.`,
+              `Recent conversation:\n${recentContext}\n\nNow ${user.name} says: ${content}`
+            );
+            rimaResponseContent = response;
+          } catch (e) {
+            rimaResponseContent = `I'm analyzing your request regarding "${workspace.title}". I can help you **create rooms**, **add members**, or **generate reports**.`;
           }
         }
+      }
 
-        const rimaMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          content: rimaResponseContent,
-          sender: 'Rima',
-          timestamp
-        };
-        addMessage(workspace.id, rimaMessage);
-        setIsRimaTyping(false);
-      }, 1500);
+      const rimaMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: rimaResponseContent,
+        sender: 'Rima',
+        timestamp
+      };
+      addMessage(workspace.id, rimaMessage);
+      setIsRimaTyping(false);
+    }, 1500);
   };
 
   const handleVoiceToggle = () => {

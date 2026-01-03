@@ -9,6 +9,7 @@ import {
 } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import { useWorkspaceData } from '@/contexts';
+import { useStore } from '@/lib/store';
 import { getRelevantPresets, generateRimaInsights, extractTasksFromMessages } from '@/lib/dashboardPresets';
 
 // Icon mapping function
@@ -89,7 +90,15 @@ const WorkspaceDashboardView: React.FC<WorkspaceDashboardViewProps> = ({
         ];
         const tasks = extractTasksFromMessages(allMessages);
         setExtractedTasks(tasks);
-    }, [workspace]);
+
+        // Sync to Store to enable persistence of status
+        // Only if different length or naive check? For now, always ensure populated to allow completion toggling
+        if (tasks.length > 0) {
+            import('@/lib/store').then(({ useStore }) => {
+                useStore.getState().setWorkspaceTasks(workspace.id, tasks);
+            });
+        }
+    }, [workspace.messages, workspace.rooms]); // Triggers when messages update
 
     // Get relevant presets for this workspace
     const relevantPresets = getRelevantPresets(workspace);
@@ -209,20 +218,70 @@ const WorkspaceDashboardView: React.FC<WorkspaceDashboardViewProps> = ({
                 )}
             </div>
 
-            {/* Extracted Tasks from Conversations */}
-            {extractedTasks.length > 0 && (
+            {/* Extracted Tasks from Conversations - Synced with Store */}
+            {(workspace.tasks?.length ? workspace.tasks : extractedTasks).length > 0 && (
                 <div className="space-y-4">
                     <h3 className="text-xl font-bold text-[var(--text-primary)]">Tasks from Conversations</h3>
-                    <div className="space-y-2">
-                        {extractedTasks.map(task => (
-                            <div key={task.id} className="p-4 bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-2xl flex items-center gap-3 hover:border-[var(--primary)] transition-all">
-                                <CheckCircle size={20} className="text-[var(--text-muted)]" />
-                                <div className="flex-1">
-                                    <p className="text-sm font-bold text-[var(--text-primary)]">{task.title}</p>
-                                    <p className="text-xs text-[var(--text-muted)]">Mentioned by {task.owner}</p>
+                    <div className="space-y-3">
+                        {(workspace.tasks?.length ? workspace.tasks : extractedTasks).map((task, idx) => {
+                            const isDone = task.completed;
+                            return (
+                                <div key={task.id || `temp_${idx}`} className={`p-4 bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-2xl flex items-start gap-3 hover:border-[var(--primary)] transition-all ${isDone ? 'opacity-60' : ''}`}>
+                                    <button
+                                        className={`mt-1 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${isDone ? 'bg-[var(--primary)] border-[var(--primary)]' : 'border-[var(--text-muted)] hover:border-[var(--primary)]'}`}
+                                        onClick={() => {
+                                            // Direct dispatch to store
+                                            useStore.getState().updateTaskStatus(workspace.id, task.id, !isDone);
+                                        }}
+                                    >
+                                        {isDone && <CheckCircle size={14} weight="fill" className="text-white" />}
+                                    </button>
+                                    <div className="flex-1 space-y-1">
+                                        <div className="flex justify-between items-start">
+                                            <p className={`text-sm font-bold ${isDone ? 'line-through text-[var(--text-muted)]' : 'text-[var(--text-primary)]'}`}>{task.title}</p>
+                                            {task.dueDate && task.dueDate !== 'Not set' && (
+                                                <span className={`text-[10px] items-center gap-1 flex px-2 py-1 rounded-lg ${task.dueDate.toLowerCase().includes('overdue') ? 'bg-red-500/10 text-red-500' : 'bg-[var(--bg-surface)] text-[var(--text-secondary)]'}`}>
+                                                    <Clock size={12} weight="bold" />
+                                                    {task.dueDate}
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <div className="flex items-center gap-4 text-xs">
+                                            {task.assignee && task.assignee !== 'Unassigned' && (
+                                                <div className="flex items-center gap-1.5 text-[var(--text-secondary)]">
+                                                    {Array.isArray(task.assignee) ? (
+                                                        <div className="flex -space-x-1">
+                                                            {task.assignee.map((a: string, i: number) => (
+                                                                <div key={i} className="w-4 h-4 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-[8px] text-white font-bold ring-1 ring-[var(--bg-card)]">
+                                                                    {a[0]}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    ) : (
+                                                        <div className="w-4 h-4 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-[8px] text-white font-bold">
+                                                            {task.assignee[0]}
+                                                        </div>
+                                                    )}
+                                                    <span>{Array.isArray(task.assignee) ? task.assignee.join(', ') : task.assignee}</span>
+                                                </div>
+                                            )}
+
+                                            {task.progress !== undefined && (
+                                                <div className="flex items-center gap-1.5 text-[var(--text-secondary)]">
+                                                    <TrendUp size={14} className={task.progress >= 75 ? "text-green-500" : task.progress >= 40 ? "text-amber-500" : "text-gray-400"} />
+                                                    <span>{task.progress}% done</span>
+                                                </div>
+                                            )}
+
+                                            {!task.assignee && !task.progress && (
+                                                <span className="text-[var(--text-muted)]">From chat discussion</span>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             )}
