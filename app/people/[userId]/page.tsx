@@ -30,7 +30,7 @@ export default function PersonDetailsPage() {
     INITIAL_WORKSPACES.forEach(workspace => {
         // Check workspace rooms
         workspace.rooms.forEach(room => {
-            if (room.members.some(m => m.id === user.id)) {
+            if (room.members?.some(m => m.id === user.id)) {
                 sharedRooms.push({ workspace, room });
             }
         });

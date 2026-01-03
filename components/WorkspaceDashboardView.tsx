@@ -1,10 +1,35 @@
 
 import React, { useState, useEffect } from 'react';
 import { Workspace, Insight } from '@/types';
-import { FileText, CurrencyDollar, Hourglass, Users, CheckCircle, Lock, Hash, Plus, Trash, PencilSimple, DotsThreeVertical, X, Sparkle } from '@phosphor-icons/react';
+import {
+    FileText, CurrencyDollar, Hourglass, Users, CheckCircle, Lock, Hash, Plus, Trash, PencilSimple, DotsThreeVertical, X, Sparkle,
+    CurrencyCircleDollar, Calendar, UsersThree, CheckSquare, TrendUp, Receipt,
+    Question, Warning, WarningCircle, Clock, XCircle, ChatCircleDots,
+    Icon
+} from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import { useWorkspaceData } from '@/contexts';
 import { getRelevantPresets, generateRimaInsights, extractTasksFromMessages } from '@/lib/dashboardPresets';
+
+// Icon mapping function
+const getIcon = (iconName: string): Icon => {
+    const iconMap: Record<string, Icon> = {
+        'CurrencyCircleDollar': CurrencyCircleDollar,
+        'Calendar': Calendar,
+        'UsersThree': UsersThree,
+        'CheckSquare': CheckSquare,
+        'TrendUp': TrendUp,
+        'Receipt': Receipt,
+        'Question': Question,
+        'Warning': Warning,
+        'WarningCircle': WarningCircle,
+        'Clock': Clock,
+        'XCircle': XCircle,
+        'ChatCircleDots': ChatCircleDots,
+        'Sparkle': Sparkle,
+    };
+    return iconMap[iconName] || Sparkle; // Fallback to Sparkle if icon not found
+};
 
 interface WorkspaceDashboardViewProps {
     workspace: Workspace;
@@ -121,9 +146,10 @@ const WorkspaceDashboardView: React.FC<WorkspaceDashboardViewProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {relevantPresets.map(preset => {
                     const data = preset.renderData(workspace);
+                    const IconComponent = getIcon(preset.icon);
                     return (
                         <div key={preset.id} className="p-8 rounded-[32px] bg-[var(--bg-card)] border border-[var(--border-subtle)] flex flex-col items-center text-center space-y-4 hover:border-[var(--primary)] transition-colors group">
-                            <div className="text-4xl">{preset.icon}</div>
+                            <IconComponent size={48} weight="fill" className="text-[var(--primary)]" />
                             <div>
                                 <h3 className="text-3xl font-black text-[var(--text-primary)] tracking-tight">
                                     {data.value}
@@ -147,23 +173,26 @@ const WorkspaceDashboardView: React.FC<WorkspaceDashboardViewProps> = ({
                 </div>
                 {rimaInsights.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {rimaInsights.map((insight, idx) => (
-                            <div
-                                key={idx}
-                                className="p-6 rounded-3xl bg-gradient-to-br from-[var(--primary)]/5 to-transparent border border-[var(--primary)]/20 animate-fade-in"
-                                style={{ animationDelay: `${idx * 0.1}s` }}
-                            >
-                                <div className="flex items-start gap-3">
-                                    <span className="text-2xl">{insight.icon}</span>
-                                    <div className="flex-1">
-                                        <p className="text-sm text-[var(--text-primary)] leading-relaxed">{insight.text}</p>
-                                        <span className="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)] mt-2 block">
-                                            {insight.category}
-                                        </span>
+                        {rimaInsights.map((insight, idx) => {
+                            const IconComponent = getIcon(insight.icon);
+                            return (
+                                <div
+                                    key={idx}
+                                    className="p-6 rounded-3xl bg-gradient-to-br from-[var(--primary)]/5 to-transparent border border-[var(--primary)]/20 animate-fade-in"
+                                    style={{ animationDelay: `${idx * 0.1}s` }}
+                                >
+                                    <div className="flex items-start gap-3">
+                                        <IconComponent size={24} weight="fill" className="text-[var(--primary)] shrink-0 mt-0.5" />
+                                        <div className="flex-1">
+                                            <p className="text-sm text-[var(--text-primary)] leading-relaxed">{insight.text}</p>
+                                            <span className="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)] mt-2 block">
+                                                {insight.category}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 ) : (
                     <div className="p-12 rounded-3xl bg-[var(--bg-card)] border border-[var(--border-subtle)] text-center">

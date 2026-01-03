@@ -2,692 +2,4164 @@
 import { Workspace, Room, User, Profile, Message, Insight, Task } from './types';
 
 export const PROFILES: Profile[] = [
-  { id: 'all', name: 'All Workspaces', icon: '📁' },
-  { id: 'p_work', name: 'Work', icon: '💼' },
-  { id: 'p_life', name: 'Life', icon: '🏠' },
-  { id: 'p_edu', name: 'Education', icon: '🎓' },
-  { id: 'p_health', name: 'Health', icon: '❤️' },
+  {
+    "id": "all",
+    "name": "All Workspaces",
+    "icon": "📁"
+  },
+  {
+    "id": "p_work",
+    "name": "Work",
+    "icon": "💼"
+  },
+  {
+    "id": "p_life",
+    "name": "Life",
+    "icon": "🏠"
+  },
+  {
+    "id": "p_edu",
+    "name": "Education",
+    "icon": "🎓"
+  },
+  {
+    "id": "p_health",
+    "name": "Health",
+    "icon": "❤️"
+  }
 ];
 
 export const SYSTEM_USERS: User[] = [
-  { id: 'u_sara', name: 'Sara', avatarColor: 'bg-zinc-200 text-black', role: 'Owner / Founder', status: 'active', roomInvolvement: 25, recentActivity: 'Reviewing cross-universe dependencies' },
-  { id: 'u_maryam', name: 'Maryam', avatarColor: 'bg-pink-500 text-white', role: 'Hotel Lead', status: 'active', roomInvolvement: 5, recentActivity: 'Updating bookings for Paris' },
-  { id: 'u_noora', name: 'Noora', avatarColor: 'bg-orange-500 text-white', role: 'Shopping Lead', status: 'away', roomInvolvement: 4, recentActivity: 'Browsing Milan fashion guides' },
-  { id: 'u_hind', name: 'Hind', avatarColor: 'bg-blue-500 text-white', role: 'Rome Lead', status: 'offline', roomInvolvement: 4, recentActivity: 'Working on coliseum tour' },
-  { id: 'u_omar', name: 'Omar', avatarColor: 'bg-sky-600 text-white', role: 'Student (Son)', status: 'active', roomInvolvement: 3, recentActivity: 'Physics study plan updated' },
-  { id: 'u_hessa', name: 'Hessa', avatarColor: 'bg-purple-500 text-white', role: 'Student (Daughter)', status: 'active', roomInvolvement: 3, recentActivity: 'Last message: 15m ago' },
-  { id: 'u_salem', name: 'Salem', avatarColor: 'bg-emerald-500 text-white', role: 'Student (Son)', status: 'away', roomInvolvement: 3, recentActivity: 'Completed weekend task' },
-  { id: 'u_alex', name: 'Alex', avatarColor: 'bg-teal-500 text-white', role: 'Ops Lead', status: 'active', roomInvolvement: 6, recentActivity: 'Reviewing Phase 1 dependencies' },
-  { id: 'u_jordan', name: 'Jordan', avatarColor: 'bg-amber-500 text-white', role: 'Vendor Manager', status: 'active', roomInvolvement: 5, recentActivity: 'Negotiating brass pricing' },
-  { id: 'u_lina', name: 'Lina', avatarColor: 'bg-rose-400 text-white', role: 'Designer', status: 'active', roomInvolvement: 3, recentActivity: 'Finalizing collection revisions' },
-  { id: 'u_ali', name: 'Ali', avatarColor: 'bg-zinc-600 text-white', role: 'Supplier', status: 'offline', roomInvolvement: 2, recentActivity: 'Materials quote sent' },
-  { id: 'u_khaled', name: 'Khaled', avatarColor: 'bg-indigo-500 text-white', role: 'Developer', status: 'away', roomInvolvement: 3, recentActivity: 'Web integration complete' },
-  { id: 'u_marine', name: 'Marine Lead', avatarColor: 'bg-cyan-700 text-white', role: 'Marine Specialist', status: 'active', roomInvolvement: 3, recentActivity: 'Survey data processing' },
-  { id: 'u_compliance', name: 'Compliance Officer', avatarColor: 'bg-slate-700 text-white', role: 'Regulatory Lead', status: 'active', roomInvolvement: 2, recentActivity: 'Permit A-14 audit' },
+  {
+    "id": "u_sara",
+    "name": "Sara",
+    "avatarColor": "bg-zinc-200 text-black",
+    "email": null,
+    "role": "Owner / Founder",
+    "status": "active",
+    "recentActivity": "Reviewing cross-universe dependencies",
+    "roomInvolvement": 25
+  },
+  {
+    "id": "u_maryam",
+    "name": "Maryam",
+    "avatarColor": "bg-pink-500 text-white",
+    "email": null,
+    "role": "Hotel Lead",
+    "status": "active",
+    "recentActivity": "Updating bookings for Paris",
+    "roomInvolvement": 5
+  },
+  {
+    "id": "u_noora",
+    "name": "Noora",
+    "avatarColor": "bg-orange-500 text-white",
+    "email": null,
+    "role": "Shopping Lead",
+    "status": "away",
+    "recentActivity": "Browsing Milan fashion guides",
+    "roomInvolvement": 4
+  },
+  {
+    "id": "u_hind",
+    "name": "Hind",
+    "avatarColor": "bg-blue-500 text-white",
+    "email": null,
+    "role": "Rome Lead",
+    "status": "offline",
+    "recentActivity": "Working on coliseum tour",
+    "roomInvolvement": 4
+  },
+  {
+    "id": "u_omar",
+    "name": "Omar",
+    "avatarColor": "bg-sky-600 text-white",
+    "email": null,
+    "role": "Student (Son)",
+    "status": "active",
+    "recentActivity": "Physics study plan updated",
+    "roomInvolvement": 3
+  },
+  {
+    "id": "u_hessa",
+    "name": "Hessa",
+    "avatarColor": "bg-purple-500 text-violet-100",
+    "email": null,
+    "role": "Student (Daughter)",
+    "status": "active",
+    "recentActivity": "Last message: 15m ago",
+    "roomInvolvement": 3
+  },
+  {
+    "id": "u_salem",
+    "name": "Salem",
+    "avatarColor": "bg-emerald-500 text-white",
+    "email": null,
+    "role": "Student (Son)",
+    "status": "away",
+    "recentActivity": "Completed weekend task",
+    "roomInvolvement": 3
+  },
+  {
+    "id": "u_alex",
+    "name": "Alex",
+    "avatarColor": "bg-teal-500 text-white",
+    "email": null,
+    "role": "Ops Lead",
+    "status": "active",
+    "recentActivity": "Reviewing Phase 1 dependencies",
+    "roomInvolvement": 6
+  },
+  {
+    "id": "u_marine",
+    "name": "Marine Lead",
+    "avatarColor": "bg-cyan-700 text-white",
+    "email": null,
+    "role": "Marine Specialist",
+    "status": "active",
+    "recentActivity": "Survey data processing",
+    "roomInvolvement": 3
+  },
+  {
+    "id": "u_jordan",
+    "name": "Jordan",
+    "avatarColor": "bg-amber-600 text-white",
+    "email": null,
+    "role": "Vendor Manager",
+    "status": "active",
+    "recentActivity": "Negotiating brass pricing",
+    "roomInvolvement": 5
+  },
+  {
+    "id": "u_compliance",
+    "name": "Compliance Officer",
+    "avatarColor": "bg-slate-700 text-white",
+    "email": null,
+    "role": "Regulatory Lead",
+    "status": "active",
+    "recentActivity": "Permit A-14 audit",
+    "roomInvolvement": 2
+  },
+  {
+    "id": "u_lina",
+    "name": "Lina",
+    "avatarColor": "bg-rose-400 text-white",
+    "email": null,
+    "role": "Designer",
+    "status": "active",
+    "recentActivity": "Finalizing collection revisions",
+    "roomInvolvement": 3
+  },
+  {
+    "id": "u_ali",
+    "name": "Ali",
+    "avatarColor": "bg-zinc-600 text-white",
+    "email": null,
+    "role": "Supplier",
+    "status": "offline",
+    "recentActivity": "Materials quote sent",
+    "roomInvolvement": 2
+  },
+  {
+    "id": "u_khaled",
+    "name": "Khaled",
+    "avatarColor": "bg-indigo-500 text-white",
+    "email": null,
+    "role": "Web Developer",
+    "status": "away",
+    "recentActivity": "Web integration complete",
+    "roomInvolvement": 3
+  },
+  {
+    "id": "u_mark",
+    "name": "Mark",
+    "avatarColor": "bg-red-500 text-white",
+    "email": null,
+    "role": "Marketing",
+    "status": "active",
+    "recentActivity": "Teasing launch on IG",
+    "roomInvolvement": 2
+  },
+  {
+    "id": "u_consultant",
+    "name": "External Consultant",
+    "avatarColor": "bg-gray-500 text-white",
+    "email": null,
+    "role": "Consultant",
+    "status": "offline",
+    "recentActivity": "Reviewing depth perception",
+    "roomInvolvement": 1
+  }
 ];
 
-const createMsg = (sender: User | 'Rima', content: string, timeOffsetMinutes: number = 0): Message => ({
-  id: `m_${Date.now()}_${Math.random()}`,
-  sender,
-  content,
-  timestamp: new Date(Date.now() - (timeOffsetMinutes * 60000)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-});
-
 export const INITIAL_WORKSPACES: Workspace[] = [
-  // SCENARIO: My Health (PRIVATE)
   {
-    id: 'p_health_main',
-    title: 'My Health',
-    description: 'Private space for health reflections, symptom tracking, and personal wellness patterns.',
-    theme: 'rose',
-    profileId: 'p_health',
-    progress: 40,
-    members: [SYSTEM_USERS[0]],
-    messages: [
-      createMsg(SYSTEM_USERS[0], "Feeling a bit drained today, but sleep was okay.", 120),
-    ],
-    lastActivity: "Active 2h ago",
-    insights: [
-      { category: 'planning', text: 'Roll-up: Next doctor check-up is in 10 days.', icon: '📅' },
-      { category: 'social', text: 'Pattern: Energy dips correlate with busy work cycles.', icon: '🌊' },
-      { category: 'planning', text: 'Sleep quality improving with consistent exercise.', icon: '😴' }
-    ],
-    tasks: [
-      { id: 'th1', title: 'Schedule Annual Physical', owner: 'Sara', completed: false, dueDate: 'Next Week' }
-    ],
-    rooms: [
+    "id": "w_europe_trip",
+    "title": "Europe Trip",
+    "description": "Planning a 10-day multi-city trip with the ladies.",
+    "theme": "indigo",
+    "profileId": "p_life",
+    "budget": null,
+    "deadline": null,
+    "phase": null,
+    "progress": 35,
+    "lastActivity": "Active 5m ago",
+    "parentRoomId": null,
+    "isPrivate": 0,
+    "members": [
       {
-        id: 'c_health_gen',
-        title: 'General',
-        members: [SYSTEM_USERS[0]],
-        messages: [
-          createMsg(SYSTEM_USERS[0], "Feeling good today! Had a great workout.", 30),
-          createMsg('Rima', "That's wonderful to hear! Your energy levels seem to be improving consistently. Keep it up!", 25)
-        ],
-        unreadCount: 1
-      },
-      { id: 'c_health_diet', title: 'Diet & Nutrition', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0 },
-      { id: 'c_health_ex', title: 'Exercise Log', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 3 },
-      { id: 'c_health_journal', title: 'Private Journal', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0, isPrivate: true }
-    ]
-  },
-  {
-    id: 'p_health_phys',
-    title: 'Physical Health',
-    description: 'Energy levels, sleep patterns, and doctor recommendations.',
-    theme: 'rose',
-    parentRoomId: 'p_health_main',
-    profileId: 'p_health',
-    progress: 50,
-    members: [SYSTEM_USERS[0]],
-    insights: [
-      { category: 'planning', text: 'Note: Sleep improving with earlier wind-down.', icon: '🛌' }
-    ],
-    messages: [],
-    rooms: []
-  },
-  {
-    id: 'p_health_mental',
-    title: 'Mental & Emotional Health',
-    description: 'Mood tracking, stress triggers, and emotional reflections.',
-    theme: 'rose',
-    parentRoomId: 'p_health_main',
-    profileId: 'p_health',
-    progress: 30,
-    members: [SYSTEM_USERS[0]],
-    insights: [
-      { category: 'social', text: 'Stress trigger: Large meetings recorded.', icon: '🧘' }
-    ],
-    messages: [],
-    rooms: []
-  },
-  {
-    id: 'p_health_appt',
-    title: 'Appointments & Medication',
-    description: 'Doctor schedules, prescriptions, and test results.',
-    theme: 'rose',
-    parentRoomId: 'p_health_main',
-    profileId: 'p_health',
-    progress: 60,
-    members: [SYSTEM_USERS[0]],
-    insights: [
-      { category: 'planning', text: 'Prescription refill due on Mar 15.', icon: '💊' }
-    ],
-    messages: [],
-    rooms: []
-  },
-  {
-    id: 'p_health_goals',
-    title: 'Health Goals & Habits',
-    description: 'Nutrition intentions, movement goals, and recovery plans.',
-    theme: 'rose',
-    parentRoomId: 'p_health_main',
-    profileId: 'p_health',
-    progress: 20,
-    members: [SYSTEM_USERS[0]],
-    insights: [
-      { category: 'planning', text: 'Goal: 3x yoga sessions per week.', icon: '🧘' }
-    ],
-    messages: [],
-    rooms: []
-  },
-
-  // SCENARIO 1: Europe Trip
-  {
-    id: 'p1',
-    title: 'Europe Trip with the Ladies',
-    description: '10-day multi-city trip. Paris, Milan, Rome alignment and planning.',
-    theme: 'sky',
-    profileId: 'p_life',
-    progress: 35,
-    budget: '€6,000',
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[1], SYSTEM_USERS[2], SYSTEM_USERS[3]],
-    messages: [
-      createMsg(SYSTEM_USERS[0], "April Europe trip is officially happening! 🇪🇺", 120),
-      createMsg(SYSTEM_USERS[1], "I'm looking at hotels for Paris now.", 45),
-    ],
-    lastActivity: "Active 45m ago",
-    insights: [
-      { category: 'planning', text: 'Roll-up: Paris hotels being shortlisted by Maryam.', icon: '🏨' },
-      { category: 'risk', text: 'Flight prices trending upwards for April 5th.', icon: '✈️' },
-      { category: 'social', text: 'Everyone aligned on 3 cities: Paris, Milan, Rome.', icon: '🤝' }
-    ],
-    tasks: [],
-    rooms: [
-      {
-        id: 'c1',
-        title: 'General',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[1], SYSTEM_USERS[2], SYSTEM_USERS[3]],
-        messages: [
-          createMsg(SYSTEM_USERS[0], "April Europe trip is officially happening! 🇪🇺", 120),
-          createMsg(SYSTEM_USERS[1], "So excited! I can't wait to see Paris.", 110),
-          createMsg(SYSTEM_USERS[2], "Milan shopping here we come!", 105),
-          createMsg(SYSTEM_USERS[3], "Rome is going to be amazing for food tours!", 100)
-        ],
-        unreadCount: 3
+        "id": "u_hind",
+        "name": "Hind",
+        "avatarColor": "bg-blue-500 text-white",
+        "email": null,
+        "role": "Rome Lead",
+        "status": "offline",
+        "recentActivity": "Working on coliseum tour",
+        "roomInvolvement": 4
       },
       {
-        id: 'c2',
-        title: 'Hotels',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[1]],
-        messages: [
-          createMsg(SYSTEM_USERS[1], "Found a great boutique hotel near the Eiffel Tower", 60),
-          createMsg(SYSTEM_USERS[0], "@Rima can you check if there are better deals in the area?", 55),
-          createMsg('Rima', "I've analyzed the hotel options in that area. The boutique hotel Maryam found has excellent reviews and competitive pricing.", 50),
-          createMsg(SYSTEM_USERS[1], "Does it have a pool?", 10)
-        ],
-        unreadCount: 2
-      },
-      { id: 'c3', title: 'Flights', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0 },
-      {
-        id: 'c4',
-        title: 'Shopping',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[2]],
-        messages: [
-          createMsg(SYSTEM_USERS[2], "Check out this vintage store list!", 30),
-          createMsg(SYSTEM_USERS[2], "And this one in Milan.", 25)
-        ],
-        unreadCount: 2
+        "id": "u_maryam",
+        "name": "Maryam",
+        "avatarColor": "bg-pink-500 text-white",
+        "email": null,
+        "role": "Hotel Lead",
+        "status": "active",
+        "recentActivity": "Updating bookings for Paris",
+        "roomInvolvement": 5
       },
       {
-        id: 'c5',
-        title: 'Budget',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[1]],
-        messages: [
-          createMsg(SYSTEM_USERS[1], "Updated the spreadsheet with hotel estimates.", 100),
-        ],
-        unreadCount: 1
-      },
-      { id: 'c6', title: 'Surprises', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0, isPrivate: true }
-    ]
-  },
-  {
-    id: 'p1_paris',
-    title: 'Paris – Style & Culture',
-    description: 'Museums, cafés, shopping, and hotel selections.',
-    theme: 'sky',
-    parentRoomId: 'p1',
-    profileId: 'p_life',
-    progress: 40,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[1]],
-    insights: [
-      { category: 'planning', text: 'Informal ownership: Maryam is leading hotels.', icon: '🔑' },
-      { category: 'social', text: 'Museum pass interest logged for Louvre.', icon: '🎨' }
-    ],
-    messages: [],
-    rooms: []
-  },
-  {
-    id: 'p1_milan',
-    title: 'Milan – Shopping & Logistics',
-    description: 'Shopping plans and short stay logistics.',
-    theme: 'sky',
-    parentRoomId: 'p1',
-    profileId: 'p_life',
-    progress: 20,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[2]],
-    insights: [],
-    messages: [],
-    rooms: []
-  },
-  {
-    id: 'p1_rome',
-    title: 'Rome – History & Food',
-    description: 'Longer stay logistics and walking tours.',
-    theme: 'sky',
-    parentRoomId: 'p1',
-    profileId: 'p_life',
-    progress: 15,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[3]],
-    insights: [
-      { category: 'planning', text: 'Hind assigned as city lead for food tours.', icon: '🍝' }
-    ],
-    messages: [],
-    rooms: []
-  },
-  {
-    id: 'p1_bookings',
-    title: 'Bookings & Expenses',
-    description: 'PDFs, expenses, and visa tracking.',
-    theme: 'sky',
-    parentRoomId: 'p1',
-    profileId: 'p_life',
-    progress: 50,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[1], SYSTEM_USERS[2], SYSTEM_USERS[3]],
-    insights: [
-      { category: 'finance', text: 'Running total: €2,500 spent.', icon: '💰' },
-      { category: 'risk', text: 'Visa applications pending for Hind.', icon: '📑' }
-    ],
-    messages: [],
-    rooms: []
-  },
-
-  // SCENARIO 2: My Angels (EDUCATION)
-  {
-    id: 'p2',
-    title: 'My Angels',
-    description: 'Family command center. Calendar sync and progress tracking.',
-    theme: 'teal',
-    profileId: 'p_edu',
-    progress: 60,
-    members: [SYSTEM_USERS[0]],
-    messages: [],
-    lastActivity: "Active 5m ago",
-    insights: [
-      { category: 'planning', text: 'Omar has a busy exam week ahead.', icon: '📅' },
-      { category: 'social', text: "Roll-up: Hessa's stress levels tracked as stable.", icon: '🧘' }
-    ],
-    rooms: [
-      { id: 'c_ang_cal', title: 'Calendar', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 4 },
-      { id: 'c_ang_sch', title: 'School', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0 },
-      { id: 'c_ang_act', title: 'Activities', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 1 },
-      { id: 'c_ang_gifts', title: 'Gifts & Ideas', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0, isPrivate: true }
-    ]
-  },
-  {
-    id: 'p2_omar',
-    title: 'Omar – Progress',
-    description: 'Exams, football schedule, and study planning.',
-    theme: 'teal',
-    parentRoomId: 'p2',
-    profileId: 'p_edu',
-    progress: 75,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[4]],
-    insights: [
-      { category: 'planning', text: 'Physics study plan updated.', icon: '⚡' },
-      { category: 'planning', text: 'Football training every Tuesday/Thursday.', icon: '⚽' }
-    ],
-    messages: [],
-    rooms: []
-  },
-  {
-    id: 'p2_hessa',
-    title: 'Hessa – Support',
-    description: 'Projects, stress support, and task breakdowns.',
-    theme: 'teal',
-    parentRoomId: 'p2',
-    profileId: 'p_edu',
-    progress: 45,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[5]],
-    insights: [
-      { category: 'social', text: 'Gentle support mode active for art project.', icon: '🎨' }
-    ],
-    messages: [],
-    rooms: []
-  },
-  {
-    id: 'p2_salem',
-    title: 'Salem – Encouragement',
-    description: 'School progress and teacher notes.',
-    theme: 'teal',
-    parentRoomId: 'p2',
-    profileId: 'p_edu',
-    progress: 55,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[6]],
-    insights: [
-      { category: 'planning', text: 'Positive feedback from math teacher logged.', icon: '📝' }
-    ],
-    messages: [],
-    rooms: []
-  },
-
-  // SCENARIO 3: Dubai Reefs (ENTERPRISE)
-  {
-    id: 'p3',
-    title: 'Dubai Reefs – Program Operations',
-    description: 'High-level coordination of environmental surveys, site deployment, and procurement.',
-    theme: 'rust',
-    profileId: 'p_work',
-    progress: 42,
-    budget: '$450,000',
-    phase: 'Operationalizing Phase 1',
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[7], SYSTEM_USERS[8], SYSTEM_USERS[12], SYSTEM_USERS[13]],
-    messages: [
-      createMsg(SYSTEM_USERS[7], "Synthesized high-level blockers for today's review.", 5),
-    ],
-    lastActivity: "Active 5m ago",
-    insights: [
-      { category: 'risk', text: 'Roll-up: 8-10% cost increase identified in Fabrication sub-room.', icon: '⚠️' },
-      { category: 'planning', text: 'Dependency: Bathymetric survey → Reef module locations.', icon: '🔗' },
-      { category: 'finance', text: 'Budget utilization is at 45%; variance check required.', icon: '💰' }
-    ],
-    tasks: [
-      { id: 't_dr1', title: 'Weekly Stakeholder Sync', owner: 'Sara', completed: false, dueDate: 'Tomorrow' },
-      { id: 't_dr2', title: 'Approve Vendor Selection', owner: 'Jordan', completed: true, dueDate: 'Mar 1' }
-    ],
-    rooms: [
-      {
-        id: 'c_dr_gen',
-        title: 'Leadership',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[7]],
-        messages: [
-          createMsg(SYSTEM_USERS[7], "Please review the updated timeline.", 120),
-          createMsg(SYSTEM_USERS[7], "We need to sign off on the new budget.", 115),
-          createMsg(SYSTEM_USERS[0], "Will do.", 60),
-          createMsg(SYSTEM_USERS[7], "Any updates on the environmental permit?", 10),
-          createMsg(SYSTEM_USERS[7], "@Rima what is the status of the permit application?", 5)
-        ],
-        unreadCount: 4
-      },
-      { id: 'c_dr_tech', title: 'Technical', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0 },
-      {
-        id: 'c_dr_finance',
-        title: 'Budget',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[8]],
-        messages: [
-          createMsg(SYSTEM_USERS[8], "FYI: Copper prices are up 5%.", 200),
-          createMsg(SYSTEM_USERS[8], "Should we lock in the supplier contract now?", 195)
-        ],
-        unreadCount: 2
+        "id": "u_noora",
+        "name": "Noora",
+        "avatarColor": "bg-orange-500 text-white",
+        "email": null,
+        "role": "Shopping Lead",
+        "status": "away",
+        "recentActivity": "Browsing Milan fashion guides",
+        "roomInvolvement": 4
       },
       {
-        id: 'c_dr_ops',
-        title: 'Operations',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[12]],
-        messages: [
-          createMsg(SYSTEM_USERS[12], "Site A survey complete.", 600),
-          createMsg(SYSTEM_USERS[12], "Site B survey starting tomorrow.", 550),
-          createMsg(SYSTEM_USERS[12], "Logistics team needs 2 more vans.", 50)
-        ],
-        unreadCount: 3
-      },
-      { id: 'c_dr_conf', title: 'Confidential', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0, isPrivate: true }
-    ]
-  },
-  {
-    id: 'p3_site',
-    title: 'Site Deployment – Phase 1',
-    description: 'Marine surveys, module locations, and logistics.',
-    theme: 'rust',
-    parentRoomId: 'p3',
-    profileId: 'p_work',
-    progress: 55,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[7], SYSTEM_USERS[12]],
-    insights: [
-      { category: 'planning', text: 'Bathymetric survey 100% complete.', icon: '🌊' },
-      { category: 'risk', text: 'Reef module locations need secondary confirmation.', icon: '📍' }
-    ],
-    messages: [],
-    rooms: []
-  },
-  {
-    id: 'p3_vendors',
-    title: 'Vendors & Fabrication',
-    description: 'Fabrication leads, material costs, and pricing blockers.',
-    theme: 'rust',
-    parentRoomId: 'p3',
-    profileId: 'p_work',
-    progress: 30,
-    budget: '$120,000',
-    members: [SYSTEM_USERS[8], SYSTEM_USERS[10]],
-    insights: [
-      { category: 'risk', text: 'BLOCKED: 8-10% cost increase if brass materials delayed.', icon: '💸' },
-      { category: 'planning', text: 'Module prototype approved by marine team.', icon: '🏗️' }
-    ],
-    messages: [],
-    rooms: []
-  },
-  {
-    id: 'p3_permits',
-    title: 'Permits & Compliance',
-    description: 'Regulatory filings and authority responses.',
-    theme: 'rust',
-    parentRoomId: 'p3',
-    profileId: 'p_work',
-    progress: 15,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[13]],
-    insights: [
-      { category: 'risk', text: 'Permit A-14 amendment delayed by 2 weeks.', icon: '🏛️' }
-    ],
-    messages: [],
-    rooms: []
-  },
-
-  // SCENARIO 5: Startup Founder
-  {
-    id: 'p5',
-    title: 'My Business',
-    description: 'Jewelry startup founder brain-dump and collection launch.',
-    theme: 'gold',
-    profileId: 'p_work',
-    progress: 25,
-    budget: '$50,000',
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[9], SYSTEM_USERS[10], SYSTEM_USERS[11]],
-    messages: [],
-    lastActivity: "Active 1d ago",
-    insights: [
-      { category: 'planning', text: 'Dependency: Materials → Pricing → Website.', icon: '🔗' },
-      { category: 'finance', text: 'Founders funding utilized: 20%.', icon: '💸' }
-    ],
-    rooms: [
-      { id: 'c_biz_gen', title: 'General', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0 },
-      {
-        id: 'c_biz_design',
-        title: 'Design',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[9]],
-        messages: [
-          createMsg(SYSTEM_USERS[9], "Sketches for the new pendant are attached.", 120),
-          createMsg(SYSTEM_USERS[9], "Use 18k gold for the prototype?", 115)
-        ],
-        unreadCount: 2
-      },
-      { id: 'c_biz_suppliers', title: 'Suppliers', members: [SYSTEM_USERS[0], SYSTEM_USERS[10]], messages: [], unreadCount: 0 },
-      {
-        id: 'c_biz_marketing',
-        title: 'Marketing',
-        members: [SYSTEM_USERS[0]],
-        messages: [
-          createMsg(SYSTEM_USERS[11], "Drafted the launch email. Please review.", 300)
-        ],
-        unreadCount: 1
+        "id": "u_sara",
+        "name": "Sara",
+        "avatarColor": "bg-zinc-200 text-black",
+        "email": null,
+        "role": "Owner / Founder",
+        "status": "active",
+        "recentActivity": "Reviewing cross-universe dependencies",
+        "roomInvolvement": 25
       }
-    ]
-  },
-  {
-    id: 'p5_suppliers',
-    title: 'Suppliers & Materials',
-    description: 'Material options, MOQs, and cost implications.',
-    theme: 'gold',
-    parentRoomId: 'p5',
-    profileId: 'p_work',
-    progress: 30,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[10]],
-    insights: [
-      { category: 'finance', text: 'Silver MOQ increased by 15%.', icon: '📉' }
     ],
-    messages: [],
-    rooms: []
-  },
-  {
-    id: 'p5_design',
-    title: 'Design & Collection',
-    description: 'Design approvals and revisions log.',
-    theme: 'gold',
-    parentRoomId: 'p5',
-    profileId: 'p_work',
-    progress: 50,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[9]],
-    insights: [
-      { category: 'planning', text: 'Reasons for revision 2: Weight reduction for comfort.', icon: '✍️' }
-    ],
-    messages: [],
-    rooms: []
-  },
-  {
-    id: 'p5_ops',
-    title: 'Website & Operations',
-    description: 'Product data and checkout blockers.',
-    theme: 'gold',
-    parentRoomId: 'p5',
-    profileId: 'p_work',
-    progress: 10,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[11]],
-    insights: [
-      { category: 'risk', text: 'Checkout gateway test failing in sandbox.', icon: '🛒' }
-    ],
-    messages: [],
-    rooms: []
-  },
-  {
-    id: 'p5_marketing',
-    title: 'Social Media & Marketing',
-    description: 'Pre-launch ideas and content planning.',
-    theme: 'gold',
-    parentRoomId: 'p5',
-    profileId: 'p_work',
-    progress: 5,
-    members: [SYSTEM_USERS[0]],
-    insights: [
-      { category: 'social', text: 'Influencer list for launch being drafted.', icon: '📱' }
-    ],
-    messages: [],
-    rooms: []
-  },
-  // SCENARIO 6: Global Economics 101 (EDUCATION)
-  {
-    id: 'p_edu_econ',
-    title: 'Global Economics 101',
-    description: 'Coursework, study groups, and exam prep for ECON101.',
-    theme: 'teal',
-    profileId: 'p_edu',
-    progress: 75,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[4], SYSTEM_USERS[6]], // Sara, Omar, Salem
-    messages: [
-      createMsg(SYSTEM_USERS[4], "Can someone explain Isomorphic Utility curves again?", 15)
-    ],
-    lastActivity: "Active 15m ago",
-    insights: [
-      { category: 'planning', text: 'Exam scheduled for May 12th.', icon: '📅' },
-      { category: 'social', text: 'Study group meeting proposed for Saturday.', icon: '📚' }
-    ],
-    rooms: [
+    "rooms": [
       {
-        id: 'c_econ_gen',
-        title: 'General Discussion',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[4], SYSTEM_USERS[6]],
-        messages: [
-          createMsg(SYSTEM_USERS[4], "Is chapter 4 included in the mid-term?", 1400),
-          createMsg(SYSTEM_USERS[6], "Yes, the professor said everything up to supply shocks.", 1380)
+        "id": "r_paris",
+        "workspaceId": "w_europe_trip",
+        "title": "Paris",
+        "description": null,
+        "isPrivate": 0,
+        "unreadCount": 2,
+        "members": [
+          {
+            "id": "u_hind",
+            "name": "Hind",
+            "avatarColor": "bg-blue-500 text-white",
+            "email": null,
+            "role": "Rome Lead",
+            "status": "offline",
+            "recentActivity": "Working on coliseum tour",
+            "roomInvolvement": 4
+          },
+          {
+            "id": "u_maryam",
+            "name": "Maryam",
+            "avatarColor": "bg-pink-500 text-white",
+            "email": null,
+            "role": "Hotel Lead",
+            "status": "active",
+            "recentActivity": "Updating bookings for Paris",
+            "roomInvolvement": 5
+          },
+          {
+            "id": "u_noora",
+            "name": "Noora",
+            "avatarColor": "bg-orange-500 text-white",
+            "email": null,
+            "role": "Shopping Lead",
+            "status": "away",
+            "recentActivity": "Browsing Milan fashion guides",
+            "roomInvolvement": 4
+          },
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
         ],
-        unreadCount: 0
+        "messages": [
+          {
+            "id": "m_1767459898808_0.02059328665641702",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Okay Paris girls 🇫🇷. How many days should we stay?",
+            "timestamp": "02:24 AM"
+          },
+          {
+            "id": "m_1767459898822_0.9228415759582309",
+            "sender": {
+              "id": "u_maryam",
+              "name": "Maryam",
+              "avatarColor": "bg-pink-500 text-white",
+              "email": null,
+              "role": "Hotel Lead",
+              "status": "active",
+              "recentActivity": "Updating bookings for Paris",
+              "roomInvolvement": 5
+            },
+            "content": "At least 3 nights. I want museums + cafés.",
+            "timestamp": "04:04 AM"
+          },
+          {
+            "id": "m_1767459898822_0.4481062422521642",
+            "sender": {
+              "id": "u_noora",
+              "name": "Noora",
+              "avatarColor": "bg-orange-500 text-white",
+              "email": null,
+              "role": "Shopping Lead",
+              "status": "away",
+              "recentActivity": "Browsing Milan fashion guides",
+              "roomInvolvement": 4
+            },
+            "content": "Same. And shopping.",
+            "timestamp": "04:54 AM"
+          },
+          {
+            "id": "m_1767459898822_0.4200725504231282",
+            "sender": {
+              "id": "u_hind",
+              "name": "Hind",
+              "avatarColor": "bg-blue-500 text-white",
+              "email": null,
+              "role": "Rome Lead",
+              "status": "offline",
+              "recentActivity": "Working on coliseum tour",
+              "roomInvolvement": 4
+            },
+            "content": "And no rushing please 😂",
+            "timestamp": "05:44 AM"
+          },
+          {
+            "id": "m_1767459898822_0.8149618849267013",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "@RIMA note this.",
+            "timestamp": "06:04 AM"
+          },
+          {
+            "id": "m_1767459898822_0.1112330738998294",
+            "sender": "Rima",
+            "content": "📍 Paris (Draft Plan)\n* Duration: 3 nights\n* Style: relaxed, museums, cafés, shopping\nI’ll update this as plans evolve.",
+            "timestamp": "06:14 AM"
+          },
+          {
+            "id": "m_1767459898822_0.6956502789668539",
+            "sender": {
+              "id": "u_maryam",
+              "name": "Maryam",
+              "avatarColor": "bg-pink-500 text-white",
+              "email": null,
+              "role": "Hotel Lead",
+              "status": "active",
+              "recentActivity": "Updating bookings for Paris",
+              "roomInvolvement": 5
+            },
+            "content": "I’ll look into hotels near Saint-Germain.",
+            "timestamp": "07:24 AM"
+          },
+          {
+            "id": "m_1767459898822_0.7170577170302905",
+            "sender": "Rima",
+            "content": "Great. Maryam is noted as Paris hotel lead 🏨",
+            "timestamp": "07:34 AM"
+          },
+          {
+            "id": "m_1767459901982_0.7165222402708394",
+            "sender": {
+              "id": "u_maryam",
+              "name": "Maryam",
+              "avatarColor": "bg-pink-500 text-white",
+              "email": null,
+              "role": "Hotel Lead",
+              "status": "active",
+              "recentActivity": "Updating bookings for Paris",
+              "roomInvolvement": 5
+            },
+            "content": "I found 3 hotels. Will send options tonight for everyone to vote.",
+            "timestamp": "07:35 PM"
+          },
+          {
+            "id": "m_1767459901989_0.13132270988051742",
+            "sender": "Rima",
+            "content": "Task tracked:\n\"Share hotel options\" - Maryam - Due: Tonight",
+            "timestamp": "07:40 PM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
       },
       {
-        id: 'c_econ_study',
-        title: 'Study Group',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[4], SYSTEM_USERS[6]],
-        messages: [
-          createMsg(SYSTEM_USERS[4], "I'll bring the past papers.", 60),
-          createMsg(SYSTEM_USERS[6], "I'll bring snacks.", 55),
-          createMsg(SYSTEM_USERS[4], "Can someone explain Isomorphic Utility curves again?", 15),
-          createMsg(SYSTEM_USERS[0], "I think I have notes on that, will check.", 5)
+        "id": "r_milan",
+        "workspaceId": "w_europe_trip",
+        "title": "Milan",
+        "description": null,
+        "isPrivate": 0,
+        "unreadCount": 0,
+        "members": [
+          {
+            "id": "u_hind",
+            "name": "Hind",
+            "avatarColor": "bg-blue-500 text-white",
+            "email": null,
+            "role": "Rome Lead",
+            "status": "offline",
+            "recentActivity": "Working on coliseum tour",
+            "roomInvolvement": 4
+          },
+          {
+            "id": "u_maryam",
+            "name": "Maryam",
+            "avatarColor": "bg-pink-500 text-white",
+            "email": null,
+            "role": "Hotel Lead",
+            "status": "active",
+            "recentActivity": "Updating bookings for Paris",
+            "roomInvolvement": 5
+          },
+          {
+            "id": "u_noora",
+            "name": "Noora",
+            "avatarColor": "bg-orange-500 text-white",
+            "email": null,
+            "role": "Shopping Lead",
+            "status": "away",
+            "recentActivity": "Browsing Milan fashion guides",
+            "roomInvolvement": 4
+          },
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
         ],
-        unreadCount: 1 // 1 msg from Omar (15m ago) if we assume I read the others? No, simple logic: count recent from others.
-        // Omar (60), Salem (55), Omar (15), Me (5).
-        // If I last read at 0, unread is 0.
-        // Let's make it 1 unread from Omar.
+        "messages": [
+          {
+            "id": "m_1767459898822_0.9916409218478024",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Milan thoughts?",
+            "timestamp": "07:04 PM"
+          },
+          {
+            "id": "m_1767459898822_0.04307738006547157",
+            "sender": {
+              "id": "u_noora",
+              "name": "Noora",
+              "avatarColor": "bg-orange-500 text-white",
+              "email": null,
+              "role": "Shopping Lead",
+              "status": "away",
+              "recentActivity": "Browsing Milan fashion guides",
+              "roomInvolvement": 4
+            },
+            "content": "Shopping + lake day maybe?",
+            "timestamp": "08:44 PM"
+          },
+          {
+            "id": "m_1767459898823_0.487937395552301",
+            "sender": {
+              "id": "u_hind",
+              "name": "Hind",
+              "avatarColor": "bg-blue-500 text-white",
+              "email": null,
+              "role": "Rome Lead",
+              "status": "offline",
+              "recentActivity": "Working on coliseum tour",
+              "roomInvolvement": 4
+            },
+            "content": "2 nights should be enough.",
+            "timestamp": "09:34 PM"
+          },
+          {
+            "id": "m_1767459898823_0.3016406571659902",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Agree.",
+            "timestamp": "10:24 PM"
+          },
+          {
+            "id": "m_1767459898823_0.10017671084656699",
+            "sender": "Rima",
+            "content": "📍 Milan (Draft Plan)\n* Duration: 2 nights\n* Focus: shopping, leisure, possible day trip\nLet me know when you want itinerary suggestions.",
+            "timestamp": "10:34 PM"
+          },
+          {
+            "id": "m_1767459898823_0.8408886808195846",
+            "sender": {
+              "id": "u_noora",
+              "name": "Noora",
+              "avatarColor": "bg-orange-500 text-white",
+              "email": null,
+              "role": "Shopping Lead",
+              "status": "away",
+              "recentActivity": "Browsing Milan fashion guides",
+              "roomInvolvement": 4
+            },
+            "content": "I’ll handle Milan shopping spots 😄",
+            "timestamp": "12:04 AM"
+          },
+          {
+            "id": "m_1767459898823_0.39740033976924327",
+            "sender": "Rima",
+            "content": "Noted. Noora is Milan planning lead.",
+            "timestamp": "12:14 AM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
       },
       {
-        id: 'c_econ_tutor',
-        title: 'Tutor DMs',
-        members: [SYSTEM_USERS[0]],
-        messages: [],
-        unreadCount: 0,
-        isPrivate: true
+        "id": "r_rome",
+        "workspaceId": "w_europe_trip",
+        "title": "Rome",
+        "description": null,
+        "isPrivate": 0,
+        "unreadCount": 5,
+        "members": [
+          {
+            "id": "u_hind",
+            "name": "Hind",
+            "avatarColor": "bg-blue-500 text-white",
+            "email": null,
+            "role": "Rome Lead",
+            "status": "offline",
+            "recentActivity": "Working on coliseum tour",
+            "roomInvolvement": 4
+          },
+          {
+            "id": "u_maryam",
+            "name": "Maryam",
+            "avatarColor": "bg-pink-500 text-white",
+            "email": null,
+            "role": "Hotel Lead",
+            "status": "active",
+            "recentActivity": "Updating bookings for Paris",
+            "roomInvolvement": 5
+          },
+          {
+            "id": "u_noora",
+            "name": "Noora",
+            "avatarColor": "bg-orange-500 text-white",
+            "email": null,
+            "role": "Shopping Lead",
+            "status": "away",
+            "recentActivity": "Browsing Milan fashion guides",
+            "roomInvolvement": 4
+          },
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459898823_0.4582239795292208",
+            "sender": {
+              "id": "u_maryam",
+              "name": "Maryam",
+              "avatarColor": "bg-pink-500 text-white",
+              "email": null,
+              "role": "Hotel Lead",
+              "status": "active",
+              "recentActivity": "Updating bookings for Paris",
+              "roomInvolvement": 5
+            },
+            "content": "4 nights?",
+            "timestamp": "01:24 PM"
+          },
+          {
+            "id": "m_1767459898823_0.7588837525059455",
+            "sender": {
+              "id": "u_noora",
+              "name": "Noora",
+              "avatarColor": "bg-orange-500 text-white",
+              "email": null,
+              "role": "Shopping Lead",
+              "status": "away",
+              "recentActivity": "Browsing Milan fashion guides",
+              "roomInvolvement": 4
+            },
+            "content": "Perfect.",
+            "timestamp": "02:14 PM"
+          },
+          {
+            "id": "m_1767459898823_0.2537795267998343",
+            "sender": "Rima",
+            "content": "📍 Rome (Draft Plan)\n* Duration: 4 nights\n* Focus: history, food, walking tours\n* Pace: relaxed\nHind, would you like me to assign you as Rome lead?",
+            "timestamp": "02:24 PM"
+          },
+          {
+            "id": "m_1767459898823_0.5614365400025044",
+            "sender": {
+              "id": "u_hind",
+              "name": "Hind",
+              "avatarColor": "bg-blue-500 text-white",
+              "email": null,
+              "role": "Rome Lead",
+              "status": "offline",
+              "recentActivity": "Working on coliseum tour",
+              "roomInvolvement": 4
+            },
+            "content": "Yes please!",
+            "timestamp": "03:04 PM"
+          },
+          {
+            "id": "m_1767459898823_0.1712639204241364",
+            "sender": "Rima",
+            "content": "Done ✅",
+            "timestamp": "03:14 PM"
+          },
+          {
+            "id": "m_1767459898823_0.7668791369834895",
+            "sender": {
+              "id": "u_hind",
+              "name": "Hind",
+              "avatarColor": "bg-blue-500 text-white",
+              "email": null,
+              "role": "Rome Lead",
+              "status": "offline",
+              "recentActivity": "Working on coliseum tour",
+              "roomInvolvement": 4
+            },
+            "content": "Rome needs more time I think.",
+            "timestamp": "11:44 AM"
+          },
+          {
+            "id": "m_1767459898823_0.8992480374208323",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Yes history, food, walking.",
+            "timestamp": "12:34 PM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      },
+      {
+        "id": "r_bookings",
+        "workspaceId": "w_europe_trip",
+        "title": "Bookings",
+        "description": null,
+        "isPrivate": 0,
+        "unreadCount": 0,
+        "members": [
+          {
+            "id": "u_hind",
+            "name": "Hind",
+            "avatarColor": "bg-blue-500 text-white",
+            "email": null,
+            "role": "Rome Lead",
+            "status": "offline",
+            "recentActivity": "Working on coliseum tour",
+            "roomInvolvement": 4
+          },
+          {
+            "id": "u_maryam",
+            "name": "Maryam",
+            "avatarColor": "bg-pink-500 text-white",
+            "email": null,
+            "role": "Hotel Lead",
+            "status": "active",
+            "recentActivity": "Updating bookings for Paris",
+            "roomInvolvement": 5
+          },
+          {
+            "id": "u_noora",
+            "name": "Noora",
+            "avatarColor": "bg-orange-500 text-white",
+            "email": null,
+            "role": "Shopping Lead",
+            "status": "away",
+            "recentActivity": "Browsing Milan fashion guides",
+            "roomInvolvement": 4
+          },
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459898823_0.34397578071210033",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "This room is making me feel very responsible 😂. Let’s talk flights.",
+            "timestamp": "04:24 AM"
+          },
+          {
+            "id": "m_1767459898823_0.5657981499118993",
+            "sender": {
+              "id": "u_maryam",
+              "name": "Maryam",
+              "avatarColor": "bg-pink-500 text-white",
+              "email": null,
+              "role": "Hotel Lead",
+              "status": "active",
+              "recentActivity": "Updating bookings for Paris",
+              "roomInvolvement": 5
+            },
+            "content": "I prefer Emirates.",
+            "timestamp": "05:14 AM"
+          },
+          {
+            "id": "m_1767459898823_0.5927898134534132",
+            "sender": {
+              "id": "u_noora",
+              "name": "Noora",
+              "avatarColor": "bg-orange-500 text-white",
+              "email": null,
+              "role": "Shopping Lead",
+              "status": "away",
+              "recentActivity": "Browsing Milan fashion guides",
+              "roomInvolvement": 4
+            },
+            "content": "Whatever has best timing.",
+            "timestamp": "06:04 AM"
+          },
+          {
+            "id": "m_1767459898823_0.05381954222351315",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "@RIMA can you track flight options and costs here?",
+            "timestamp": "06:54 AM"
+          },
+          {
+            "id": "m_1767459898823_0.8252560241484959",
+            "sender": "Rima",
+            "content": "Of course ✈️\nThis room will be used for:\n* Flights\n* Hotels\n* Trains between cities\n* Uploaded tickets & PDFs\n* Shared expenses\nOnce bookings start, I’ll keep a clean summary.",
+            "timestamp": "07:04 AM"
+          },
+          {
+            "id": "m_1767459898823_0.27295835101553767",
+            "sender": {
+              "id": "u_hind",
+              "name": "Hind",
+              "avatarColor": "bg-blue-500 text-white",
+              "email": null,
+              "role": "Rome Lead",
+              "status": "offline",
+              "recentActivity": "Working on coliseum tour",
+              "roomInvolvement": 4
+            },
+            "content": "We should also upload visa docs here later.",
+            "timestamp": "07:44 AM"
+          },
+          {
+            "id": "m_1767459901997_0.23302670444483342",
+            "sender": {
+              "id": "u_noora",
+              "name": "Noora",
+              "avatarColor": "bg-orange-500 text-white",
+              "email": null,
+              "role": "Shopping Lead",
+              "status": "away",
+              "recentActivity": "Browsing Milan fashion guides",
+              "roomInvolvement": 4
+            },
+            "content": "I can handle train bookings between cities. Budget estimate: €300 total.",
+            "timestamp": "07:45 PM"
+          },
+          {
+            "id": "m_1767459902005_0.5254884496091139",
+            "sender": "Rima",
+            "content": "Assigned:\n\"Book inter-city trains\" - Noora\nBudget logged: €300",
+            "timestamp": "07:50 PM"
+          },
+          {
+            "id": "m_1767459898823_0.11488980603874621",
+            "sender": "Rima",
+            "content": "Good idea. I’ll keep visa documents grouped here as well.",
+            "timestamp": "07:54 AM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
       }
-    ]
-  },
-
-  // SCENARIO 7: Q3 Marketing Blitz (WORK)
-  {
-    id: 'p_work_marketing',
-    title: 'Q3 Marketing Blitz',
-    description: 'High-intensity campaign planning for the summer launch.',
-    theme: 'obsidian',
-    profileId: 'p_work',
-    progress: 10,
-    budget: '$25,000',
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[11], SYSTEM_USERS[9], SYSTEM_USERS[13]], // Sara, Lina, Designer, Compliance
-    messages: [],
-    lastActivity: "Active 2h ago",
-    insights: [
-      { category: 'risk', text: 'Ad spend approval pending finance review.', icon: '⏳' },
-      { category: 'planning', text: 'Asset deliverable list is incomplete.', icon: '📉' }
     ],
-    rooms: [
+    "messages": [
       {
-        id: 'c_mkt_ideas',
-        title: 'Campaign Ideas',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[11], SYSTEM_USERS[9]],
-        messages: [
-          createMsg(SYSTEM_USERS[11], "What if we did a 3D reveal?", 120),
-          createMsg(SYSTEM_USERS[9], "That exceeds the budget, but looks cool.", 110),
-          createMsg(SYSTEM_USERS[11], "Let's mock it up anyway.", 100)
-        ],
-        unreadCount: 3
+        "id": "m_1767459898824_0.9953959603197906",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Yes! I’m adding RIMA here to help us organize because my brain can’t handle this 😂\n@RIMA we’re planning a 10-day Europe trip in April 2026.",
+        "timestamp": "01:04 PM"
       },
       {
-        id: 'c_mkt_assets',
-        title: 'Assets & Copy',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[9]],
-        messages: [],
-        unreadCount: 0
+        "id": "m_1767459898824_0.6590051512580563",
+        "sender": "Rima",
+        "content": "Love this plan ✨\nI can help you keep everything organized.\nSince you mentioned multiple cities, would you like me to create city rooms (Paris, Milan, Rome) and one room for bookings?",
+        "timestamp": "01:14 PM"
       },
       {
-        id: 'c_mkt_budget',
-        title: 'Budget Allocation',
-        members: [SYSTEM_USERS[0]], // Private or restricted?
-        messages: [
-          createMsg(SYSTEM_USERS[13], "Compliance needs to review the influencer contracts.", 300)
-        ],
-        unreadCount: 1, // Msg from Compliance
-        isPrivate: true
+        "id": "m_1767459898824_0.5991656552142379",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Yes please, do it.",
+        "timestamp": "01:54 PM"
+      },
+      {
+        "id": "m_1767459898824_0.9544801439891665",
+        "sender": "Rima",
+        "content": "✅ Done.\nI’ve created:\n* Paris\n* Milan\n* Rome\n* Bookings\nWe’ll keep this main room for general planning and decisions.",
+        "timestamp": "02:04 PM"
+      },
+      {
+        "id": "m_1767459898824_0.7726573538799207",
+        "sender": {
+          "id": "u_noora",
+          "name": "Noora",
+          "avatarColor": "bg-orange-500 text-white",
+          "email": null,
+          "role": "Shopping Lead",
+          "status": "away",
+          "recentActivity": "Browsing Milan fashion guides",
+          "roomInvolvement": 4
+        },
+        "content": "This already feels calmer 😌",
+        "timestamp": "02:44 PM"
+      },
+      {
+        "id": "m_1767459898824_0.5966513944625649",
+        "sender": {
+          "id": "u_hind",
+          "name": "Hind",
+          "avatarColor": "bg-blue-500 text-white",
+          "email": null,
+          "role": "Rome Lead",
+          "status": "offline",
+          "recentActivity": "Working on coliseum tour",
+          "roomInvolvement": 4
+        },
+        "content": "Agreed. Can we decide rough dates first?",
+        "timestamp": "03:34 PM"
+      },
+      {
+        "id": "m_1767459898824_0.5710959207526898",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Let’s aim for April 5–15?",
+        "timestamp": "04:24 PM"
+      },
+      {
+        "id": "m_1767459898824_0.253064667001462",
+        "sender": {
+          "id": "u_maryam",
+          "name": "Maryam",
+          "avatarColor": "bg-pink-500 text-white",
+          "email": null,
+          "role": "Hotel Lead",
+          "status": "active",
+          "recentActivity": "Updating bookings for Paris",
+          "roomInvolvement": 5
+        },
+        "content": "Works for me.",
+        "timestamp": "05:14 PM"
+      },
+      {
+        "id": "m_1767459898824_0.552586123139341",
+        "sender": "Rima",
+        "content": "Noted ✍️\nTentative trip dates: April 5–15, 2026\nYou can change this anytime.",
+        "timestamp": "05:24 PM"
+      },
+      {
+        "id": "m_1767459901959_0.6870568183834944",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "I'll book the flights by Friday. Need to compare Emirates vs Qatar.",
+        "timestamp": "07:25 PM"
+      },
+      {
+        "id": "m_1767459901971_0.16754558805888475",
+        "sender": "Rima",
+        "content": "✅ Task noted:\n\"Book flights\" - Sara - Due: Friday\nI'll remind you on Thursday if not done.",
+        "timestamp": "07:30 PM"
+      },
+      {
+        "id": "m_1767459898823_0.12337842914784092",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Hey ladies! April Europe trip is officially happening 🇪🇺✨",
+        "timestamp": "09:44 AM"
+      },
+      {
+        "id": "m_1767459898823_0.3195910841103019",
+        "sender": {
+          "id": "u_maryam",
+          "name": "Maryam",
+          "avatarColor": "bg-pink-500 text-white",
+          "email": null,
+          "role": "Hotel Lead",
+          "status": "active",
+          "recentActivity": "Updating bookings for Paris",
+          "roomInvolvement": 5
+        },
+        "content": "Finally!! I’m so excited 😭",
+        "timestamp": "10:34 AM"
+      },
+      {
+        "id": "m_1767459898823_0.8081164959105259",
+        "sender": {
+          "id": "u_noora",
+          "name": "Noora",
+          "avatarColor": "bg-orange-500 text-white",
+          "email": null,
+          "role": "Shopping Lead",
+          "status": "away",
+          "recentActivity": "Browsing Milan fashion guides",
+          "roomInvolvement": 4
+        },
+        "content": "10 days right? We said April but not exact dates yet.",
+        "timestamp": "11:24 AM"
+      },
+      {
+        "id": "m_1767459898823_0.7036236725123242",
+        "sender": {
+          "id": "u_hind",
+          "name": "Hind",
+          "avatarColor": "bg-blue-500 text-white",
+          "email": null,
+          "role": "Rome Lead",
+          "status": "offline",
+          "recentActivity": "Working on coliseum tour",
+          "roomInvolvement": 4
+        },
+        "content": "Can we do Paris + Milan + Rome? Dream combo.",
+        "timestamp": "12:14 PM"
       }
-    ]
-  },
-
-  // SCENARIO 8: Weekend Hiking Club (LIFE)
-  {
-    id: 'p_life_hiking',
-    title: 'Weekend Hiking Club',
-    description: ' coordinating weekly hikes, carpools, and trail discoveries.',
-    theme: 'emerald',
-    profileId: 'p_life',
-    progress: 88,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[2], SYSTEM_USERS[3], SYSTEM_USERS[5]], // Sara, Noora, Hind, Hessa
-    messages: [
-      createMsg(SYSTEM_USERS[2], "The weather looks perfect for Jebel Jais.", 30)
     ],
-    lastActivity: "Active 30m ago",
-    insights: [],
-    rooms: [
+    "insights": [
       {
-        id: 'c_hike_gen',
-        title: 'General',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[2], SYSTEM_USERS[3]],
-        messages: [
-          createMsg(SYSTEM_USERS[3], "Did everyone get new boots?", 1000)
-        ],
-        unreadCount: 0
+        "id": "i_euro_1",
+        "category": "info",
+        "text": "Trip Dates: April 5–15, 2026 (Tentative)",
+        "icon": "",
+        "type": "info",
+        "content": "Trip Dates: April 5–15, 2026 (Tentative)",
+        "timestamp": "Now"
       },
       {
-        id: 'c_hike_maps',
-        title: 'Trail Maps',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[5]],
-        messages: [
-          createMsg(SYSTEM_USERS[5], "Downloaded the offline map.", 45),
-          createMsg(SYSTEM_USERS[2], "The weather looks perfect for Jebel Jais.", 30),
-          createMsg(SYSTEM_USERS[2], "Meeting point at 5 AM?", 25)
-        ],
-        unreadCount: 2
-      },
-      {
-        id: 'c_hike_carpool',
-        title: 'Carpool Logistics',
-        members: [SYSTEM_USERS[0]],
-        messages: [],
-        unreadCount: 0,
-        isPrivate: true
+        "id": "i_euro_2",
+        "category": "action",
+        "text": "Bookings needed: Flights, Hotels, Trains",
+        "icon": "",
+        "type": "action",
+        "content": "Bookings needed: Flights, Hotels, Trains",
+        "timestamp": "Now"
       }
-    ]
+    ],
+    "tasks": [],
+    "spending": [],
+    "tags": []
+  },
+  {
+    "id": "w_supermom",
+    "title": "My Angels",
+    "description": "Family command center: School schedules, grades, activities, and calendars.",
+    "theme": "rose",
+    "profileId": "p_life",
+    "budget": null,
+    "deadline": null,
+    "phase": null,
+    "progress": 80,
+    "lastActivity": "Active 10m ago",
+    "parentRoomId": null,
+    "isPrivate": 0,
+    "members": [
+      {
+        "id": "u_hessa",
+        "name": "Hessa",
+        "avatarColor": "bg-purple-500 text-violet-100",
+        "email": null,
+        "role": "Student (Daughter)",
+        "status": "active",
+        "recentActivity": "Last message: 15m ago",
+        "roomInvolvement": 3
+      },
+      {
+        "id": "u_omar",
+        "name": "Omar",
+        "avatarColor": "bg-sky-600 text-white",
+        "email": null,
+        "role": "Student (Son)",
+        "status": "active",
+        "recentActivity": "Physics study plan updated",
+        "roomInvolvement": 3
+      },
+      {
+        "id": "u_salem",
+        "name": "Salem",
+        "avatarColor": "bg-emerald-500 text-white",
+        "email": null,
+        "role": "Student (Son)",
+        "status": "away",
+        "recentActivity": "Completed weekend task",
+        "roomInvolvement": 3
+      },
+      {
+        "id": "u_sara",
+        "name": "Sara",
+        "avatarColor": "bg-zinc-200 text-black",
+        "email": null,
+        "role": "Owner / Founder",
+        "status": "active",
+        "recentActivity": "Reviewing cross-universe dependencies",
+        "roomInvolvement": 25
+      }
+    ],
+    "rooms": [
+      {
+        "id": "r_omar",
+        "workspaceId": "w_supermom",
+        "title": "Omar",
+        "description": null,
+        "isPrivate": 0,
+        "unreadCount": 1,
+        "members": [
+          {
+            "id": "u_omar",
+            "name": "Omar",
+            "avatarColor": "bg-sky-600 text-white",
+            "email": null,
+            "role": "Student (Son)",
+            "status": "active",
+            "recentActivity": "Physics study plan updated",
+            "roomInvolvement": 3
+          },
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459898824_0.8517423260092882",
+            "sender": {
+              "id": "u_omar",
+              "name": "Omar",
+              "avatarColor": "bg-sky-600 text-white",
+              "email": null,
+              "role": "Student (Son)",
+              "status": "active",
+              "recentActivity": "Physics study plan updated",
+              "roomInvolvement": 3
+            },
+            "content": "Okayyy I guess. Math exam is stressing me out.",
+            "timestamp": "01:24 PM"
+          },
+          {
+            "id": "m_1767459898824_0.7890684875239875",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "I know 😅 Have you started studying?",
+            "timestamp": "03:04 PM"
+          },
+          {
+            "id": "m_1767459898824_0.596290652023794",
+            "sender": {
+              "id": "u_omar",
+              "name": "Omar",
+              "avatarColor": "bg-sky-600 text-white",
+              "email": null,
+              "role": "Student (Son)",
+              "status": "active",
+              "recentActivity": "Physics study plan updated",
+              "roomInvolvement": 3
+            },
+            "content": "A little...",
+            "timestamp": "04:44 PM"
+          },
+          {
+            "id": "m_1767459898824_0.15204828432330664",
+            "sender": "Rima",
+            "content": "Omar, according to your schedule:\n* Math exam: Thursday\n* You studied Math for 30 minutes on Sunday\nWould you like me to help you plan short study sessions around football?",
+            "timestamp": "04:54 PM"
+          },
+          {
+            "id": "m_1767459902013_0.5604096885482953",
+            "sender": {
+              "id": "u_omar",
+              "name": "Omar",
+              "avatarColor": "bg-sky-600 text-white",
+              "email": null,
+              "role": "Student (Son)",
+              "status": "active",
+              "recentActivity": "Physics study plan updated",
+              "roomInvolvement": 3
+            },
+            "content": "Mom, can you help me with my physics homework tonight?",
+            "timestamp": "05:45 PM"
+          },
+          {
+            "id": "m_1767459902022_0.391050509138135",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Of course! I'll be free after 7 PM.",
+            "timestamp": "05:50 PM"
+          },
+          {
+            "id": "m_1767459902034_0.7421716854776416",
+            "sender": "Rima",
+            "content": "Reminder set:\n\"Help Omar with physics homework\" - Sara - 7:00 PM",
+            "timestamp": "05:55 PM"
+          },
+          {
+            "id": "m_1767459898824_0.981244477197225",
+            "sender": {
+              "id": "u_omar",
+              "name": "Omar",
+              "avatarColor": "bg-sky-600 text-white",
+              "email": null,
+              "role": "Student (Son)",
+              "status": "active",
+              "recentActivity": "Physics study plan updated",
+              "roomInvolvement": 3
+            },
+            "content": "Yes pls 😭",
+            "timestamp": "06:24 PM"
+          },
+          {
+            "id": "m_1767459898824_0.7956299886290211",
+            "sender": "Rima",
+            "content": "Suggested plan:\n* Monday: 30 min after dinner\n* Wednesday: 45 min before training\nSara, shall I add this to Omar’s calendar?",
+            "timestamp": "06:34 PM"
+          },
+          {
+            "id": "m_1767459898825_0.9153102463121984",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Yes, add it.",
+            "timestamp": "07:14 PM"
+          },
+          {
+            "id": "m_1767459898825_0.6664163523346238",
+            "sender": "Rima",
+            "content": "✅ Added to calendar.\nOmar, I’ll remind you 10 minutes before each session.",
+            "timestamp": "07:24 PM"
+          },
+          {
+            "id": "m_1767459898825_0.06949666934302667",
+            "sender": {
+              "id": "u_omar",
+              "name": "Omar",
+              "avatarColor": "bg-sky-600 text-white",
+              "email": null,
+              "role": "Student (Son)",
+              "status": "active",
+              "recentActivity": "Physics study plan updated",
+              "roomInvolvement": 3
+            },
+            "content": "Thanks RIMA 🙏",
+            "timestamp": "08:04 PM"
+          },
+          {
+            "id": "m_1767459898824_0.1644256001622828",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Hey Omar, how’s school going this week?",
+            "timestamp": "11:44 AM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      },
+      {
+        "id": "r_hessa",
+        "workspaceId": "w_supermom",
+        "title": "Hessa",
+        "description": null,
+        "isPrivate": 0,
+        "unreadCount": 3,
+        "members": [
+          {
+            "id": "u_hessa",
+            "name": "Hessa",
+            "avatarColor": "bg-purple-500 text-violet-100",
+            "email": null,
+            "role": "Student (Daughter)",
+            "status": "active",
+            "recentActivity": "Last message: 15m ago",
+            "roomInvolvement": 3
+          },
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459898825_0.12232906210890937",
+            "sender": "Rima",
+            "content": "Noted.\nHessa, once you finish Step 1, just tell me “done” 🙂",
+            "timestamp": "01:04 AM"
+          },
+          {
+            "id": "m_1767459898825_0.0009272002257253442",
+            "sender": {
+              "id": "u_hessa",
+              "name": "Hessa",
+              "avatarColor": "bg-purple-500 text-violet-100",
+              "email": null,
+              "role": "Student (Daughter)",
+              "status": "active",
+              "recentActivity": "Last message: 15m ago",
+              "roomInvolvement": 3
+            },
+            "content": "Okay 💕",
+            "timestamp": "01:44 AM"
+          },
+          {
+            "id": "m_1767459902044_0.9407712412996359",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Hessa, don't forget your art supplies for tomorrow's class.",
+            "timestamp": "06:05 PM"
+          },
+          {
+            "id": "m_1767459902055_0.01738849717935953",
+            "sender": {
+              "id": "u_hessa",
+              "name": "Hessa",
+              "avatarColor": "bg-purple-500 text-violet-100",
+              "email": null,
+              "role": "Student (Daughter)",
+              "status": "active",
+              "recentActivity": "Last message: 15m ago",
+              "roomInvolvement": 3
+            },
+            "content": "Okay! I'll pack them tonight.",
+            "timestamp": "06:10 PM"
+          },
+          {
+            "id": "m_1767459898825_0.13048656015421878",
+            "sender": {
+              "id": "u_hessa",
+              "name": "Hessa",
+              "avatarColor": "bg-purple-500 text-violet-100",
+              "email": null,
+              "role": "Student (Daughter)",
+              "status": "active",
+              "recentActivity": "Last message: 15m ago",
+              "roomInvolvement": 3
+            },
+            "content": "Mamaaa I don’t like my science project 😩",
+            "timestamp": "07:04 PM"
+          },
+          {
+            "id": "m_1767459898825_0.3760896105857896",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "What’s wrong?",
+            "timestamp": "08:44 PM"
+          },
+          {
+            "id": "m_1767459898825_0.8742769504611099",
+            "sender": {
+              "id": "u_hessa",
+              "name": "Hessa",
+              "avatarColor": "bg-purple-500 text-violet-100",
+              "email": null,
+              "role": "Student (Daughter)",
+              "status": "active",
+              "recentActivity": "Last message: 15m ago",
+              "roomInvolvement": 3
+            },
+            "content": "I don’t understand it.",
+            "timestamp": "10:24 PM"
+          },
+          {
+            "id": "m_1767459898825_0.9776885834842723",
+            "sender": "Rima",
+            "content": "Hessa, your science project is due Wednesday.\nLast time, breaking it into small steps helped. Shall we do that again?",
+            "timestamp": "10:34 PM"
+          },
+          {
+            "id": "m_1767459898825_0.6528401983556069",
+            "sender": {
+              "id": "u_hessa",
+              "name": "Hessa",
+              "avatarColor": "bg-purple-500 text-violet-100",
+              "email": null,
+              "role": "Student (Daughter)",
+              "status": "active",
+              "recentActivity": "Last message: 15m ago",
+              "roomInvolvement": 3
+            },
+            "content": "Yes 🥺",
+            "timestamp": "12:04 AM"
+          },
+          {
+            "id": "m_1767459898825_0.40581622465647194",
+            "sender": "Rima",
+            "content": "Okay 🌼\nStep 1: Choose topic (today)\nStep 2: Research (tomorrow)\nStep 3: Presentation (Wednesday)\nSara, would you like me to track progress?",
+            "timestamp": "12:14 AM"
+          },
+          {
+            "id": "m_1767459898825_0.954085851549304",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Yes please.",
+            "timestamp": "12:54 AM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      },
+      {
+        "id": "r_salem",
+        "workspaceId": "w_supermom",
+        "title": "Salem",
+        "description": null,
+        "isPrivate": 0,
+        "unreadCount": 0,
+        "members": [
+          {
+            "id": "u_salem",
+            "name": "Salem",
+            "avatarColor": "bg-emerald-500 text-white",
+            "email": null,
+            "role": "Student (Son)",
+            "status": "away",
+            "recentActivity": "Completed weekend task",
+            "roomInvolvement": 3
+          },
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459898825_0.29335514663657003",
+            "sender": {
+              "id": "u_salem",
+              "name": "Salem",
+              "avatarColor": "bg-emerald-500 text-white",
+              "email": null,
+              "role": "Student (Son)",
+              "status": "away",
+              "recentActivity": "Completed weekend task",
+              "roomInvolvement": 3
+            },
+            "content": "Mama guess what!! I got a star ⭐⭐⭐",
+            "timestamp": "02:24 AM"
+          },
+          {
+            "id": "m_1767459898825_0.7149459105622001",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "That’s amazing!! For what?",
+            "timestamp": "04:04 AM"
+          },
+          {
+            "id": "m_1767459898825_0.3949313876321714",
+            "sender": {
+              "id": "u_salem",
+              "name": "Salem",
+              "avatarColor": "bg-emerald-500 text-white",
+              "email": null,
+              "role": "Student (Son)",
+              "status": "away",
+              "recentActivity": "Completed weekend task",
+              "roomInvolvement": 3
+            },
+            "content": "Reading!",
+            "timestamp": "05:44 AM"
+          },
+          {
+            "id": "m_1767459898825_0.6685905066313746",
+            "sender": "Rima",
+            "content": "🎉 Great job Salem!\nI’ve recorded:\n* Reading score: Excellent\n* Teacher note: “Very enthusiastic”\nSara, Salem has improved his reading score for the third week in a row.",
+            "timestamp": "05:54 AM"
+          },
+          {
+            "id": "m_1767459902066_0.9192985445018612",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Salem, practice reading for 20 mins before bed.",
+            "timestamp": "06:15 PM"
+          },
+          {
+            "id": "m_1767459898826_0.7311332056496941",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "I’m so proud of you baby ❤️",
+            "timestamp": "07:24 AM"
+          },
+          {
+            "id": "m_1767459898826_0.5235812170619164",
+            "sender": {
+              "id": "u_salem",
+              "name": "Salem",
+              "avatarColor": "bg-emerald-500 text-white",
+              "email": null,
+              "role": "Student (Son)",
+              "status": "away",
+              "recentActivity": "Completed weekend task",
+              "roomInvolvement": 3
+            },
+            "content": "Can we get ice cream? 🍦",
+            "timestamp": "09:04 AM"
+          },
+          {
+            "id": "m_1767459898826_0.6347534206539441",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "😂 We’ll see.",
+            "timestamp": "10:44 AM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      }
+    ],
+    "messages": [
+      {
+        "id": "m_1767459898826_0.2854608806769423",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Good morning RIMA ☕ I feel like this week is going to be crazy.",
+        "timestamp": "05:04 PM"
+      },
+      {
+        "id": "m_1767459898826_0.297179180894766",
+        "sender": "Rima",
+        "content": "Good morning Sara 🌸\nHere’s a quick overview for this week:\n* Omar: Math exam on Thursday, football training Tue & Thu\n* Hessa: Science project due Wednesday\n* Salem: School trip on Tuesday\nYou have 2 overlapping items on Wednesday afternoon. Would you like me to flag them on your calendar?",
+        "timestamp": "06:44 PM"
+      },
+      {
+        "id": "m_1767459898826_0.4970744225436188",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Yes please. Also… who needs my attention the most this week?",
+        "timestamp": "08:24 PM"
+      },
+      {
+        "id": "m_1767459898826_0.5403705504832849",
+        "sender": "Rima",
+        "content": "Based on deadlines and recent activity:\n1️⃣ Hessa – upcoming project + exam stress last week\n2️⃣ Omar – exam + late practices\n3️⃣ Salem – all on track 👍",
+        "timestamp": "08:34 PM"
+      },
+      {
+        "id": "m_1767459898826_0.40994162759381025",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Thank you… that helps a lot.",
+        "timestamp": "10:04 PM"
+      },
+      {
+        "id": "m_1767459898826_0.09860956464103021",
+        "sender": "Rima",
+        "content": "Anytime. You’re doing great 💙",
+        "timestamp": "10:14 PM"
+      }
+    ],
+    "insights": [
+      {
+        "id": "i_fam_1",
+        "category": "warning",
+        "text": "Hessa: Science project due Wednesday",
+        "icon": "",
+        "type": "warning",
+        "content": "Hessa: Science project due Wednesday",
+        "timestamp": "Wednesday"
+      },
+      {
+        "id": "i_fam_2",
+        "category": "info",
+        "text": "Omar: Math Exam on Thursday",
+        "icon": "",
+        "type": "info",
+        "content": "Omar: Math Exam on Thursday",
+        "timestamp": "Thursday"
+      },
+      {
+        "id": "i_fam_3",
+        "category": "info",
+        "text": "Salem: Reading score improved!",
+        "icon": "",
+        "type": "info",
+        "content": "Salem: Reading score improved!",
+        "timestamp": "Today"
+      }
+    ],
+    "tasks": [],
+    "spending": [],
+    "tags": []
+  },
+  {
+    "id": "w_dubai_reefs",
+    "title": "Dubai Reefs – Operations",
+    "description": "Program operations for Dubai Reefs initiative. Cross-team coordination.",
+    "theme": "teal",
+    "profileId": "p_work",
+    "budget": null,
+    "deadline": null,
+    "phase": null,
+    "progress": 45,
+    "lastActivity": "Active 2m ago",
+    "parentRoomId": null,
+    "isPrivate": 0,
+    "members": [
+      {
+        "id": "u_alex",
+        "name": "Alex",
+        "avatarColor": "bg-teal-500 text-white",
+        "email": null,
+        "role": "Ops Lead",
+        "status": "active",
+        "recentActivity": "Reviewing Phase 1 dependencies",
+        "roomInvolvement": 6
+      },
+      {
+        "id": "u_compliance",
+        "name": "Compliance Officer",
+        "avatarColor": "bg-slate-700 text-white",
+        "email": null,
+        "role": "Regulatory Lead",
+        "status": "active",
+        "recentActivity": "Permit A-14 audit",
+        "roomInvolvement": 2
+      },
+      {
+        "id": "u_consultant",
+        "name": "External Consultant",
+        "avatarColor": "bg-gray-500 text-white",
+        "email": null,
+        "role": "Consultant",
+        "status": "offline",
+        "recentActivity": "Reviewing depth perception",
+        "roomInvolvement": 1
+      },
+      {
+        "id": "u_jordan",
+        "name": "Jordan",
+        "avatarColor": "bg-amber-600 text-white",
+        "email": null,
+        "role": "Vendor Manager",
+        "status": "active",
+        "recentActivity": "Negotiating brass pricing",
+        "roomInvolvement": 5
+      },
+      {
+        "id": "u_marine",
+        "name": "Marine Lead",
+        "avatarColor": "bg-cyan-700 text-white",
+        "email": null,
+        "role": "Marine Specialist",
+        "status": "active",
+        "recentActivity": "Survey data processing",
+        "roomInvolvement": 3
+      },
+      {
+        "id": "u_sara",
+        "name": "Sara",
+        "avatarColor": "bg-zinc-200 text-black",
+        "email": null,
+        "role": "Owner / Founder",
+        "status": "active",
+        "recentActivity": "Reviewing cross-universe dependencies",
+        "roomInvolvement": 25
+      }
+    ],
+    "rooms": [
+      {
+        "id": "r_site_deployment",
+        "workspaceId": "w_dubai_reefs",
+        "title": "Site Deployment – Phase 1",
+        "description": null,
+        "isPrivate": 0,
+        "unreadCount": 4,
+        "members": [
+          {
+            "id": "u_alex",
+            "name": "Alex",
+            "avatarColor": "bg-teal-500 text-white",
+            "email": null,
+            "role": "Ops Lead",
+            "status": "active",
+            "recentActivity": "Reviewing Phase 1 dependencies",
+            "roomInvolvement": 6
+          },
+          {
+            "id": "u_marine",
+            "name": "Marine Lead",
+            "avatarColor": "bg-cyan-700 text-white",
+            "email": null,
+            "role": "Marine Specialist",
+            "status": "active",
+            "recentActivity": "Survey data processing",
+            "roomInvolvement": 3
+          },
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459898827_0.03570603593759403",
+            "sender": {
+              "id": "u_marine",
+              "name": "Marine Lead",
+              "avatarColor": "bg-cyan-700 text-white",
+              "email": null,
+              "role": "Marine Specialist",
+              "status": "active",
+              "recentActivity": "Survey data processing",
+              "roomInvolvement": 3
+            },
+            "content": "Once we get the data, we’ll need 48 hours to finalize locations.",
+            "timestamp": "01:44 AM"
+          },
+          {
+            "id": "m_1767459898827_0.1680304321092999",
+            "sender": "Rima",
+            "content": "Noted:\n* Bathymetry received → 48 hours for final coordinates",
+            "timestamp": "01:54 AM"
+          },
+          {
+            "id": "m_1767459902077_0.5252863659369057",
+            "sender": {
+              "id": "u_alex",
+              "name": "Alex",
+              "avatarColor": "bg-teal-500 text-white",
+              "email": null,
+              "role": "Ops Lead",
+              "status": "active",
+              "recentActivity": "Reviewing Phase 1 dependencies",
+              "roomInvolvement": 6
+            },
+            "content": "I'll finalize deployment schedule by Wednesday. Need final coordinates first.",
+            "timestamp": "04:55 PM"
+          },
+          {
+            "id": "m_1767459902089_0.17014769028349142",
+            "sender": "Rima",
+            "content": "⚠️ Dependency noted:\n\"Finalize deployment schedule\" depends on survey coordinates\nDue: Wednesday",
+            "timestamp": "05:00 PM"
+          },
+          {
+            "id": "m_1767459898826_0.14631060731189305",
+            "sender": {
+              "id": "u_marine",
+              "name": "Marine Lead",
+              "avatarColor": "bg-cyan-700 text-white",
+              "email": null,
+              "role": "Marine Specialist",
+              "status": "active",
+              "recentActivity": "Survey data processing",
+              "roomInvolvement": 3
+            },
+            "content": "We need the updated bathymetric survey before we lock coordinates.",
+            "timestamp": "07:04 PM"
+          },
+          {
+            "id": "m_1767459898826_0.2295355827229989",
+            "sender": {
+              "id": "u_alex",
+              "name": "Alex",
+              "avatarColor": "bg-teal-500 text-white",
+              "email": null,
+              "role": "Ops Lead",
+              "status": "active",
+              "recentActivity": "Reviewing Phase 1 dependencies",
+              "roomInvolvement": 6
+            },
+            "content": "Survey team said “early next week” but no exact date.",
+            "timestamp": "08:44 PM"
+          },
+          {
+            "id": "m_1767459898826_0.8917711954515434",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "That’s risky.\n@RIMA when was the last time they gave us a firm date?",
+            "timestamp": "10:24 PM"
+          },
+          {
+            "id": "m_1767459898826_0.3571870950858592",
+            "sender": "Rima",
+            "content": "Last confirmed update from the survey team was 12 days ago, with “early next week” mentioned twice since then without a date.",
+            "timestamp": "10:34 PM"
+          },
+          {
+            "id": "m_1767459898826_0.7113332790944425",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Okay… please remind me to follow up if no update by Tuesday 10 AM.",
+            "timestamp": "12:04 AM"
+          },
+          {
+            "id": "m_1767459898826_0.31033499636946804",
+            "sender": "Rima",
+            "content": "⏰ Reminder set for Tuesday at 10:00 AM.",
+            "timestamp": "12:14 AM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      },
+      {
+        "id": "r_vendors",
+        "workspaceId": "w_dubai_reefs",
+        "title": "Vendors & Fabrication",
+        "description": null,
+        "isPrivate": 0,
+        "unreadCount": 2,
+        "members": [
+          {
+            "id": "u_jordan",
+            "name": "Jordan",
+            "avatarColor": "bg-amber-600 text-white",
+            "email": null,
+            "role": "Vendor Manager",
+            "status": "active",
+            "recentActivity": "Negotiating brass pricing",
+            "roomInvolvement": 5
+          },
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459898827_0.13543224360123052",
+            "sender": {
+              "id": "u_jordan",
+              "name": "Jordan",
+              "avatarColor": "bg-amber-600 text-white",
+              "email": null,
+              "role": "Vendor Manager",
+              "status": "active",
+              "recentActivity": "Negotiating brass pricing",
+              "roomInvolvement": 5
+            },
+            "content": "Fabrication cost might increase 8–10% if we don’t confirm quantities by Friday.",
+            "timestamp": "02:24 AM"
+          },
+          {
+            "id": "m_1767459898827_0.15762843282920092",
+            "sender": {
+              "id": "u_jordan",
+              "name": "Jordan",
+              "avatarColor": "bg-amber-600 text-white",
+              "email": null,
+              "role": "Vendor Manager",
+              "status": "active",
+              "recentActivity": "Negotiating brass pricing",
+              "roomInvolvement": 5
+            },
+            "content": "We still don’t have signed approval for the revised quantities.",
+            "timestamp": "04:04 AM"
+          },
+          {
+            "id": "m_1767459902098_0.4163874124350082",
+            "sender": {
+              "id": "u_jordan",
+              "name": "Jordan",
+              "avatarColor": "bg-amber-600 text-white",
+              "email": null,
+              "role": "Vendor Manager",
+              "status": "active",
+              "recentActivity": "Negotiating brass pricing",
+              "roomInvolvement": 5
+            },
+            "content": "Updated quote: 52,000 AED for materials. Expires end of month.",
+            "timestamp": "05:05 PM"
+          },
+          {
+            "id": "m_1767459902107_0.904648143102725",
+            "sender": "Rima",
+            "content": "💰 Budget updated:\nMaterials: 52,000 AED\nQuote expires: End of month\n⚠️ Approval needed soon",
+            "timestamp": "05:10 PM"
+          },
+          {
+            "id": "m_1767459898827_0.7766896244807147",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "This is exactly the kind of thing that blows up later 😓\n@RIMA what’s blocking the approval?",
+            "timestamp": "05:44 AM"
+          },
+          {
+            "id": "m_1767459898827_0.3929274725267484",
+            "sender": "Rima",
+            "content": "Approval pending from:\n* Finance (budget reallocation)\n* Technical sign-off (module count confirmation)",
+            "timestamp": "05:54 AM"
+          },
+          {
+            "id": "m_1767459898827_0.19953555676209034",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Okay, I’ll chase finance.\n@RIMA please log this as a cost risk.",
+            "timestamp": "07:24 AM"
+          },
+          {
+            "id": "m_1767459898827_0.391072774130106",
+            "sender": "Rima",
+            "content": "⚠️ Risk logged:\n“Fabrication cost increase (8–10%) if confirmation delayed beyond Friday.”",
+            "timestamp": "07:34 AM"
+          },
+          {
+            "id": "m_1767459898827_0.19372074614169377",
+            "sender": {
+              "id": "u_jordan",
+              "name": "Jordan",
+              "avatarColor": "bg-amber-600 text-white",
+              "email": null,
+              "role": "Vendor Manager",
+              "status": "active",
+              "recentActivity": "Negotiating brass pricing",
+              "roomInvolvement": 5
+            },
+            "content": "Please keep us posted by Thursday at the latest.",
+            "timestamp": "09:04 AM"
+          },
+          {
+            "id": "m_1767459898827_0.17769974142611433",
+            "sender": "Rima",
+            "content": "Deadline noted: Thursday – Vendor confirmation update",
+            "timestamp": "09:14 AM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      },
+      {
+        "id": "r_permits",
+        "workspaceId": "w_dubai_reefs",
+        "title": "Permits & Compliance",
+        "description": null,
+        "isPrivate": 0,
+        "unreadCount": 1,
+        "members": [
+          {
+            "id": "u_compliance",
+            "name": "Compliance Officer",
+            "avatarColor": "bg-slate-700 text-white",
+            "email": null,
+            "role": "Regulatory Lead",
+            "status": "active",
+            "recentActivity": "Permit A-14 audit",
+            "roomInvolvement": 2
+          },
+          {
+            "id": "u_consultant",
+            "name": "External Consultant",
+            "avatarColor": "bg-gray-500 text-white",
+            "email": null,
+            "role": "Consultant",
+            "status": "offline",
+            "recentActivity": "Reviewing depth perception",
+            "roomInvolvement": 1
+          },
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459898827_0.41788042018795857",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Do we already have that info documented somewhere?",
+            "timestamp": "01:04 PM"
+          },
+          {
+            "id": "m_1767459898827_0.8533054973067924",
+            "sender": "Rima",
+            "content": "Yes.\nA similar clarification was submitted in Phase 0 documentation (August).\nI can attach the relevant excerpt here.",
+            "timestamp": "01:14 PM"
+          },
+          {
+            "id": "m_1767459898827_0.8239236336175679",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Please do.",
+            "timestamp": "02:44 PM"
+          },
+          {
+            "id": "m_1767459898828_0.9141841989938929",
+            "sender": "Rima",
+            "content": "📎 Attached: “Deployment Depth Clarification – Phase 0”\nWould you like me to draft a response using this as reference?",
+            "timestamp": "02:54 PM"
+          },
+          {
+            "id": "m_1767459898828_0.21606362594456607",
+            "sender": {
+              "id": "u_compliance",
+              "name": "Compliance Officer",
+              "avatarColor": "bg-slate-700 text-white",
+              "email": null,
+              "role": "Regulatory Lead",
+              "status": "active",
+              "recentActivity": "Permit A-14 audit",
+              "roomInvolvement": 2
+            },
+            "content": "That would save us time, yes.",
+            "timestamp": "04:24 PM"
+          },
+          {
+            "id": "m_1767459898828_0.44465776375263144",
+            "sender": "Rima",
+            "content": "Draft prepared. Waiting for Sara’s approval before sending.",
+            "timestamp": "04:34 PM"
+          },
+          {
+            "id": "m_1767459898827_0.5055087346174749",
+            "sender": {
+              "id": "u_compliance",
+              "name": "Compliance Officer",
+              "avatarColor": "bg-slate-700 text-white",
+              "email": null,
+              "role": "Regulatory Lead",
+              "status": "active",
+              "recentActivity": "Permit A-14 audit",
+              "roomInvolvement": 2
+            },
+            "content": "The permit amendment is with the authority, but they asked for clarification on deployment depth.",
+            "timestamp": "09:44 AM"
+          },
+          {
+            "id": "m_1767459898827_0.8857312568791363",
+            "sender": {
+              "id": "u_consultant",
+              "name": "External Consultant",
+              "avatarColor": "bg-gray-500 text-white",
+              "email": null,
+              "role": "Consultant",
+              "status": "offline",
+              "recentActivity": "Reviewing depth perception",
+              "roomInvolvement": 1
+            },
+            "content": "Yes, they want confirmation it won’t exceed approved depth ranges.",
+            "timestamp": "11:24 AM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      }
+    ],
+    "messages": [
+      {
+        "id": "m_1767459898828_0.19493605646473644",
+        "sender": {
+          "id": "u_marine",
+          "name": "Marine Lead",
+          "avatarColor": "bg-cyan-700 text-white",
+          "email": null,
+          "role": "Marine Specialist",
+          "status": "active",
+          "recentActivity": "Survey data processing",
+          "roomInvolvement": 3
+        },
+        "content": "We still haven’t finalized the reef module locations. We need updated bathymetry.",
+        "timestamp": "02:04 AM"
+      },
+      {
+        "id": "m_1767459898828_0.4791789217118525",
+        "sender": {
+          "id": "u_jordan",
+          "name": "Jordan",
+          "avatarColor": "bg-amber-600 text-white",
+          "email": null,
+          "role": "Vendor Manager",
+          "status": "active",
+          "recentActivity": "Negotiating brass pricing",
+          "roomInvolvement": 5
+        },
+        "content": "Also, FYI, the fabrication vendor needs confirmation by end of week or pricing changes.",
+        "timestamp": "03:44 AM"
+      },
+      {
+        "id": "m_1767459898828_0.35816586808649864",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Okay… one thing at a time please 😅\n@RIMA can you capture the open items from today?",
+        "timestamp": "05:24 AM"
+      },
+      {
+        "id": "m_1767459898828_0.4213968864551163",
+        "sender": "Rima",
+        "content": "Captured so far:\n1. Reef module locations pending bathymetry update\n2. Fabrication pricing confirmation deadline — end of week\n3. Phase 1 deployment timeline at risk\nI’ll keep tracking these unless told otherwise.",
+        "timestamp": "05:34 AM"
+      },
+      {
+        "id": "m_1767459898828_0.9416246122532287",
+        "sender": {
+          "id": "u_compliance",
+          "name": "Compliance Officer",
+          "avatarColor": "bg-slate-700 text-white",
+          "email": null,
+          "role": "Regulatory Lead",
+          "status": "active",
+          "recentActivity": "Permit A-14 audit",
+          "roomInvolvement": 2
+        },
+        "content": "Don’t forget we’re still waiting on the environmental permit amendment.",
+        "timestamp": "07:04 AM"
+      },
+      {
+        "id": "m_1767459898828_0.4380918642425622",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Right, thanks for reminding me.\n@RIMA add that as well.",
+        "timestamp": "08:44 AM"
+      },
+      {
+        "id": "m_1767459898828_0.8662370875998732",
+        "sender": "Rima",
+        "content": "Added:\n4) Environmental permit amendment — pending approval",
+        "timestamp": "08:54 AM"
+      },
+      {
+        "id": "m_1767459898828_0.9427321388826404",
+        "sender": {
+          "id": "u_alex",
+          "name": "Alex",
+          "avatarColor": "bg-teal-500 text-white",
+          "email": null,
+          "role": "Ops Lead",
+          "status": "active",
+          "recentActivity": "Reviewing Phase 1 dependencies",
+          "roomInvolvement": 6
+        },
+        "content": "Can we split discussions? This is getting messy.",
+        "timestamp": "10:24 AM"
+      },
+      {
+        "id": "m_1767459898828_0.061858670441752306",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Yes please.\n@RIMA create sub-rooms for:\n* Site Deployment – Phase 1\n* Vendors & Fabrication\n* Permits & Compliance",
+        "timestamp": "12:04 PM"
+      },
+      {
+        "id": "m_1767459898828_0.5017244214875607",
+        "sender": "Rima",
+        "content": "✅ Sub-rooms created.\nI’ve invited relevant participants to each room.",
+        "timestamp": "12:14 PM"
+      },
+      {
+        "id": "m_1767459898828_0.41253163619224353",
+        "sender": {
+          "id": "u_alex",
+          "name": "Alex",
+          "avatarColor": "bg-teal-500 text-white",
+          "email": null,
+          "role": "Ops Lead",
+          "status": "active",
+          "recentActivity": "Reviewing Phase 1 dependencies",
+          "roomInvolvement": 6
+        },
+        "content": "Morning everyone, deployment timeline for Phase 1 is getting tight.",
+        "timestamp": "12:24 AM"
+      }
+    ],
+    "insights": [
+      {
+        "id": "i_reef_1",
+        "category": "warning",
+        "text": "Fabrication cost risk (8-10%)",
+        "icon": "",
+        "type": "warning",
+        "content": "Fabrication cost risk (8-10%)",
+        "timestamp": "Today"
+      },
+      {
+        "id": "i_reef_2",
+        "category": "info",
+        "text": "Survey data delay: 12 days since last update",
+        "icon": "",
+        "type": "info",
+        "content": "Survey data delay: 12 days since last update",
+        "timestamp": "Today"
+      },
+      {
+        "id": "i_reef_3",
+        "category": "action",
+        "text": "Vendor Confirmation Deadline: Thursday",
+        "icon": "",
+        "type": "action",
+        "content": "Vendor Confirmation Deadline: Thursday",
+        "timestamp": "Thursday"
+      }
+    ],
+    "tasks": [],
+    "spending": [],
+    "tags": []
+  },
+  {
+    "id": "w_health_private",
+    "title": "My Health",
+    "description": "Private trusted space for workouts, habits, and medical info.",
+    "theme": "emerald",
+    "profileId": "p_health",
+    "budget": null,
+    "deadline": null,
+    "phase": null,
+    "progress": 75,
+    "lastActivity": "Active 8h ago",
+    "parentRoomId": null,
+    "isPrivate": 0,
+    "members": [
+      {
+        "id": "u_sara",
+        "name": "Sara",
+        "avatarColor": "bg-zinc-200 text-black",
+        "email": null,
+        "role": "Owner / Founder",
+        "status": "active",
+        "recentActivity": "Reviewing cross-universe dependencies",
+        "roomInvolvement": 25
+      }
+    ],
+    "rooms": [
+      {
+        "id": "r_health_workouts",
+        "workspaceId": "w_health_private",
+        "title": "Workouts",
+        "description": null,
+        "isPrivate": 1,
+        "unreadCount": 0,
+        "members": [
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459901518_0.4348424517740682",
+            "sender": "Rima",
+            "content": "⏰ Reminder set for tomorrow at 6:00 AM\nI'll also check the weather and suggest indoor alternatives if needed.",
+            "timestamp": "01:15 AM"
+          },
+          {
+            "id": "m_1767459901489_0.010491691274983839",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Yoga session - 45 mins. Much needed stretch.",
+            "timestamp": "03:05 PM"
+          },
+          {
+            "id": "m_1767459901498_0.48327977344834183",
+            "sender": "Rima",
+            "content": "Perfect for recovery! 🧘‍♀️\nYoga session logged. I notice you recover better after yoga on high-stress days.",
+            "timestamp": "03:55 PM"
+          },
+          {
+            "id": "m_1767459901473_0.2740531232736455",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Skipped today. Too tired from work.",
+            "timestamp": "05:45 AM"
+          },
+          {
+            "id": "m_1767459901480_0.9216982884470045",
+            "sender": "Rima",
+            "content": "Noted. Rest is important too 🌙\nYou've been consistent for 2 weeks - one rest day won't hurt your progress.",
+            "timestamp": "06:35 AM"
+          },
+          {
+            "id": "m_1767459901543_0.4360469186785988",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "I want to try strength training. Where do I start?",
+            "timestamp": "07:05 PM"
+          },
+          {
+            "id": "m_1767459901550_0.9113940018681693",
+            "sender": "Rima",
+            "content": "Based on your current fitness level, I suggest:\n* Start with bodyweight exercises (squats, push-ups, planks)\n* 2-3 sessions per week\n* Focus on form over weight\nShall I create a beginner strength plan?",
+            "timestamp": "07:55 PM"
+          },
+          {
+            "id": "m_1767459901458_0.4444878913690048",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Did 30 min HIIT today. Tough but felt amazing after!",
+            "timestamp": "08:25 PM"
+          },
+          {
+            "id": "m_1767459901466_0.05872033442776181",
+            "sender": "Rima",
+            "content": "Logged ✅\n30-minute HIIT workout - High intensity\nYour heart rate recovery is improving compared to last week.",
+            "timestamp": "09:15 PM"
+          },
+          {
+            "id": "m_1767459901526_0.25456462996781337",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Finished! 40 min run in the park. Beautiful morning.",
+            "timestamp": "09:45 AM"
+          },
+          {
+            "id": "m_1767459901534_0.5198366248203289",
+            "sender": "Rima",
+            "content": "Amazing! 🌅\n40-minute run logged.\nYou're on track to hit your 3 workouts/week goal.",
+            "timestamp": "10:35 AM"
+          },
+          {
+            "id": "m_1767459901443_0.48644618261985406",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Starting my fitness journey today! Goal: 3 workouts per week.",
+            "timestamp": "11:05 AM"
+          },
+          {
+            "id": "m_1767459901561_0.4775402530532056",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Yes please!",
+            "timestamp": "11:45 AM"
+          },
+          {
+            "id": "m_1767459901450_0.6376464129828545",
+            "sender": "Rima",
+            "content": "Great start! 🏃‍♀️\nI'll track your weekly workout frequency and suggest the best days based on your energy patterns.",
+            "timestamp": "11:55 AM"
+          },
+          {
+            "id": "m_1767459901507_0.7902478814835343",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "@RIMA remind me to workout tomorrow at 6 AM",
+            "timestamp": "12:25 AM"
+          },
+          {
+            "id": "m_1767459901571_0.8664318690412",
+            "sender": "Rima",
+            "content": "✅ Beginner Strength Plan created:\n* Monday: Upper body (20 min)\n* Wednesday: Lower body (20 min)\n* Friday: Core (15 min)\nI'll send reminders and track your progress.",
+            "timestamp": "12:35 PM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      },
+      {
+        "id": "r_health_nutrition",
+        "workspaceId": "w_health_private",
+        "title": "Nutrition",
+        "description": null,
+        "isPrivate": 1,
+        "unreadCount": 0,
+        "members": [
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459901614_0.9545151937024382",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Breakfast: oatmeal with berries and honey. Coffee.",
+            "timestamp": "01:05 PM"
+          },
+          {
+            "id": "m_1767459901656_0.2921115779433596",
+            "sender": "Rima",
+            "content": "Totally fine! 🍕🍦\nBalance is key. You've been consistent all week.\nOne cheat day won't affect your overall nutrition.",
+            "timestamp": "01:15 AM"
+          },
+          {
+            "id": "m_1767459901620_0.24393113382788967",
+            "sender": "Rima",
+            "content": "Logged ✅\nBreakfast (8:30 AM):\n* Oatmeal with berries\n* Honey\n* Coffee\nGood fiber and antioxidants to start the day!",
+            "timestamp": "01:55 PM"
+          },
+          {
+            "id": "m_1767459901637_0.9855612995276244",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Probably not... maybe 3 glasses?",
+            "timestamp": "03:05 PM"
+          },
+          {
+            "id": "m_1767459901597_0.3649657940848057",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Need to track my meals better. Always forgetting what I ate.",
+            "timestamp": "03:45 AM"
+          },
+          {
+            "id": "m_1767459901643_0.7997617054113513",
+            "sender": "Rima",
+            "content": "Let's aim for 6-8 glasses daily 💧\nI'll remind you throughout the day.",
+            "timestamp": "03:55 PM"
+          },
+          {
+            "id": "m_1767459901605_0.3868900405566855",
+            "sender": "Rima",
+            "content": "I can help with that! 🥗\nJust tell me what you eat and I'll log it with estimated nutrition info.",
+            "timestamp": "04:35 AM"
+          },
+          {
+            "id": "m_1767459901677_0.37820354526087874",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Makes sense. I'll focus on that this week.",
+            "timestamp": "07:05 PM"
+          },
+          {
+            "id": "m_1767459901684_0.21942506139203277",
+            "sender": "Rima",
+            "content": "Great! I'll track improvements and flag if bloating persists.",
+            "timestamp": "07:55 PM"
+          },
+          {
+            "id": "m_1767459901661_0.6345427129251571",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Feeling bloated lately. Any ideas why?",
+            "timestamp": "09:45 AM"
+          },
+          {
+            "id": "m_1767459901625_0.8545179445801238",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Lunch was chicken salad. Dinner: pasta with veggies.",
+            "timestamp": "10:25 PM"
+          },
+          {
+            "id": "m_1767459901668_0.5456654294511736",
+            "sender": "Rima",
+            "content": "Let me check your recent meals...\nI notice:\n* High sodium in processed foods last 3 days\n* Lower water intake\n* Less fiber\nTry increasing water and fiber-rich foods.",
+            "timestamp": "10:35 AM"
+          },
+          {
+            "id": "m_1767459901632_0.2513743214832852",
+            "sender": "Rima",
+            "content": "Both logged! 👍\nYour protein intake today looks good. Veggies are balanced.\nWater intake: Have you been drinking enough?",
+            "timestamp": "11:15 PM"
+          },
+          {
+            "id": "m_1767459901649_0.7955242373717621",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Had a cheat day today 😅 Pizza and ice cream.",
+            "timestamp": "12:25 AM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      },
+      {
+        "id": "r_health_mental",
+        "workspaceId": "w_health_private",
+        "title": "Mental Health",
+        "description": null,
+        "isPrivate": 1,
+        "unreadCount": 0,
+        "members": [
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459901762_0.7683738275306286",
+            "sender": "Rima",
+            "content": "⏰ Mindfulness break reminders set:\n* 11:00 AM\n* 3:00 PM\n* 7:00 PM\nI'll suggest simple breathing exercises or quick stretches.",
+            "timestamp": "01:15 AM"
+          },
+          {
+            "id": "m_1767459901729_0.46821793515757326",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Not really. Haven't had time.",
+            "timestamp": "03:05 PM"
+          },
+          {
+            "id": "m_1767459901737_0.17526379260322855",
+            "sender": "Rima",
+            "content": "Even 5-10 minute breaks can help 🌸\nShall I remind you to take short mindfulness breaks?",
+            "timestamp": "03:55 PM"
+          },
+          {
+            "id": "m_1767459901816_0.9671726902737426",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Sleep hasn't been great. Waking up at 3 AM a lot.",
+            "timestamp": "04:25 AM"
+          },
+          {
+            "id": "m_1767459901826_0.7212997804193153",
+            "sender": "Rima",
+            "content": "Sleep disruption noted 😴\nThis has happened 4 times this week.\nFactors I notice:\n* Late-night screen time\n* Caffeine after 4 PM\n* High stress days\nShall we work on a better sleep routine?",
+            "timestamp": "05:15 AM"
+          },
+          {
+            "id": "m_1767459901716_0.8559330578053291",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Just too many deadlines. Not enough time to breathe.",
+            "timestamp": "05:45 AM"
+          },
+          {
+            "id": "m_1767459901722_0.10816468466925944",
+            "sender": "Rima",
+            "content": "Noted. Your workload has increased significantly this month.\nHave you taken any breaks or done activities that help you relax?",
+            "timestamp": "06:35 AM"
+          },
+          {
+            "id": "m_1767459901794_0.1963100968877457",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Yeah, exercise definitely helps.",
+            "timestamp": "07:05 PM"
+          },
+          {
+            "id": "m_1767459901805_0.33200470068325616",
+            "sender": "Rima",
+            "content": "I'll keep tracking this pattern.\nOn days you feel stressed, I can suggest quick workouts.",
+            "timestamp": "07:55 PM"
+          },
+          {
+            "id": "m_1767459901702_0.86434251336401",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Feeling overwhelmed with work lately.",
+            "timestamp": "08:25 PM"
+          },
+          {
+            "id": "m_1767459901709_0.8874601155281718",
+            "sender": "Rima",
+            "content": "I'm sorry you're feeling this way 💙\nWould it help to talk about what's overwhelming you?",
+            "timestamp": "09:15 PM"
+          },
+          {
+            "id": "m_1767459901772_0.430547425891625",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Had a good day today. Felt calmer.",
+            "timestamp": "09:45 AM"
+          },
+          {
+            "id": "m_1767459901783_0.1854543117620211",
+            "sender": "Rima",
+            "content": "That's wonderful to hear! 😊\nI noticed you took 2 breaks and had a yoga session.\nSeems like movement helps your mood.",
+            "timestamp": "10:35 AM"
+          },
+          {
+            "id": "m_1767459901746_0.24326209969415424",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Yes please. Maybe 3 times a day?",
+            "timestamp": "12:25 AM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      },
+      {
+        "id": "r_health_medical",
+        "workspaceId": "w_health_private",
+        "title": "Medical Records",
+        "description": null,
+        "isPrivate": 1,
+        "unreadCount": 0,
+        "members": [
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459901919_0.22693692303443525",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Doctor prescribed Vitamin D 2000 IU daily.",
+            "timestamp": "02:25 AM"
+          },
+          {
+            "id": "m_1767459901931_0.09440585550970026",
+            "sender": "Rima",
+            "content": "Great! Logging your prescription 💊\n* Vitamin D: 2000 IU daily\n* Start date: Today\nI'll remind you to take it and track when you need a refill.",
+            "timestamp": "03:15 AM"
+          },
+          {
+            "id": "m_1767459901900_0.302876441262394",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Okay, I'll book an appointment. @RIMA remind me to call the doctor tomorrow.",
+            "timestamp": "05:05 PM"
+          },
+          {
+            "id": "m_1767459901910_0.5812017298690889",
+            "sender": "Rima",
+            "content": "⏰ Reminder set for tomorrow at 9:00 AM\n\"Call doctor about Vitamin D supplementation\"",
+            "timestamp": "05:55 PM"
+          },
+          {
+            "id": "m_1767459901880_0.3247883105199587",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Should I be worried about the Vitamin D?",
+            "timestamp": "07:45 AM"
+          },
+          {
+            "id": "m_1767459901890_0.6341219595527972",
+            "sender": "Rima",
+            "content": "It's below optimal but manageable.\nLow Vitamin D correlates with:\n* Your recent fatigue\n* Mood changes\n* Slower workout recovery\nI recommend consulting your doctor about supplementation.",
+            "timestamp": "08:35 AM"
+          },
+          {
+            "id": "m_1767459901850_0.19487851805037582",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Uploading my latest blood work results.",
+            "timestamp": "10:25 PM"
+          },
+          {
+            "id": "m_1767459901859_0.9737626835927992",
+            "sender": "Rima",
+            "content": "📎 Blood work received (Dec 2025)\nReviewing... I'll compare with your previous results.",
+            "timestamp": "11:15 PM"
+          },
+          {
+            "id": "m_1767459901939_0.23039425573641037",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Also got my annual checkup scheduled for March 15.",
+            "timestamp": "11:45 AM"
+          },
+          {
+            "id": "m_1767459901869_0.4825843214672223",
+            "sender": "Rima",
+            "content": "Analysis complete:\n* Vitamin D: 18 ng/mL (Low - was 22 in Sept)\n* Iron: 45 µg/dL (Normal range)\n* Cholesterol: 190 mg/dL (Healthy)\n* Thyroid: Normal\n\n⚠️ Vitamin D has dropped. Consider supplements or more sun exposure.",
+            "timestamp": "12:05 AM"
+          },
+          {
+            "id": "m_1767459901946_0.7797872896514373",
+            "sender": "Rima",
+            "content": "📅 Annual checkup: March 15, 2026\nAdded to your health calendar.\nI'll remind you 1 week before to prepare any questions.",
+            "timestamp": "12:35 PM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      }
+    ],
+    "messages": [
+      {
+        "id": "m_1767459898829_0.09769907140190204",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "RIMA, brief me about my exercise in November.",
+        "timestamp": "02:24 AM"
+      },
+      {
+        "id": "m_1767459898829_0.6462581272178838",
+        "sender": "Rima",
+        "content": "Here’s your November exercise summary 🧘‍♀️\n* Total active days: 14\n* Average session length: 35 minutes\n* Most common activity: Walking\n* Gym sessions: 4\n* Rest days: 16\n\nPatterns I noticed:\n* You were most consistent during the first half of the month\n* Energy levels dipped on days following late nights\n* Lighter workouts correlated with better next-day energy\n\nOverall:\nNovember was a moderate but balanced month. Consistency dropped slightly in week 3, likely due to workload—not motivation.\nWould you like suggestions for December?",
+        "timestamp": "02:34 AM"
+      },
+      {
+        "id": "m_1767459898830_0.825839248827136",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "I want to be more consistent next month.",
+        "timestamp": "04:24 AM"
+      },
+      {
+        "id": "m_1767459898830_0.7014983852721105",
+        "sender": "Rima",
+        "content": "Would you like:\n* Fewer but longer workouts, or\n* Short daily movement goals?",
+        "timestamp": "04:34 AM"
+      },
+      {
+        "id": "m_1767459898829_0.5654060055859714",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Uploading my blood test results.",
+        "timestamp": "05:04 PM"
+      },
+      {
+        "id": "m_1767459898829_0.9827625234368527",
+        "sender": "Rima",
+        "content": "Thanks, Sara. I’ve reviewed your report and aligned it with your health profile.\nKey notes:\n* Vitamin D: slightly below optimal range\n* Iron: within normal range\n* Cholesterol: stable\nI’ll keep this in mind when tracking fatigue, recovery, and workout patterns.",
+        "timestamp": "05:14 PM"
+      },
+      {
+        "id": "m_1767459898829_0.5454963299229255",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Please do. I’ve been feeling low energy lately.",
+        "timestamp": "06:44 PM"
+      },
+      {
+        "id": "m_1767459898829_0.6441323556174825",
+        "sender": "Rima",
+        "content": "Noted.\nI’ll flag any patterns between:\n* low energy days\n* workout intensity\n* sleep & recent lab results",
+        "timestamp": "06:54 PM"
+      },
+      {
+        "id": "m_1767459898829_0.7300802499907366",
+        "sender": "Rima",
+        "content": "Just a heads-up 🌤️\nYou haven’t logged movement in 3 days.\nWould a short walk today fit your schedule?",
+        "timestamp": "07:04 PM"
+      },
+      {
+        "id": "m_1767459898829_0.3290198025450002",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Skipped workout today. Long workday.",
+        "timestamp": "07:44 AM"
+      },
+      {
+        "id": "m_1767459898829_0.6335188298132499",
+        "sender": "Rima",
+        "content": "Noted.\nNo worries—rest days are part of consistency 🌱",
+        "timestamp": "07:54 AM"
+      },
+      {
+        "id": "m_1767459898829_0.7407892899271665",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Why do I feel more tired this month?",
+        "timestamp": "08:04 PM"
+      },
+      {
+        "id": "m_1767459898830_0.8299221783516726",
+        "sender": "Rima",
+        "content": "Based on your data:\n* Exercise intensity increased\n* Sleep duration slightly decreased\n* Vitamin D is still below optimal\nThese combined could explain the fatigue.",
+        "timestamp": "08:14 PM"
+      },
+      {
+        "id": "m_1767459898829_0.8691081711630655",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Yes, remind me after work.",
+        "timestamp": "08:44 PM"
+      },
+      {
+        "id": "m_1767459898829_0.9446087578735874",
+        "sender": "Rima",
+        "content": "⏰ Reminder set for 6:30 PM.",
+        "timestamp": "08:54 PM"
+      },
+      {
+        "id": "m_1767459898828_0.5947581640915544",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Did a 40-minute walk today. Felt good but a bit tired at the end.",
+        "timestamp": "10:24 PM"
+      },
+      {
+        "id": "m_1767459898828_0.9128100805082159",
+        "sender": "Rima",
+        "content": "Logged ✅\n40-minute walk — moderate intensity\nNoted: fatigue at the end",
+        "timestamp": "10:34 PM"
+      },
+      {
+        "id": "m_1767459898829_0.729720423643559",
+        "sender": "Rima",
+        "content": "I’ve noticed fatigue appears more often on days after intense workouts.\nWould you like me to suggest lighter recovery days?",
+        "timestamp": "11:44 AM"
+      },
+      {
+        "id": "m_1767459898829_0.23484370579924096",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Gym session:\n* 20 min treadmill\n* light weights\nEnergy level: medium",
+        "timestamp": "12:24 AM"
+      },
+      {
+        "id": "m_1767459898829_0.9838058230998318",
+        "sender": "Rima",
+        "content": "Got it 💪\nWorkout logged with medium energy level.",
+        "timestamp": "12:34 AM"
+      }
+    ],
+    "insights": [
+      {
+        "id": "i_h_1",
+        "category": "info",
+        "text": "Vitamin D: Below optimal range",
+        "icon": "",
+        "type": "info",
+        "content": "Vitamin D: Below optimal range",
+        "timestamp": "Lab Report"
+      },
+      {
+        "id": "i_h_2",
+        "category": "warning",
+        "text": "Fatigue correlated with post-intense workout days",
+        "icon": "",
+        "type": "warning",
+        "content": "Fatigue correlated with post-intense workout days",
+        "timestamp": "Insight"
+      }
+    ],
+    "tasks": [],
+    "spending": [],
+    "tags": []
+  },
+  {
+    "id": "w_startup",
+    "title": "My Business",
+    "description": "Jewelry Brand Launch - Accessories & Design.",
+    "theme": "violet",
+    "profileId": "p_work",
+    "budget": null,
+    "deadline": null,
+    "phase": null,
+    "progress": 60,
+    "lastActivity": "Active 4m ago",
+    "parentRoomId": null,
+    "isPrivate": 0,
+    "members": [
+      {
+        "id": "u_ali",
+        "name": "Ali",
+        "avatarColor": "bg-zinc-600 text-white",
+        "email": null,
+        "role": "Supplier",
+        "status": "offline",
+        "recentActivity": "Materials quote sent",
+        "roomInvolvement": 2
+      },
+      {
+        "id": "u_khaled",
+        "name": "Khaled",
+        "avatarColor": "bg-indigo-500 text-white",
+        "email": null,
+        "role": "Web Developer",
+        "status": "away",
+        "recentActivity": "Web integration complete",
+        "roomInvolvement": 3
+      },
+      {
+        "id": "u_lina",
+        "name": "Lina",
+        "avatarColor": "bg-rose-400 text-white",
+        "email": null,
+        "role": "Designer",
+        "status": "active",
+        "recentActivity": "Finalizing collection revisions",
+        "roomInvolvement": 3
+      },
+      {
+        "id": "u_mark",
+        "name": "Mark",
+        "avatarColor": "bg-red-500 text-white",
+        "email": null,
+        "role": "Marketing",
+        "status": "active",
+        "recentActivity": "Teasing launch on IG",
+        "roomInvolvement": 2
+      },
+      {
+        "id": "u_sara",
+        "name": "Sara",
+        "avatarColor": "bg-zinc-200 text-black",
+        "email": null,
+        "role": "Owner / Founder",
+        "status": "active",
+        "recentActivity": "Reviewing cross-universe dependencies",
+        "roomInvolvement": 25
+      }
+    ],
+    "rooms": [
+      {
+        "id": "r_suppliers",
+        "workspaceId": "w_startup",
+        "title": "Suppliers & Materials",
+        "description": null,
+        "isPrivate": 0,
+        "unreadCount": 1,
+        "members": [
+          {
+            "id": "u_ali",
+            "name": "Ali",
+            "avatarColor": "bg-zinc-600 text-white",
+            "email": null,
+            "role": "Supplier",
+            "status": "offline",
+            "recentActivity": "Materials quote sent",
+            "roomInvolvement": 2
+          },
+          {
+            "id": "u_lina",
+            "name": "Lina",
+            "avatarColor": "bg-rose-400 text-white",
+            "email": null,
+            "role": "Designer",
+            "status": "active",
+            "recentActivity": "Finalizing collection revisions",
+            "roomInvolvement": 3
+          },
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459898830_0.497545384926963",
+            "sender": {
+              "id": "u_ali",
+              "name": "Ali",
+              "avatarColor": "bg-zinc-600 text-white",
+              "email": null,
+              "role": "Supplier",
+              "status": "offline",
+              "recentActivity": "Materials quote sent",
+              "roomInvolvement": 2
+            },
+            "content": "We can do gold-plated brass, MOQ 100 pieces per design.",
+            "timestamp": "02:24 AM"
+          },
+          {
+            "id": "m_1767459898830_0.3139938845629813",
+            "sender": {
+              "id": "u_lina",
+              "name": "Lina",
+              "avatarColor": "bg-rose-400 text-white",
+              "email": null,
+              "role": "Designer",
+              "status": "active",
+              "recentActivity": "Finalizing collection revisions",
+              "roomInvolvement": 3
+            },
+            "content": "I’m worried about tarnishing. Can we test samples?",
+            "timestamp": "04:04 AM"
+          },
+          {
+            "id": "m_1767459898830_0.33463483796448745",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Ali, how long for samples?",
+            "timestamp": "05:44 AM"
+          },
+          {
+            "id": "m_1767459898830_0.4653116999360225",
+            "sender": {
+              "id": "u_ali",
+              "name": "Ali",
+              "avatarColor": "bg-zinc-600 text-white",
+              "email": null,
+              "role": "Supplier",
+              "status": "offline",
+              "recentActivity": "Materials quote sent",
+              "roomInvolvement": 2
+            },
+            "content": "About 10 days.",
+            "timestamp": "06:34 AM"
+          },
+          {
+            "id": "m_1767459898830_0.199715026458971",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "That might delay us…",
+            "timestamp": "07:24 AM"
+          },
+          {
+            "id": "m_1767459898830_0.7016884049514205",
+            "sender": "Rima",
+            "content": "Noted:\n* Material option: gold-plated brass\n* MOQ: 100 per design\n* Sample lead time: 10 days\nSara, this may impact your planned launch window.",
+            "timestamp": "07:34 AM"
+          },
+          {
+            "id": "m_1767459898830_0.903885293701204",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Yeah… Lina, do we have a backup material?",
+            "timestamp": "09:04 AM"
+          },
+          {
+            "id": "m_1767459898830_0.77337295620089",
+            "sender": {
+              "id": "u_lina",
+              "name": "Lina",
+              "avatarColor": "bg-rose-400 text-white",
+              "email": null,
+              "role": "Designer",
+              "status": "active",
+              "recentActivity": "Finalizing collection revisions",
+              "roomInvolvement": 3
+            },
+            "content": "Yes, stainless steel. Slightly higher cost, but better durability.",
+            "timestamp": "10:44 AM"
+          },
+          {
+            "id": "m_1767459898830_0.8363823837206998",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "@RIMA can you compare both options for me later?",
+            "timestamp": "12:24 PM"
+          },
+          {
+            "id": "m_1767459898830_0.7934194621546079",
+            "sender": "Rima",
+            "content": "Sure. I’ll prepare a comparison once pricing is confirmed.",
+            "timestamp": "12:34 PM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      },
+      {
+        "id": "r_designs",
+        "workspaceId": "w_startup",
+        "title": "Design & Collection",
+        "description": null,
+        "isPrivate": 0,
+        "unreadCount": 0,
+        "members": [
+          {
+            "id": "u_lina",
+            "name": "Lina",
+            "avatarColor": "bg-rose-400 text-white",
+            "email": null,
+            "role": "Designer",
+            "status": "active",
+            "recentActivity": "Finalizing collection revisions",
+            "roomInvolvement": 3
+          },
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459898831_0.0013500569847874067",
+            "sender": {
+              "id": "u_lina",
+              "name": "Lina",
+              "avatarColor": "bg-rose-400 text-white",
+              "email": null,
+              "role": "Designer",
+              "status": "active",
+              "recentActivity": "Finalizing collection revisions",
+              "roomInvolvement": 3
+            },
+            "content": "2 was experimental anyway.",
+            "timestamp": "01:04 PM"
+          },
+          {
+            "id": "m_1767459898831_0.295478946731062",
+            "sender": "Rima",
+            "content": "Design status updated:\n* Design 1: Approved\n* Design 3: Approved\n* Design 2: On hold\nWould you like me to track revisions for the approved designs?",
+            "timestamp": "01:14 PM"
+          },
+          {
+            "id": "m_1767459898831_0.6397617944670633",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Yes please. Also remind me why we dropped design 2 later 😂",
+            "timestamp": "02:44 PM"
+          },
+          {
+            "id": "m_1767459898831_0.8266537468808766",
+            "sender": "Rima",
+            "content": "Noted.\nReason for holding Design 2: “Did not align with brand direction.”",
+            "timestamp": "02:54 PM"
+          },
+          {
+            "id": "m_1767459902118_0.6814494298239866",
+            "sender": {
+              "id": "u_lina",
+              "name": "Lina",
+              "avatarColor": "bg-rose-400 text-white",
+              "email": null,
+              "role": "Designer",
+              "status": "active",
+              "recentActivity": "Finalizing collection revisions",
+              "roomInvolvement": 3
+            },
+            "content": "Final design revisions done. Ready for production by next Monday.",
+            "timestamp": "04:05 PM"
+          },
+          {
+            "id": "m_1767459902128_0.12418846328825939",
+            "sender": "Rima",
+            "content": "✅ Design milestone:\n\"Final designs ready\" - Lina - Monday\nThis unblocks production.",
+            "timestamp": "04:10 PM"
+          },
+          {
+            "id": "m_1767459898830_0.3614232845259011",
+            "sender": {
+              "id": "u_lina",
+              "name": "Lina",
+              "avatarColor": "bg-rose-400 text-white",
+              "email": null,
+              "role": "Designer",
+              "status": "active",
+              "recentActivity": "Finalizing collection revisions",
+              "roomInvolvement": 3
+            },
+            "content": "Here are 3 initial designs for the first drop.\n(uploads sketches)",
+            "timestamp": "09:44 AM"
+          },
+          {
+            "id": "m_1767459898830_0.27176270728844043",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "I love 1 and 3. Not sure about 2.",
+            "timestamp": "11:24 AM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      },
+      {
+        "id": "r_website",
+        "workspaceId": "w_startup",
+        "title": "Website & Operations",
+        "description": null,
+        "isPrivate": 0,
+        "unreadCount": 1,
+        "members": [
+          {
+            "id": "u_khaled",
+            "name": "Khaled",
+            "avatarColor": "bg-indigo-500 text-white",
+            "email": null,
+            "role": "Web Developer",
+            "status": "away",
+            "recentActivity": "Web integration complete",
+            "roomInvolvement": 3
+          },
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459898831_0.7963041038537072",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Got it. Thanks.",
+            "timestamp": "01:44 AM"
+          },
+          {
+            "id": "m_1767459902139_0.2066922808593945",
+            "sender": {
+              "id": "u_khaled",
+              "name": "Khaled",
+              "avatarColor": "bg-indigo-500 text-white",
+              "email": null,
+              "role": "Web Developer",
+              "status": "away",
+              "recentActivity": "Web integration complete",
+              "roomInvolvement": 3
+            },
+            "content": "Need product photos by Friday to launch the site. Can't proceed without them.",
+            "timestamp": "04:15 PM"
+          },
+          {
+            "id": "m_1767459902149_0.796944368236893",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "I'll do the photoshoot this weekend and send them to you by Sunday.",
+            "timestamp": "04:20 PM"
+          },
+          {
+            "id": "m_1767459902160_0.30105885397472254",
+            "sender": "Rima",
+            "content": "📸 Task chain:\n1. \"Photoshoot\" - Sara - Weekend\n2. \"Website launch\" - Khaled - Depends on photos\nTarget: Next week",
+            "timestamp": "04:25 PM"
+          },
+          {
+            "id": "m_1767459898831_0.8194334067495886",
+            "sender": {
+              "id": "u_khaled",
+              "name": "Khaled",
+              "avatarColor": "bg-indigo-500 text-white",
+              "email": null,
+              "role": "Web Developer",
+              "status": "away",
+              "recentActivity": "Web integration complete",
+              "roomInvolvement": 3
+            },
+            "content": "I need product names, prices, and photos to set up pages.",
+            "timestamp": "07:04 PM"
+          },
+          {
+            "id": "m_1767459898831_0.02579665405831222",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Prices are not final yet.",
+            "timestamp": "08:44 PM"
+          },
+          {
+            "id": "m_1767459898831_0.6385797803038858",
+            "sender": {
+              "id": "u_khaled",
+              "name": "Khaled",
+              "avatarColor": "bg-indigo-500 text-white",
+              "email": null,
+              "role": "Web Developer",
+              "status": "away",
+              "recentActivity": "Web integration complete",
+              "roomInvolvement": 3
+            },
+            "content": "Okay, but that blocks checkout setup.",
+            "timestamp": "10:24 PM"
+          },
+          {
+            "id": "m_1767459898831_0.822338159850864",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "@RIMA please note this dependency.",
+            "timestamp": "12:04 AM"
+          },
+          {
+            "id": "m_1767459898831_0.8769874058183541",
+            "sender": "Rima",
+            "content": "Dependency logged:\n* Product pricing → Website checkout configuration\nSara, this is linked to material choice in Suppliers & Materials.",
+            "timestamp": "12:14 AM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      },
+      {
+        "id": "r_marketing",
+        "workspaceId": "w_startup",
+        "title": "Social Media & Marketing",
+        "description": null,
+        "isPrivate": 0,
+        "unreadCount": 0,
+        "members": [
+          {
+            "id": "u_lina",
+            "name": "Lina",
+            "avatarColor": "bg-rose-400 text-white",
+            "email": null,
+            "role": "Designer",
+            "status": "active",
+            "recentActivity": "Finalizing collection revisions",
+            "roomInvolvement": 3
+          },
+          {
+            "id": "u_mark",
+            "name": "Mark",
+            "avatarColor": "bg-red-500 text-white",
+            "email": null,
+            "role": "Marketing",
+            "status": "active",
+            "recentActivity": "Teasing launch on IG",
+            "roomInvolvement": 2
+          },
+          {
+            "id": "u_sara",
+            "name": "Sara",
+            "avatarColor": "bg-zinc-200 text-black",
+            "email": null,
+            "role": "Owner / Founder",
+            "status": "active",
+            "recentActivity": "Reviewing cross-universe dependencies",
+            "roomInvolvement": 25
+          }
+        ],
+        "messages": [
+          {
+            "id": "m_1767459898831_0.35607891552947757",
+            "sender": {
+              "id": "u_mark",
+              "name": "Mark",
+              "avatarColor": "bg-red-500 text-white",
+              "email": null,
+              "role": "Marketing",
+              "status": "active",
+              "recentActivity": "Teasing launch on IG",
+              "roomInvolvement": 2
+            },
+            "content": "We should start teasing the brand on Instagram even before launch.",
+            "timestamp": "02:24 AM"
+          },
+          {
+            "id": "m_1767459898831_0.8339376773252662",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "I agree but I don’t even have final photos yet.",
+            "timestamp": "04:04 AM"
+          },
+          {
+            "id": "m_1767459898831_0.43790221132997365",
+            "sender": {
+              "id": "u_lina",
+              "name": "Lina",
+              "avatarColor": "bg-rose-400 text-white",
+              "email": null,
+              "role": "Designer",
+              "status": "active",
+              "recentActivity": "Finalizing collection revisions",
+              "roomInvolvement": 3
+            },
+            "content": "We can do mood boards and sketches first.",
+            "timestamp": "05:44 AM"
+          },
+          {
+            "id": "m_1767459898831_0.33741032473059984",
+            "sender": "Rima",
+            "content": "Content idea logged:\n* Pre-launch teasers using sketches & mood boards\nMark, would you like me to track engagement once posts go live?",
+            "timestamp": "05:54 AM"
+          },
+          {
+            "id": "m_1767459898831_0.9671553158799537",
+            "sender": {
+              "id": "u_mark",
+              "name": "Mark",
+              "avatarColor": "bg-red-500 text-white",
+              "email": null,
+              "role": "Marketing",
+              "status": "active",
+              "recentActivity": "Teasing launch on IG",
+              "roomInvolvement": 2
+            },
+            "content": "Yes, that would be helpful.",
+            "timestamp": "07:24 AM"
+          },
+          {
+            "id": "m_1767459898831_0.06774779438322209",
+            "sender": {
+              "id": "u_sara",
+              "name": "Sara",
+              "avatarColor": "bg-zinc-200 text-black",
+              "email": null,
+              "role": "Owner / Founder",
+              "status": "active",
+              "recentActivity": "Reviewing cross-universe dependencies",
+              "roomInvolvement": 25
+            },
+            "content": "Also please remind me not to overpromise dates 😅",
+            "timestamp": "09:04 AM"
+          },
+          {
+            "id": "m_1767459898832_0.9280625634517583",
+            "sender": "Rima",
+            "content": "Noted 😌\nI’ll flag any content that mentions specific launch dates.",
+            "timestamp": "09:14 AM"
+          }
+        ],
+        "insights": [],
+        "tasks": [],
+        "spending": []
+      }
+    ],
+    "messages": [
+      {
+        "id": "m_1767459898832_0.6310707089320389",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Quick question before I jump into rooms — what’s blocking my launch right now?",
+        "timestamp": "05:04 PM"
+      },
+      {
+        "id": "m_1767459898832_0.22223173864339985",
+        "sender": "Rima",
+        "content": "At the moment:\n1. Final material choice not confirmed\n2. First collection designs not locked\n3. Website product pages not ready\nOnce any one of these moves, the others will follow.",
+        "timestamp": "05:14 PM"
+      },
+      {
+        "id": "m_1767459898832_0.07295841526661084",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "That actually helps a lot. Thank you.",
+        "timestamp": "06:44 PM"
+      },
+      {
+        "id": "m_1767459898832_0.8228345133381896",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Okay RIMA… I feel like I’m doing 10 jobs at the same time 😵‍💫",
+        "timestamp": "07:44 AM"
+      },
+      {
+        "id": "m_1767459898832_0.9921263171330024",
+        "sender": "Rima",
+        "content": "That’s normal at this stage.\nI can help you keep things clear.\nWould you like me to organize work into focused rooms with the people involved?",
+        "timestamp": "07:54 AM"
+      },
+      {
+        "id": "m_1767459898832_0.4547000356135057",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Yes please. I’m losing track already.",
+        "timestamp": "09:24 AM"
+      },
+      {
+        "id": "m_1767459898832_0.6687648457749279",
+        "sender": "Rima",
+        "content": "Based on what you’re working on, I suggest:\n* Suppliers & Materials\n* Design & Collection\n* Website & Operations\n* Social Media & Marketing\nShall I create these and invite the right people?",
+        "timestamp": "09:34 AM"
+      },
+      {
+        "id": "m_1767459898832_0.015626294224480586",
+        "sender": {
+          "id": "u_sara",
+          "name": "Sara",
+          "avatarColor": "bg-zinc-200 text-black",
+          "email": null,
+          "role": "Owner / Founder",
+          "status": "active",
+          "recentActivity": "Reviewing cross-universe dependencies",
+          "roomInvolvement": 25
+        },
+        "content": "Yes, go ahead.",
+        "timestamp": "11:04 AM"
+      },
+      {
+        "id": "m_1767459898832_0.4126618833113006",
+        "sender": "Rima",
+        "content": "✅ Rooms created and participants invited.\nYou can use this main room anytime to ask for updates or think out loud.",
+        "timestamp": "11:14 AM"
+      }
+    ],
+    "insights": [
+      {
+        "id": "i_s_1",
+        "category": "warning",
+        "text": "Cost Risk: Sample lead time 10 days",
+        "icon": "",
+        "type": "warning",
+        "content": "Cost Risk: Sample lead time 10 days",
+        "timestamp": "Today"
+      },
+      {
+        "id": "i_s_2",
+        "category": "info",
+        "text": "Launch Readiness: 60%",
+        "icon": "",
+        "type": "info",
+        "content": "Launch Readiness: 60%",
+        "timestamp": "Now"
+      }
+    ],
+    "tasks": [],
+    "spending": [],
+    "tags": []
   }
 ];

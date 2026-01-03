@@ -6,7 +6,11 @@
       "Bash(node -e:*)",
       "Bash(python3:*)",
       "Bash(API_KEY=\"AIzaSyD8hfSgyAt5JoIKQIbJwpauxqAr-mm0ZOk\")",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run db:seed:*)",
+      "Bash(npm run db:export:*)",
+      "Bash(timeout 15 npm run dev:*)"
     ]
   }
 }

@@ -10,6 +10,7 @@ import { Checks, Sparkle, Heart, Trash, NotePencil, X, Hash, Lock } from "@phosp
 
 interface WorkspacePageProps {
     workspace: Workspace;
+    currentUser: User | null;
     onVoiceToggle: () => void;
     onSendMessage: (content: string) => void;
     onInvitePeople: () => void;
@@ -17,7 +18,7 @@ interface WorkspacePageProps {
 }
 
 export default function WorkspacePage({
-    workspace, onVoiceToggle, onSendMessage, onInvitePeople, isRimaTyping
+    workspace, currentUser, onVoiceToggle, onSendMessage, onInvitePeople, isRimaTyping
 }: WorkspacePageProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
@@ -83,7 +84,7 @@ export default function WorkspacePage({
                 )}
 
                 {workspace.messages.map((msg, idx) => {
-                    const isSelf = msg.sender !== 'Rima' && (msg.sender as User).id === 'u_sara'; // Hardcoded current user
+                    const isSelf = msg.sender !== 'Rima' && !!currentUser && (msg.sender as User).id === currentUser.id;
                     const isRima = msg.sender === 'Rima';
                     const showAvatar = !isSelf && (idx === 0 || workspace.messages[idx - 1].sender !== msg.sender);
 

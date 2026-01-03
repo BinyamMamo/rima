@@ -54,6 +54,13 @@ const Sidebar: React.FC<SidebarProps> = ({
     : workspaces.filter(p => p.profileId === activeProfileId);
 
   const rootWorkspaces = filteredWorkspaces.filter(p => !p.parentRoomId);
+  console.log('Sidebar debugging:', {
+    totalWorkspaces: workspaces.length,
+    filteredWorkspaces: filteredWorkspaces.length,
+    activeProfileId,
+    rootWorkspaces: rootWorkspaces.map(w => ({ id: w.id, rooms: w.rooms?.length })),
+    expanded: Array.from(expandedWorkspaces)
+  });
 
   const getProfileIcon = (id: string) => {
     switch (id) {

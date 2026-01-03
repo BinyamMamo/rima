@@ -121,7 +121,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
         </div>
       )}
 
-      <div className={`relative flex items-end min-h-[56px] px-2 py-2 rounded-3xl bg-[var(--bg-surface)] border transition-all duration-200 ${!isInputEmpty ? 'border-[var(--primary)]' : 'border-[var(--border-subtle)]'}`}>
+      <div className={`relative flex items-end min-h-[56px] px-2 py-2 rounded-3xl bg-[var(--bg-card)] shadow-sm border transition-all duration-200 ${!isInputEmpty ? 'border-[var(--primary)]' : 'border-[var(--border-subtle)]'}`}>
         <div className="pl-3 pr-2 pb-2.5 text-[var(--primary)] flex items-center justify-center shrink-0">
           <Sparkle size={20} weight="fill" />
         </div>

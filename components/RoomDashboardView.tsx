@@ -116,14 +116,14 @@ const RoomDashboardView: React.FC<RoomDashboardViewProps> = ({
                             <ChartLine size={18} className="text-[var(--highlight)]" />
                             <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--text-muted)]">Messages</span>
                         </div>
-                        <p className="text-lg font-black text-[var(--text-primary)]">{room.messages.length}</p>
+                        <p className="text-lg font-black text-[var(--text-primary)]">{room.messages?.length || 0}</p>
                     </div>
                     <div className="p-6 rounded-3xl bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-sm space-y-2">
                         <div className="flex items-center gap-2">
                             <Users size={18} className="text-[var(--primary)]" />
                             <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--text-muted)]">Members</span>
                         </div>
-                        <p className="text-lg font-black text-[var(--text-primary)]">{room.members.length}</p>
+                        <p className="text-lg font-black text-[var(--text-primary)]">{room.members?.length || 0}</p>
                     </div>
                     {room.tasks && room.tasks.length > 0 && (
                         <div className="p-6 rounded-3xl bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-sm space-y-2">
@@ -174,7 +174,7 @@ const RoomDashboardView: React.FC<RoomDashboardViewProps> = ({
                     </div>
 
                     <div className="grid grid-cols-1 gap-4">
-                        {room.members.map(user => (
+                        {(room.members || []).map(user => (
                             <div key={user.id} className="group flex items-center justify-between p-4 rounded-3xl bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--primary)] transition-all">
                                 <div className="flex items-center gap-4">
                                     <div className={`w-12 h-12 rounded-2xl ${user.avatarColor} flex items-center justify-center text-lg font-black relative`}>

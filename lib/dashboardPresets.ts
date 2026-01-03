@@ -22,7 +22,7 @@ export const workspacePresets: DashboardPreset[] = [
   {
     id: 'budget',
     title: 'Budget',
-    icon: '💰',
+    icon: 'CurrencyCircleDollar',
     isRelevant: (workspace) => !!workspace.budget,
     renderData: (workspace) => ({
       value: workspace.budget,
@@ -32,7 +32,7 @@ export const workspacePresets: DashboardPreset[] = [
   {
     id: 'deadline',
     title: 'Deadline',
-    icon: '⏰',
+    icon: 'Calendar',
     isRelevant: (workspace) => !!workspace.deadline,
     renderData: (workspace) => ({
       value: workspace.deadline,
@@ -42,7 +42,7 @@ export const workspacePresets: DashboardPreset[] = [
   {
     id: 'team',
     title: 'Team',
-    icon: '👥',
+    icon: 'UsersThree',
     isRelevant: (workspace) => workspace.members.length > 0,
     renderData: (workspace) => ({
       value: workspace.members.length,
@@ -53,7 +53,7 @@ export const workspacePresets: DashboardPreset[] = [
   {
     id: 'tasks',
     title: 'Tasks',
-    icon: '✓',
+    icon: 'CheckSquare',
     isRelevant: (workspace) => !!workspace.tasks && workspace.tasks.length > 0,
     renderData: (workspace) => {
       const completed = workspace.tasks?.filter(t => t.completed).length || 0;
@@ -68,7 +68,7 @@ export const workspacePresets: DashboardPreset[] = [
   {
     id: 'progress',
     title: 'Progress',
-    icon: '📊',
+    icon: 'TrendUp',
     isRelevant: (workspace) => workspace.progress !== undefined && workspace.progress !== null,
     renderData: (workspace) => ({
       value: `${workspace.progress}%`,
@@ -79,7 +79,7 @@ export const workspacePresets: DashboardPreset[] = [
   {
     id: 'spending',
     title: 'Spending',
-    icon: '💸',
+    icon: 'Receipt',
     isRelevant: (workspace) => !!workspace.spending && workspace.spending.length > 0,
     renderData: (workspace) => {
       const total = workspace.spending?.reduce((sum, s) => {
@@ -117,29 +117,96 @@ export const generateRimaInsights = async (
   ];
 
   if (allMessages && allMessages.length > 0) {
-    // Filter for recent messages (last 20)
-    const recentMessages = allMessages.slice(-20);
+    // Filter for recent messages (last 30 for better analysis)
+    const recentMessages = allMessages.slice(-30);
 
     // Pattern: Questions
     const questions = recentMessages.filter(m => typeof m.content === 'string' && m.content.includes('?'));
-    if (questions.length > 1) {
+    if (questions.length >= 3) {
       insights.push({
         category: 'social',
-        text: `There are ${questions.length} recent open questions. " ${questions[questions.length - 1].content.slice(0, 40)}..."`,
-        icon: '❓',
+        text: `${questions.length} open questions detected. Latest: "${questions[questions.length - 1].content.slice(0, 45)}..."`,
+        icon: 'Question',
       });
     }
 
     // Pattern: Urgency
-    const urgentKeywords = ['urgent', 'asap', 'deadline', 'blocker', 'stuck', 'delay'];
+    const urgentKeywords = ['urgent', 'asap', 'deadline', 'blocker', 'stuck', 'delay', 'critical', 'priority'];
     const urgentMessages = recentMessages.filter(m =>
       typeof m.content === 'string' && urgentKeywords.some(kw => m.content.toLowerCase().includes(kw))
     );
     if (urgentMessages.length > 0) {
       insights.push({
         category: 'risk',
-        text: `Detected urgency: "${urgentMessages[urgentMessages.length - 1].content.slice(0, 50)}..."`,
-        icon: '🔥'
+        text: `${urgentMessages.length} urgent message(s) detected: "${urgentMessages[urgentMessages.length - 1].content.slice(0, 50)}..."`,
+        icon: 'Warning'
+      });
+    }
+
+    // Pattern: Completed tasks/actions
+    const completionKeywords = ['done', 'completed', 'finished', '✓', '✅', 'shipped'];
+    const completedMessages = recentMessages.filter(m =>
+      typeof m.content === 'string' && completionKeywords.some(kw => m.content.toLowerCase().includes(kw))
+    );
+    if (completedMessages.length >= 3) {
+      insights.push({
+        category: 'planning',
+        text: `${completedMessages.length} tasks marked as completed recently. Team is making progress!`,
+        icon: 'CheckSquare'
+      });
+    }
+
+    // Pattern: Mentions & Engagement
+    const mentionPattern = /@\w+/g;
+    const messagesWithMentions = recentMessages.filter(m =>
+      typeof m.content === 'string' && m.content.match(mentionPattern)
+    );
+    if (messagesWithMentions.length >= 5) {
+      insights.push({
+        category: 'social',
+        text: `High collaboration: ${messagesWithMentions.length} messages with @mentions in recent activity`,
+        icon: 'UsersThree'
+      });
+    }
+
+    // Pattern: Decision points
+    const decisionKeywords = ['decide', 'decision', 'choose', 'option', 'should we', 'vote', 'agree'];
+    const decisionMessages = recentMessages.filter(m =>
+      typeof m.content === 'string' && decisionKeywords.some(kw => m.content.toLowerCase().includes(kw))
+    );
+    if (decisionMessages.length >= 2) {
+      insights.push({
+        category: 'planning',
+        text: `${decisionMessages.length} pending decision point(s) in recent discussions`,
+        icon: 'ChatCircleDots'
+      });
+    }
+
+    // Pattern: Blockers
+    const blockerKeywords = ['blocked', 'waiting for', 'can\'t proceed', 'stuck', 'pending', 'blocker'];
+    const blockerMessages = recentMessages.filter(m =>
+      typeof m.content === 'string' && blockerKeywords.some(kw => m.content.toLowerCase().includes(kw))
+    );
+    if (blockerMessages.length >= 2) {
+      insights.push({
+        category: 'risk',
+        text: `${blockerMessages.length} message(s) indicate blocked work. Review dependencies.`,
+        icon: 'WarningCircle'
+      });
+    }
+
+    // Pattern: Activity level
+    if (recentMessages.length < 5 && allMessages.length > 10) {
+      insights.push({
+        category: 'social',
+        text: `Low activity detected. Only ${recentMessages.length} messages in recent period.`,
+        icon: 'Clock'
+      });
+    } else if (recentMessages.length > 20) {
+      insights.push({
+        category: 'social',
+        text: `High activity: ${recentMessages.length} messages recently. Team is engaged!`,
+        icon: 'TrendUp'
       });
     }
   }
@@ -154,7 +221,7 @@ export const generateRimaInsights = async (
       insights.push({
         category: 'risk',
         text: `${overdueTasks.length} task(s) are OVERDUE. Priority attention needed.`,
-        icon: '⚠️',
+        icon: 'WarningCircle',
       });
     }
 
@@ -162,7 +229,7 @@ export const generateRimaInsights = async (
       insights.push({
         category: 'planning',
         text: `${urgentTasks.length} task(s) are due soon.`,
-        icon: '⏰'
+        icon: 'Clock'
       });
     }
   }
@@ -182,13 +249,13 @@ export const generateRimaInsights = async (
         insights.push({
           category: 'finance',
           text: `CRITICAL: Budget utilization at ${percentageUsed.toFixed(0)}%. ${context.budget} limit approaching.`,
-          icon: '🛑',
+          icon: 'XCircle',
         });
       } else if (percentageUsed > 75) {
         insights.push({
           category: 'finance',
           text: `Budget utilization is high (${percentageUsed.toFixed(0)}%). Review expenses.`,
-          icon: '💸',
+          icon: 'TrendUp',
         });
       }
     }
@@ -201,7 +268,7 @@ export const generateRimaInsights = async (
       insights.push({
         category: 'planning',
         text: `High discussion volume but low reported progress (${context.progress}%). Is the team blocked?`,
-        icon: '🤔'
+        icon: 'ChatCircleDots'
       });
     }
   }
@@ -213,7 +280,7 @@ export const generateRimaInsights = async (
       text: room
         ? `Room "${room.title}" is quiet. Start a conversation to generate insights!`
         : `Workspace "${workspace.title}" is on track. No critical anomalies detected.`,
-      icon: '✨',
+      icon: 'Sparkle',
     });
   }
 

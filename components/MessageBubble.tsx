@@ -21,9 +21,11 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isSelf, isRima, 
                 return (
                     <span
                         key={i}
-                        className={`font-bold px-1 rounded mx-0.5 inline-block ${isRimaMention
-                            ? 'text-[var(--primary)] bg-[var(--primary)]/10'
-                            : 'text-[var(--text-primary)] bg-[var(--bg-surface)]'
+                        className={`font-bold px-1.5 rounded mr-0.5 -ml-1 inline-block ${isSelf
+                            ? 'text-white bg-white/20'
+                            : isRimaMention
+                                ? 'text-[var(--primary)] bg-[var(--primary)]/10'
+                                : 'text-[var(--text-primary)] bg-[var(--bg-surface)]'
                             }`}
                     >
                         {part}

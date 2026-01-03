@@ -31,8 +31,24 @@ export interface Task {
   id: string;
   title: string;
   owner: string;
+  assignee?: string;  // Who's assigned (can differ from owner)
   completed: boolean;
-  dueDate: string;
+  dueDate: string;  // ISO date string or "Not set"
+  deadline?: string;  // Original extracted text like "next Friday"
+  progress?: number;  // 0-100 percentage
+  status?: 'pending' | 'in_progress' | 'completed' | 'blocked';
+  priority?: 'low' | 'medium' | 'high';
+  source?: 'chat' | 'manual';  // Where it came from
+  roomIds?: string[];  // Which rooms mention this task (for deduplication)
+  workspaceId?: string;  // Which workspace owns this task
+  extractedFrom?: {  // Metadata about extraction
+    messageId: string;
+    timestamp: string;
+    confidence?: number;
+  };
+  dependencies?: string[];  // IDs of tasks this depends on
+  createdAt?: string;  // ISO timestamp
+  updatedAt?: string;  // ISO timestamp
 }
 
 export interface Room {

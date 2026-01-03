@@ -7,7 +7,8 @@ import { generateRimaInsights } from '@/lib/dashboardPresets';
 import { Insight } from '@/types';
 
 import { useAuth, useWorkspaceData } from '@/contexts';
-import { Message } from '@/types';
+import { generateGeminiResponse } from '@/lib/gemini';
+import { Message, User } from '@/types';
 import Background from '@/components/Background';
 import Sidebar from '@/components/Sidebar';
 import WorkspacePageContent from '@/components/WorkspacePage';
@@ -79,9 +80,6 @@ export default function WorkspacePage() {
   const handleSendMessage = async (content: string) => {
     if (!workspace || !user) return;
 
-    // Check if Rima is mentioned
-    const mentionsRima = content.toLowerCase().includes('@rima');
-
     // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -91,13 +89,12 @@ export default function WorkspacePage() {
     };
     addMessage(workspace.id, userMessage);
 
-    // If Rima is mentioned, process commands
-    if (mentionsRima) {
-      setIsRimaTyping(true);
-      const lowerContent = content.toLowerCase();
+    // Rima automatically responds to all messages
+    setIsRimaTyping(true);
+    const lowerContent = content.toLowerCase();
 
-      // Simulate "thinking" time
-      setTimeout(async () => {
+    // Simulate "thinking" time
+    setTimeout(async () => {
         let rimaResponseContent = "I heard you, but I'm not sure how to help with that yet.";
         const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         let actionExecuted = false;
@@ -146,8 +143,17 @@ export default function WorkspacePage() {
 
         // --- COMMAND: SUMMARIZE ---
         else if (lowerContent.includes('summarize') || lowerContent.includes('summary') || lowerContent.includes('recap')) {
-          const recentMsgs = workspace.messages.slice(-5).map(m => m.content).join(' ');
-          rimaResponseContent = `Here is a summary of the workspace activity: ${recentMsgs.substring(0, 100)}... (Mock Summary)`;
+          const recentMsgs = workspace.messages.slice(-10).map(m => `${m.sender === 'Rima' ? 'You (Rima)' : (m.sender as User).name}: ${m.content}`).join('\n');
+          try {
+            const summary = await generateGeminiResponse(
+              `You are Rima, the AI project manager for "${workspace.title}". ${user.name} asked you to provide a summary. Respond directly to ${user.name} in first person, summarizing the recent conversation and any key activities or insights.`,
+              `Recent messages:\n${recentMsgs}`
+            );
+            rimaResponseContent = summary;
+          } catch (error) {
+            console.error("Summary generation failed", error);
+            rimaResponseContent = "I'm having trouble accessing my summarization features right now.";
+          }
           actionExecuted = true;
         }
 
@@ -156,7 +162,17 @@ export default function WorkspacePage() {
           if (lowerContent.includes('hello') || lowerContent.includes('hi')) {
             rimaResponseContent = `Hello ${user.name}! I'm Rima, your AI project manager for "${workspace.title}".`;
           } else {
-            rimaResponseContent = `I'm analyzing your request regarding "${workspace.title}". I can help you **create rooms**, **add members**, or **generate reports**.`;
+            // Use Gemini for general chat
+            try {
+              const recentContext = workspace.messages.slice(-5).map(m => `${m.sender === 'Rima' ? 'You (Rima)' : (m.sender as User).name}: ${m.content}`).join('\n');
+              const response = await generateGeminiResponse(
+                `You are Rima, the AI project manager for "${workspace.title}". You're chatting with ${user.name}. Respond directly to them in first person as their helpful AI assistant. Be conversational, concise, and supportive.`,
+                `Recent conversation:\n${recentContext}\n\nNow ${user.name} says: ${content}`
+              );
+              rimaResponseContent = response;
+            } catch (e) {
+              rimaResponseContent = `I'm analyzing your request regarding "${workspace.title}". I can help you **create rooms**, **add members**, or **generate reports**.`;
+            }
           }
         }
 
@@ -169,7 +185,6 @@ export default function WorkspacePage() {
         addMessage(workspace.id, rimaMessage);
         setIsRimaTyping(false);
       }, 1500);
-    }
   };
 
   const handleVoiceToggle = () => {
@@ -187,6 +202,7 @@ export default function WorkspacePage() {
   const handleGenerateInsights = async () => {
     if (!workspace) return;
     setIsGeneratingInsights(true);
+    setViewMode('dashboard');
     try {
       const insights = await generateRimaInsights(workspace);
       setRimaInsights(insights);
@@ -345,6 +361,7 @@ export default function WorkspacePage() {
           >
             <WorkspacePageContent
               workspace={workspace}
+              currentUser={user}
               onVoiceToggle={handleVoiceToggle}
               onSendMessage={handleSendMessage}
               onInvitePeople={handleInvitePeople}

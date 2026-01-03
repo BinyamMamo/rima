@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { List, CaretLeft, UserPlus, Lock, Hash, Sparkle, Checks, ChatText, DotsThreeVertical, PencilSimple, Trash, House } from '@phosphor-icons/react';
 import { useAuth, useWorkspaceData } from '@/contexts';
+import { generateGeminiResponse } from '@/lib/gemini';
 import { Message, User } from '@/types';
 import Background from '@/components/Background';
 import Sidebar from '@/components/Sidebar';
@@ -201,15 +202,18 @@ export default function RoomPage() {
 
                 // --- COMMAND: SUMMARIZE ---
                 else if (lowerContent.includes('summarize') || lowerContent.includes('summary') || lowerContent.includes('recap')) {
-                    const recentMsgs = room.messages.slice(-5).map(m => m.content).join(' ');
-                    // Mock summary generation
-                    const summaries = [
-                        "Reviewing the recent messages: The team is aligned on the next steps. Action items have been noted.",
-                        "Here's a quick recap: There's a discussion about timelines and potential blockers.",
-                        "Summary: Key decisions are pending. Recommend scheduling a sync."
-                    ];
-                    rimaResponseContent = summaries[Math.floor(Math.random() * summaries.length)];
-                    if (recentMsgs.length < 50) rimaResponseContent = "This conversation is too short to summarize properly, but you're doing great!";
+                    const recentMsgs = room.messages.slice(-10).map(m => `${m.sender === 'Rima' ? 'Rima' : (m.sender as User).name}: ${m.content}`).join('\n');
+
+                    try {
+                        const summary = await generateGeminiResponse(
+                            "Please provide a concise summary of the recent conversation.",
+                            `Recent messages:\n${recentMsgs}`
+                        );
+                        rimaResponseContent = summary;
+                    } catch (error) {
+                        console.error("Summary generation failed", error);
+                        rimaResponseContent = "I'm having trouble accessing my summarization features right now.";
+                    }
                     actionExecuted = true;
                 }
 
@@ -218,7 +222,14 @@ export default function RoomPage() {
                     if (lowerContent.includes('hello') || lowerContent.includes('hi')) {
                         rimaResponseContent = `Hello ${user.name}! How can I help you manage this workspace today?`;
                     } else {
-                        rimaResponseContent = `I'm analyzing the context of your request. I can help you **create rooms**, **add members**, or **summarize** discussions.`;
+                        // Use Gemini for general chat if Rima is mentioned but no specific command matched
+                        try {
+                            const recentContext = room.messages.slice(-5).map(m => `${m.sender === 'Rima' ? 'Rima' : (m.sender as User).name}: ${m.content}`).join('\n');
+                            const response = await generateGeminiResponse(content, `You are Rima, a helpful project assistant. User asked: ${content}. Context:\n${recentContext}`);
+                            rimaResponseContent = response;
+                        } catch (e) {
+                            rimaResponseContent = `I'm analyzing the context of your request. I can help you **create rooms**, **add members**, or **summarize** discussions.`;
+                        }
                     }
                 }
 
@@ -366,7 +377,7 @@ export default function RoomPage() {
                 {viewMode === 'chat' && !room.isPrivate && (
                     <div className="flex-shrink-0 z-10 border-b border-subtle bg-app/50 backdrop-blur-sm animate-fade-in">
                         <ParticipantsBar
-                            members={room.members}
+                            members={room.members || []}
                             onParticipantClick={setSelectedProfileUser}
                             onInvitePeople={() => setShowInviteModal(true)}
                             onOverflowClick={() => setViewMode('dashboard')}

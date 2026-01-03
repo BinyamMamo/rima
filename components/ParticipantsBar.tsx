@@ -10,7 +10,7 @@ interface ParticipantsBarProps {
   onOverflowClick?: () => void;
 }
 
-const ParticipantsBar: React.FC<ParticipantsBarProps> = ({ members, onParticipantClick, onInvitePeople, onOverflowClick }) => {
+const ParticipantsBar: React.FC<ParticipantsBarProps> = ({ members = [], onParticipantClick, onInvitePeople, onOverflowClick }) => {
   // Filter out 'Rima' if present in members list (though usually she is separate)
   // Logic: Show max 4 members + overflow
   const realMembers = members.filter(m => m.name !== 'Rima');
