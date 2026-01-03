@@ -246,7 +246,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         <div className="p-6 border-t border-[var(--border-subtle)]">
           <div className="flex items-center justify-between p-4 rounded-3xl bg-[var(--bg-app)] border border-[var(--border-subtle)]">
             <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-2xl ${user?.avatarColor || 'bg-zinc-200 text-black'} flex items-center justify-center font-bold relative`}>
+              <div className={`w-10 h-10 rounded-2xl bg-zinc-200 text-black flex items-center justify-center font-bold relative`}>
                 {user?.name?.[0]?.toUpperCase() || 'U'}
                 <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-[var(--bg-app)] bg-[#3ECF8E]" />
               </div>

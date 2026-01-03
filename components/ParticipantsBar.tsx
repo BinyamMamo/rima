@@ -18,7 +18,7 @@ const ParticipantsBar: React.FC<ParticipantsBarProps> = ({ members, onParticipan
   const displayMembers = realMembers.slice(0, maxDisplay);
   const remainingCount = realMembers.length - maxDisplay;
 
-  if (displayMembers?.length < 2) return null;
+  // if (displayMembers?.length < 2) return null;
 
   return (
     <div className="w-full h-14 flex items-center gap-2 px-4 bg-[var(--bg-app)]/40 backdrop-blur-md border-b border-[var(--border-subtle)] overflow-x-auto scrollbar-hide z-30 shrink-0">

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Workspace, User } from '@/types';
 
 import ProfileCard from './ProfileCard';
+import MessageBubble from './MessageBubble';
 import { Checks, Sparkle, Heart, Trash, NotePencil, X, Hash, Lock } from "@phosphor-icons/react";
 
 interface WorkspacePageProps {
@@ -66,63 +67,19 @@ export default function WorkspacePage({
                 )}
 
                 {workspace.messages.map((msg, idx) => {
-                    const isSelf = msg.sender !== 'Rima' && (msg.sender as User).id === 'u_sara';
+                    const isSelf = msg.sender !== 'Rima' && (msg.sender as User).id === 'u_sara'; // Hardcoded current user
                     const isRima = msg.sender === 'Rima';
                     const showAvatar = !isSelf && (idx === 0 || workspace.messages[idx - 1].sender !== msg.sender);
 
                     return (
-                        <div
+                        <MessageBubble
                             key={msg.id}
-                            className={`flex w-full animate-slide-up group relative ${isSelf ? 'justify-end' : 'justify-start items-end gap-3'}`}
-                        >
-                            {!isSelf && (
-                                <div
-                                    className="w-10 h-10 shrink-0 cursor-pointer"
-                                    onClick={() => !isRima && setSelectedProfileUser(msg.sender as User)}
-                                >
-                                    {showAvatar && (
-                                        <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-xs shadow-md transition-all active:scale-90 ${isRima ? 'bg-[var(--primary)] text-white' : (msg.sender as User).avatarColor}`}>
-                                            {isRima ? <Sparkle size={18} weight="fill" /> : (msg.sender as User).name[0]}
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-
-                            <div className={`flex flex-col max-w-[85%] ${isSelf ? 'items-end' : 'items-start'}`}>
-                                {showAvatar && !isSelf && (
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-secondary)] mb-1 px-1">
-                                        {isRima ? 'Rima Intelligence' : (msg.sender as User).name}
-                                    </span>
-                                )}
-
-                                <div className={`relative px-5 py-4 shadow-sm transition-all group/bubble ${isRima
-                                    ? 'glass border-[var(--primary)]/20 text-[var(--text-primary)] rounded-[24px] rounded-bl-lg'
-                                    : isSelf
-                                        ? 'bg-[var(--primary)] text-white rounded-[24px] rounded-br-lg font-medium shadow-lg shadow-[var(--primary)]/10'
-                                        : 'bg-[var(--bg-card)] text-[var(--text-primary)] border border-[var(--border-subtle)] rounded-[24px] rounded-bl-lg'
-                                    }`}>
-                                    <div className="text-[15px] leading-relaxed whitespace-pre-wrap tracking-tight">
-                                        {msg.content}
-                                    </div>
-                                    <div className="flex items-center gap-1.5 mt-2 opacity-50">
-                                        <span className="text-[9px] font-bold uppercase">{msg.timestamp}</span>
-                                        {isSelf && <Checks size={12} weight="bold" className="animate-pulse" />}
-                                    </div>
-
-                                    {/* Message Actions - Visible on Hover */}
-                                    {isSelf && (
-                                        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-2 flex gap-1 p-1 bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-full shadow-lg opacity-0 group-hover/bubble:opacity-100 transition-opacity z-10 pointer-events-none group-hover/bubble:pointer-events-auto scale-90">
-                                            <button className="p-1.5 hover:bg-[var(--bg-surface)] rounded-full text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors" title="Edit">
-                                                <NotePencil size={14} weight="bold" />
-                                            </button>
-                                            <button className="p-1.5 hover:bg-[var(--bg-surface)] rounded-full text-[var(--text-secondary)] hover:text-rose-500 transition-colors" title="Delete">
-                                                <Trash size={14} weight="bold" />
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
+                            message={msg}
+                            isSelf={isSelf}
+                            isRima={isRima}
+                            showAvatar={showAvatar}
+                            onProfileClick={setSelectedProfileUser}
+                        />
                     );
                 })}
 

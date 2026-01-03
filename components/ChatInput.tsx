@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { PaperPlaneRight, Waveform, Sparkle } from '@phosphor-icons/react';
-import { MentionsInput, Mention } from 'react-mentions';
+import React, { useState, useRef, useEffect } from 'react';
+import { PaperPlaneRight, Waveform, Sparkle, At } from '@phosphor-icons/react';
 
 interface ChatInputProps {
   onVoiceToggle: () => void;
@@ -8,8 +7,17 @@ interface ChatInputProps {
   placeholder?: string;
 }
 
+const users = [
+  { id: 'rima', display: 'Rima' },
+  { id: 'jane', display: 'Jane' }, // Example users
+  { id: 'alex', display: 'Alex' }
+];
+
 const ChatInput: React.FC<ChatInputProps> = ({ onVoiceToggle, onSendMessage, placeholder = "Talk to Rima..." }) => {
   const [inputValue, setInputValue] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [cursorPosition, setCursorPosition] = useState(0);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const isInputEmpty = inputValue.trim() === '';
 
@@ -19,144 +27,132 @@ const ChatInput: React.FC<ChatInputProps> = ({ onVoiceToggle, onSendMessage, pla
     } else {
       onSendMessage(inputValue);
       setInputValue('');
+      if (inputRef.current) {
+        inputRef.current.style.height = '48px'; // Reset height
+      }
     }
   };
 
-  const users = [
-    { id: 'rima', display: 'Rima' }
-  ];
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    const selectionStart = e.target.selectionStart;
+    setInputValue(value);
+    setCursorPosition(selectionStart);
 
-  const mentionStyle = {
-    control: {
-      fontSize: 16,
-      fontWeight: 500,
-      lineHeight: 1.5,
-    },
-    '&multiLine': {
-      control: {
-        fontFamily: 'inherit',
-        minHeight: 48,
-        padding: '12px 14px',
-      },
-      highlighter: {
-        padding: 9,
-      },
-      input: {
-        padding: 9,
-        outline: 'none',
-        border: 'none',
-      },
-    },
-    suggestions: {
-      list: {
-        backgroundColor: 'var(--bg-card)',
-        border: '1px solid var(--border-subtle)',
-        fontSize: 14,
-        borderRadius: 16,
-        overflow: 'hidden',
-        boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-        marginBottom: 10,
-        width: 200,
-      },
-      item: {
-        padding: '12px 16px',
-        borderBottom: '1px solid var(--border-subtle)',
-        '&focused': {
-          backgroundColor: 'var(--primary)',
-          color: 'white',
-        },
-      },
-    },
+    // simple check for @ trigger
+    // Check if the last typed character or word starts with @
+    const textBeforeCursor = value.slice(0, selectionStart);
+    const words = textBeforeCursor.split(/\s/);
+    const lastWord = words[words.length - 1];
+
+    if (lastWord.startsWith('@')) {
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+
+    // Auto-resize
+    e.target.style.height = '48px';
+    e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
   };
+
+  const insertMention = (userDisplay: string) => {
+    // Find the position of the @ being typed
+    const textBeforeCursor = inputValue.slice(0, cursorPosition);
+    const textAfterCursor = inputValue.slice(cursorPosition);
+    const lastAtPos = textBeforeCursor.lastIndexOf('@');
+
+    const newText = textBeforeCursor.slice(0, lastAtPos) + `@${userDisplay} ` + textAfterCursor;
+    setInputValue(newText);
+    setShowSuggestions(false);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (showSuggestions) {
+        // If suggestions open, select first (simplified)
+        insertMention(users[0].display);
+      } else {
+        handleAction();
+      }
+    }
+  };
+
+  // Filter users based on query
+  const getQuery = () => {
+    const textBeforeCursor = inputValue.slice(0, cursorPosition);
+    const lastAtPos = textBeforeCursor.lastIndexOf('@');
+    if (lastAtPos !== -1) {
+      return textBeforeCursor.slice(lastAtPos + 1).toLowerCase();
+    }
+    return '';
+  };
+
+  const query = getQuery();
+  const filteredUsers = users.filter(u => u.display.toLowerCase().startsWith(query));
 
   return (
     <div className="w-full relative group pointer-events-auto max-w-lg mx-auto">
-      <div className={`relative flex items-center min-h-[64px] px-2 rounded-[32px] bg-[var(--bg-card)] border border-[var(--border-subtle)] transition-all duration-300 shadow-xl input-pill ${!isInputEmpty ? 'border-[var(--primary)]/30 ring-4 ring-[var(--primary)]/5' : 'border-[var(--border-subtle)]'}`}>
-        <div className="pl-4 pr-2 text-[var(--primary)] flex items-center justify-center shrink-0 self-center">
-          <Sparkle size={22} weight="fill" />
+      {/* Suggestions Popup */}
+      {showSuggestions && filteredUsers.length > 0 && (
+        <div className="absolute bottom-full left-4 mb-2 w-48 bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-2xl shadow-xl overflow-hidden animate-slide-up z-50">
+          {filteredUsers.map(user => (
+            <button
+              key={user.id}
+              onClick={() => insertMention(user.display)}
+              className="w-full text-left px-4 py-3 hover:bg-[var(--primary)] hover:text-white transition-colors flex items-center gap-2 text-sm font-medium text-[var(--text-primary)]"
+            >
+              <div className="w-5 h-5 rounded-full bg-current opacity-20 flex items-center justify-center">
+                <At weight="bold" size={12} />
+              </div>
+              {user.display}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className={`relative flex items-end min-h-[56px] px-2 py-2 rounded-3xl bg-[var(--bg-surface)] border transition-all duration-200 ${!isInputEmpty ? 'border-[var(--primary)]' : 'border-[var(--border-subtle)]'}`}>
+        <div className="pl-3 pr-2 pb-2.5 text-[var(--primary)] flex items-center justify-center shrink-0">
+          <Sparkle size={20} weight="fill" />
         </div>
 
-        <div className="flex-1 min-w-0 py-2">
-          <MentionsInput
+        <div className="flex-1 min-w-0 py-1.5">
+          <textarea
+            ref={inputRef}
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
             placeholder={placeholder}
-            style={mentionStyle}
-            className="mentions-input"
-            singleLine={false}
-            allowSpaceInQuery={true}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleAction();
-              }
-            }}
-          >
-            <Mention
-              trigger="@"
-              data={users}
-              markup="@__display__"
-              style={{
-                backgroundColor: "var(--primary)",
-                color: "#fff",
-                borderRadius: 6,
-                padding: "2px 4px",
-                fontWeight: "bold",
-                boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
-              }}
-              renderSuggestion={(suggestion, search, highlightedDisplay, index, focused) => (
-                <div className={`flex items-center gap-2 ${focused ? 'text-white' : 'text-[var(--text-primary)]'}`}>
-                  <div className="w-6 h-6 rounded-full bg-[var(--primary)] flex items-center justify-center text-white text-[10px] font-bold">
-                    <Sparkle size={12} weight="fill" />
-                  </div>
-                  <span className="font-bold">{suggestion.display}</span>
-                </div>
-              )}
-              displayTransform={(id, display) => `@${display}`}
-            />
-          </MentionsInput>
+            rows={1}
+            className="w-full bg-transparent border-none outline-none resize-none text-[var(--text-primary)] placeholder-[var(--text-muted)] text-[15px] font-medium leading-relaxed"
+            style={{ minHeight: '24px', maxHeight: '120px' }}
+          />
         </div>
 
         <button
           onClick={handleAction}
-          className={`h-[48px] px-5 rounded-[24px] flex items-center justify-center gap-2 transition-all duration-300 font-bold shrink-0 ml-1 self-center ${isInputEmpty
-            ? 'bg-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface)]'
-            : 'bg-[var(--primary)] text-white shadow-lg shadow-[var(--primary)]/20 hover:scale-[1.02] active:scale-95'
+          className={`h-[40px] px-4 rounded-full flex items-center justify-center gap-2 transition-all duration-200 font-semibold shrink-0 ml-1 mb-1 ${isInputEmpty
+            ? 'bg-[var(--bg-subtle)] text-[var(--text-secondary)] hover:bg-[var(--bg-neutral)] hover:text-[var(--text-primary)]'
+            : 'bg-[var(--primary)] text-white hover:opacity-90 active:scale-95'
             }`}
         >
           {isInputEmpty ? (
             <>
-              <Waveform size={22} weight="bold" />
+              <Waveform size={20} weight="bold" />
               <span className="text-sm">Speak</span>
             </>
           ) : (
             <>
               <span className="text-sm">Send</span>
-              <PaperPlaneRight size={18} weight="fill" />
+              <PaperPlaneRight size={16} weight="fill" />
             </>
           )}
         </button>
       </div>
-
-      <style jsx global>{`
-        .mentions-input textarea {
-            outline: none !important;
-            border: none !important;
-            background: transparent !important;
-            color: var(--text-primary) !important;
-            min-height: 48px !important;
-            padding: 8px 0 !important;
-            font-size: 16px !important;
-            resize: none !important;
-        }
-        .mentions-input__control {
-            outline: none !important;
-            border: none !important;
-        }
-        .mentions-input__highlighter {
-            padding: 8px 0 !important;
-        }
-      `}</style>
     </div>
   );
 };
