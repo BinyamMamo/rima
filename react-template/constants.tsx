@@ -1,5 +1,5 @@
 
-import { Workspace, Room, User, Profile, Message, Insight, Task } from './types';
+import { Project, User, Profile, Message, Insight, Task } from './types';
 
 export const PROFILES: Profile[] = [
   { id: 'all', name: 'All Workspaces', icon: '📁' },
@@ -33,7 +33,7 @@ const createMsg = (sender: User | 'Rima', content: string, timeOffset: number = 
   timestamp: new Date(Date.now() - (timeOffset * 60000)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 });
 
-export const INITIAL_WORKSPACES: Workspace[] = [
+export const INITIAL_PROJECTS: Project[] = [
   // SCENARIO: My Health (PRIVATE)
   {
     id: 'p_health_main',
@@ -54,21 +54,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
     tasks: [
       { id: 'th1', title: 'Schedule Annual Physical', owner: 'Sara', completed: false, dueDate: 'Next Week' }
     ],
-    rooms: [
-      {
-        id: 'c_health_gen',
-        title: 'General',
-        members: [SYSTEM_USERS[0]],
-        messages: [
-          createMsg(SYSTEM_USERS[0], "Feeling good today! Had a great workout.", 30),
-          createMsg('Rima', "That's wonderful to hear! Your energy levels seem to be improving consistently. Keep it up!", 25)
-        ],
-        unreadCount: 1
-      },
-      { id: 'c_health_diet', title: 'Diet & Nutrition', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0 },
-      { id: 'c_health_ex', title: 'Exercise Log', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 3 },
-      { id: 'c_health_journal', title: 'Private Journal', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0, isPrivate: true }
-    ]
+    channels: []
   },
   {
     id: 'p_health_phys',
@@ -83,7 +69,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'planning', text: 'Note: Sleep improving with earlier wind-down.', icon: '🛌' }
     ],
     messages: [],
-    rooms: []
+    channels: []
   },
   {
     id: 'p_health_mental',
@@ -98,7 +84,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'social', text: 'Stress trigger: Large meetings recorded.', icon: '🧘' }
     ],
     messages: [],
-    rooms: []
+    channels: []
   },
   {
     id: 'p_health_appt',
@@ -113,7 +99,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'planning', text: 'Prescription refill due on Mar 15.', icon: '💊' }
     ],
     messages: [],
-    rooms: []
+    channels: []
   },
   {
     id: 'p_health_goals',
@@ -128,7 +114,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'planning', text: 'Goal: 3x yoga sessions per week.', icon: '🧘' }
     ],
     messages: [],
-    rooms: []
+    channels: []
   },
 
   // SCENARIO 1: Europe Trip
@@ -151,35 +137,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'social', text: 'Everyone aligned on 3 cities: Paris, Milan, Rome.', icon: '🤝' }
     ],
     tasks: [],
-    rooms: [
-      {
-        id: 'c1',
-        title: 'General',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[1], SYSTEM_USERS[2], SYSTEM_USERS[3]],
-        messages: [
-          createMsg(SYSTEM_USERS[0], "April Europe trip is officially happening! 🇪🇺", 120),
-          createMsg(SYSTEM_USERS[1], "So excited! I can't wait to see Paris.", 110),
-          createMsg(SYSTEM_USERS[2], "Milan shopping here we come!", 105),
-          createMsg(SYSTEM_USERS[3], "Rome is going to be amazing for food tours!", 100)
-        ],
-        unreadCount: 3
-      },
-      {
-        id: 'c2',
-        title: 'Hotels',
-        members: [SYSTEM_USERS[0], SYSTEM_USERS[1]],
-        messages: [
-          createMsg(SYSTEM_USERS[1], "Found a great boutique hotel near the Eiffel Tower", 60),
-          createMsg(SYSTEM_USERS[0], "@Rima can you check if there are better deals in the area?", 55),
-          createMsg('Rima', "I've analyzed the hotel options in that area. The boutique hotel Maryam found has excellent reviews and competitive pricing. I can help compare it with 3 similar properties if you'd like.", 50)
-        ],
-        unreadCount: 7
-      },
-      { id: 'c3', title: 'Flights', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0 },
-      { id: 'c4', title: 'Shopping', members: [SYSTEM_USERS[0], SYSTEM_USERS[2]], messages: [], unreadCount: 2 },
-      { id: 'c5', title: 'Budget', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 12 },
-      { id: 'c6', title: 'Surprises', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 1, isPrivate: true }
-    ]
+    channels: [{ id: 'c1', title: 'General', members: [SYSTEM_USERS[0]], messages: [] }]
   },
   {
     id: 'p1_paris',
@@ -195,7 +153,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'social', text: 'Museum pass interest logged for Louvre.', icon: '🎨' }
     ],
     messages: [],
-    rooms: []
+    channels: []
   },
   {
     id: 'p1_milan',
@@ -208,7 +166,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
     members: [SYSTEM_USERS[0], SYSTEM_USERS[2]],
     insights: [],
     messages: [],
-    rooms: []
+    channels: []
   },
   {
     id: 'p1_rome',
@@ -223,7 +181,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'planning', text: 'Hind assigned as city lead for food tours.', icon: '🍝' }
     ],
     messages: [],
-    rooms: []
+    channels: []
   },
   {
     id: 'p1_bookings',
@@ -239,7 +197,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'risk', text: 'Visa applications pending for Hind.', icon: '📑' }
     ],
     messages: [],
-    rooms: []
+    channels: []
   },
 
   // SCENARIO 2: My Angels (EDUCATION)
@@ -256,12 +214,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'planning', text: 'Omar has a busy exam week ahead.', icon: '📅' },
       { category: 'social', text: "Roll-up: Hessa's stress levels tracked as stable.", icon: '🧘' }
     ],
-    rooms: [
-      { id: 'c_ang_cal', title: 'Calendar', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 4 },
-      { id: 'c_ang_sch', title: 'School', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0 },
-      { id: 'c_ang_act', title: 'Activities', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 1 },
-      { id: 'c_ang_gifts', title: 'Gifts & Ideas', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0, isPrivate: true }
-    ]
+    channels: []
   },
   {
     id: 'p2_omar',
@@ -277,7 +230,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'planning', text: 'Football training every Tuesday/Thursday.', icon: '⚽' }
     ],
     messages: [],
-    rooms: []
+    channels: []
   },
   {
     id: 'p2_hessa',
@@ -292,7 +245,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'social', text: 'Gentle support mode active for art project.', icon: '🎨' }
     ],
     messages: [],
-    rooms: []
+    channels: []
   },
   {
     id: 'p2_salem',
@@ -307,7 +260,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'planning', text: 'Positive feedback from math teacher logged.', icon: '📝' }
     ],
     messages: [],
-    rooms: []
+    channels: []
   },
 
   // SCENARIO 3: Dubai Reefs (ENTERPRISE)
@@ -333,61 +286,57 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { id: 't_dr1', title: 'Weekly Stakeholder Sync', owner: 'Sara', completed: false, dueDate: 'Tomorrow' },
       { id: 't_dr2', title: 'Approve Vendor Selection', owner: 'Jordan', completed: true, dueDate: 'Mar 1' }
     ],
-    rooms: [
-      { id: 'c_dr_gen', title: 'Leadership', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 5 },
-      { id: 'c_dr_tech', title: 'Technical', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 0 },
-      { id: 'c_dr_finance', title: 'Budget', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 8 },
-      { id: 'c_dr_ops', title: 'Operations', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 15 },
-      { id: 'c_dr_conf', title: 'Confidential', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 2, isPrivate: true }
+    channels: [
+      { id: 'c_dr_gen', title: 'Leadership', members: [SYSTEM_USERS[0]], messages: [] }
     ]
   },
-  {
-    id: 'p3_site',
-    title: 'Site Deployment – Phase 1',
-    description: 'Marine surveys, module locations, and logistics.',
-    theme: 'rust',
+  { 
+    id: 'p3_site', 
+    title: 'Site Deployment – Phase 1', 
+    description: 'Marine surveys, module locations, and logistics.', 
+    theme: 'rust', 
     parentRoomId: 'p3',
-    profileId: 'p_work',
-    progress: 55,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[7], SYSTEM_USERS[12]],
+    profileId: 'p_work', 
+    progress: 55, 
+    members: [SYSTEM_USERS[0], SYSTEM_USERS[7], SYSTEM_USERS[12]], 
     insights: [
       { category: 'planning', text: 'Bathymetric survey 100% complete.', icon: '🌊' },
       { category: 'risk', text: 'Reef module locations need secondary confirmation.', icon: '📍' }
     ],
-    messages: [],
-    rooms: []
+    messages: [], 
+    channels: [] 
   },
-  {
-    id: 'p3_vendors',
-    title: 'Vendors & Fabrication',
-    description: 'Fabrication leads, material costs, and pricing blockers.',
-    theme: 'rust',
+  { 
+    id: 'p3_vendors', 
+    title: 'Vendors & Fabrication', 
+    description: 'Fabrication leads, material costs, and pricing blockers.', 
+    theme: 'rust', 
     parentRoomId: 'p3',
-    profileId: 'p_work',
-    progress: 30,
+    profileId: 'p_work', 
+    progress: 30, 
     budget: '$120,000',
-    members: [SYSTEM_USERS[8], SYSTEM_USERS[10]],
+    members: [SYSTEM_USERS[8], SYSTEM_USERS[10]], 
     insights: [
       { category: 'risk', text: 'BLOCKED: 8-10% cost increase if brass materials delayed.', icon: '💸' },
       { category: 'planning', text: 'Module prototype approved by marine team.', icon: '🏗️' }
     ],
-    messages: [],
-    rooms: []
+    messages: [], 
+    channels: [] 
   },
-  {
-    id: 'p3_permits',
-    title: 'Permits & Compliance',
-    description: 'Regulatory filings and authority responses.',
-    theme: 'rust',
+  { 
+    id: 'p3_permits', 
+    title: 'Permits & Compliance', 
+    description: 'Regulatory filings and authority responses.', 
+    theme: 'rust', 
     parentRoomId: 'p3',
-    profileId: 'p_work',
-    progress: 15,
-    members: [SYSTEM_USERS[0], SYSTEM_USERS[13]],
+    profileId: 'p_work', 
+    progress: 15, 
+    members: [SYSTEM_USERS[0], SYSTEM_USERS[13]], 
     insights: [
       { category: 'risk', text: 'Permit A-14 amendment delayed by 2 weeks.', icon: '🏛️' }
     ],
-    messages: [],
-    rooms: []
+    messages: [], 
+    channels: [] 
   },
 
   // SCENARIO 5: Startup Founder
@@ -405,12 +354,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'planning', text: 'Dependency: Materials → Pricing → Website.', icon: '🔗' },
       { category: 'finance', text: 'Founders funding utilized: 20%.', icon: '💸' }
     ],
-    rooms: [
-      { id: 'c_biz_gen', title: 'General', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 2 },
-      { id: 'c_biz_design', title: 'Design', members: [SYSTEM_USERS[0], SYSTEM_USERS[9]], messages: [], unreadCount: 6 },
-      { id: 'c_biz_suppliers', title: 'Suppliers', members: [SYSTEM_USERS[0], SYSTEM_USERS[10]], messages: [], unreadCount: 0 },
-      { id: 'c_biz_marketing', title: 'Marketing', members: [SYSTEM_USERS[0]], messages: [], unreadCount: 9 }
-    ]
+    channels: []
   },
   {
     id: 'p5_suppliers',
@@ -425,7 +369,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'finance', text: 'Silver MOQ increased by 15%.', icon: '📉' }
     ],
     messages: [],
-    rooms: []
+    channels: []
   },
   {
     id: 'p5_design',
@@ -440,7 +384,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'planning', text: 'Reasons for revision 2: Weight reduction for comfort.', icon: '✍️' }
     ],
     messages: [],
-    rooms: []
+    channels: []
   },
   {
     id: 'p5_ops',
@@ -455,7 +399,7 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'risk', text: 'Checkout gateway test failing in sandbox.', icon: '🛒' }
     ],
     messages: [],
-    rooms: []
+    channels: []
   },
   {
     id: 'p5_marketing',
@@ -470,6 +414,6 @@ export const INITIAL_WORKSPACES: Workspace[] = [
       { category: 'social', text: 'Influencer list for launch being drafted.', icon: '📱' }
     ],
     messages: [],
-    rooms: []
+    channels: []
   },
 ];

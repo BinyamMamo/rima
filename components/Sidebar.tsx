@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Logo from './Logo';
 import { Workspace } from '@/types';
 import { PROFILES } from '@/constants';
-import { useWorkspaceData } from '@/contexts';
+import { useWorkspaceData, useAuth } from '@/contexts';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -20,8 +20,24 @@ const Sidebar: React.FC<SidebarProps> = ({
   currentWorkspaceId,
 }) => {
   const router = useRouter();
+  const { user } = useAuth();
   const { workspaces, activeProfileId, setActiveProfileId, profiles } = useWorkspaceData();
-  const [expandedWorkspaces, setExpandedWorkspaces] = useState<Set<string>>(new Set());
+  const [expandedWorkspaces, setExpandedWorkspaces] = useState<Set<string>>(() => {
+    const initial = new Set<string>();
+    if (currentWorkspaceId) initial.add(currentWorkspaceId);
+    return initial;
+  });
+
+  // Effect to ensure current workspace is always expanded when navigating
+  React.useEffect(() => {
+    if (currentWorkspaceId) {
+      setExpandedWorkspaces(prev => {
+        const next = new Set(prev);
+        next.add(currentWorkspaceId);
+        return next;
+      });
+    }
+  }, [currentWorkspaceId]);
 
   if (!isOpen) return null;
 
@@ -89,10 +105,15 @@ const Sidebar: React.FC<SidebarProps> = ({
                   key={room.id}
                   onClick={(e) => {
                     e.stopPropagation();
-                    // Keep query param pattern: ?roomId=...
-                    router.push(`/workspace/${workspace.id}?roomId=${room.id}`);
+                    // Fix: Use correct nested route structure
+                    router.push(`/workspace/${workspace.id}/room/${room.id}`);
                   }}
-                  className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-surface)] hover:text-[var(--text-primary)] transition-all group"
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all group ${
+                    // Check if this room is active
+                    window.location.pathname.includes(`/room/${room.id}`)
+                      ? 'bg-[var(--primary)] text-white font-bold shadow-md'
+                      : 'text-[var(--text-secondary)] hover:bg-[var(--bg-surface)] hover:text-[var(--text-primary)]'
+                    }`}
                 >
                   <div className="flex items-center gap-2 truncate">
                     {isPrivate ? (
@@ -225,17 +246,20 @@ const Sidebar: React.FC<SidebarProps> = ({
         <div className="p-6 border-t border-[var(--border-subtle)]">
           <div className="flex items-center justify-between p-4 rounded-3xl bg-[var(--bg-app)] border border-[var(--border-subtle)]">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-zinc-200 text-black flex items-center justify-center font-bold relative">
-                SA
+              <div className={`w-10 h-10 rounded-2xl ${user?.avatarColor || 'bg-zinc-200 text-black'} flex items-center justify-center font-bold relative`}>
+                {user?.name?.[0]?.toUpperCase() || 'U'}
                 <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-[var(--bg-app)] bg-[#3ECF8E]" />
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-bold text-[var(--text-primary)]">Sara</span>
-                <span className="text-[10px] text-[var(--primary)] font-black uppercase tracking-widest">Admin</span>
+                <span className="text-sm font-bold text-[var(--text-primary)]">{user?.name || 'User'}</span>
+                <span className="text-[10px] text-[var(--primary)] font-black uppercase tracking-widest">{(user as any)?.role || 'Member'}</span>
               </div>
             </div>
             <button
-              onClick={() => {/* TODO: Navigate to settings */ }}
+              onClick={() => {
+                router.push('/settings');
+                onClose();
+              }}
               className="p-2 rounded-xl text-[var(--text-secondary)] hover:bg-[var(--primary)] hover:text-white transition-all"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

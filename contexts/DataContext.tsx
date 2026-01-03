@@ -15,6 +15,9 @@ interface DataContextType {
   updateWorkspace: (id: string, updates: Partial<Workspace>) => void;
   deleteWorkspace: (id: string) => void;
   addMessage: (workspaceId: string, message: Message) => void;
+  addRoomMessage: (workspaceId: string, roomId: string, message: Message) => void;
+  updateRoom: (workspaceId: string, roomId: string, updates: Partial<any>) => void;
+  deleteRoom: (workspaceId: string, roomId: string) => void;
   addProfile: (profile: Profile) => void;
   isLoading: boolean;
 }
@@ -158,6 +161,64 @@ export function DataProvider({ children }: { children: ReactNode }) {
     // LocalStorage update handled by useEffect
   };
 
+  const addRoomMessage = (workspaceId: string, roomId: string, message: Message) => {
+    if (isDemoMode) {
+      const updatedWorkspaces = workspaces.map((workspace) => {
+        if (workspace.id === workspaceId) {
+          const updatedRooms = workspace.rooms.map((room) => {
+            if (room.id === roomId) {
+              return { ...room, messages: [...room.messages, message] };
+            }
+            return room;
+          });
+          return { ...workspace, rooms: updatedRooms };
+        }
+        return workspace;
+      });
+      setWorkspaces(updatedWorkspaces);
+    } else {
+      // TODO: Add message to Firebase
+      console.log('TODO: Add room message to Firebase', workspaceId, roomId, message);
+    }
+  };
+
+  const updateRoom = (workspaceId: string, roomId: string, updates: Partial<any>) => {
+    if (isDemoMode) {
+      const updatedWorkspaces = workspaces.map((workspace) => {
+        if (workspace.id === workspaceId) {
+          const updatedRooms = workspace.rooms.map((room) => {
+            if (room.id === roomId) {
+              return { ...room, ...updates };
+            }
+            return room;
+          });
+          return { ...workspace, rooms: updatedRooms };
+        }
+        return workspace;
+      });
+      setWorkspaces(updatedWorkspaces);
+    } else {
+      // TODO: Update room in Firebase
+      console.log('TODO: Update room in Firebase', workspaceId, roomId, updates);
+    }
+  };
+
+  const deleteRoom = (workspaceId: string, roomId: string) => {
+    if (isDemoMode) {
+      const updatedWorkspaces = workspaces.map((workspace) => {
+        if (workspace.id === workspaceId) {
+          const filteredRooms = workspace.rooms.filter((room) => room.id !== roomId);
+          return { ...workspace, rooms: filteredRooms };
+        }
+        return workspace;
+      });
+      setWorkspaces(updatedWorkspaces);
+    } else {
+      // TODO: Delete room from Firebase
+      console.log('TODO: Delete room from Firebase', workspaceId, roomId);
+    }
+  };
+
   const value: DataContextType = {
     workspaces,
     profiles,
@@ -168,6 +229,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
     updateWorkspace,
     deleteWorkspace,
     addMessage,
+    addRoomMessage,
+    updateRoom,
+    deleteRoom,
     addProfile,
     isLoading,
   };
