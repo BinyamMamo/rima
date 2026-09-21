@@ -88,10 +88,11 @@ export default function VoiceMode({ isOpen, onClose }: VoiceModeProps) {
     const connect = async () => {
         try {
             setPhase('connecting');
-            const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-            if (!apiKey) throw new Error('Missing API Key');
+            const tokenResponse = await fetch('/api/gemini/live-token', { method: 'POST' });
+            if (!tokenResponse.ok) throw new Error('Voice mode is unavailable');
+            const { token } = await tokenResponse.json();
 
-            const client = new GoogleGenAI({ apiKey });
+            const client = new GoogleGenAI({ apiKey: token, httpOptions: { apiVersion: 'v1alpha' } });
 
             // The SDK logic is tricky. If we pass callbacks in connect, they handle events.
             // If the SDK returns a session, we might need to attach listener to session.conn if it exists. 
